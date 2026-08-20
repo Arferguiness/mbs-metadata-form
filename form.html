@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mick Boggis Studios — Master Metadata Form</title>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   MICK BOGGIS STUDIOS — Master Metadata Form
+   Ivory stationery theme · Gold accent (#a9822a) · BAFTA aesthetic
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  --bg:          #efece4;
+  --bg-panel:    #f6f4ee;
+  --bg-card:     #ffffff;
+  --bg-input:    #ffffff;
+  --border:      #ddd6c8;
+  --border-focus:#b08d2d;
+  --gold:        #a9822a;
+  --gold-dim:    #8f6d1e;
+  --gold-soft:   #b8963c;
+  --gold-glow:   rgba(169,130,42,0.12);
+  --ink:         #1c1b18;
+  --text:        #2c2a26;
+  --text-dim:    #8a8474;
+  --text-bright: #14130f;
+  --red:         #b3402f;
+  --green:       #4a7a45;
+  --radius:      10px;
+  --shadow:      0 2px 8px rgba(40,34,20,0.06), 0 8px 28px rgba(40,34,20,0.06);
+  --shadow-lg:   0 12px 40px rgba(40,34,20,0.12);
+  --transition:  all 0.25s ease;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(169,130,42,0.05), transparent 40%),
+    radial-gradient(circle at 88% 92%, rgba(169,130,42,0.05), transparent 40%),
+    var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Header ── */
+.header {
+  background:
+    radial-gradient(ellipse at 50% 120%, rgba(169,130,42,0.18), transparent 60%),
+    linear-gradient(165deg, #211f1a 0%, #14130f 100%);
+  border-bottom: 3px solid var(--gold);
+  padding: 44px 0 38px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 6px 30px rgba(20,19,15,0.28);
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: 50%;
+  transform: translateX(-50%);
+  width: 700px; height: 460px;
+  background: radial-gradient(ellipse, rgba(201,166,74,0.10), transparent 70%);
+  pointer-events: none;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  left: 50%; bottom: 20px;
+  transform: translateX(-50%);
+  width: 120px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.header h1 {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 34px;
+  font-weight: 400;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  color: #f4f0e6;
+  position: relative;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+}
+.header h1 .accent { color: var(--gold); font-weight: 400; }
+.header .subtitle {
+  color: #b8b0a0;
+  font-size: 12px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  margin-top: 12px;
+  position: relative;
+}
+.header .bafta {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 10px;
+  color: var(--gold);
+  border: 1px solid rgba(201,166,74,0.4);
+  background: rgba(201,166,74,0.06);
+  padding: 5px 18px;
+  border-radius: 20px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+}
+
+/* ── Progress bar ── */
+.progress-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(246,244,238,0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 2px 12px rgba(40,34,20,0.05);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.progress-track {
+  flex: 1;
+  height: 5px;
+  background: #e4ded0;
+  border-radius: 3px;
+  overflow: hidden;
+  min-width: 80px;
+}
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+  transition: width 0.4s ease;
+}
+.progress-label {
+  font-size: 12px;
+  color: var(--gold-dim);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ── Nav pills ── */
+.nav-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  padding: 14px 16px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.nav-pill {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+.nav-pill:hover { border-color: var(--gold-dim); color: var(--text); }
+.nav-pill.active {
+  background: var(--gold-glow);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.nav-pill .pill-num {
+  display: inline-block;
+  width: 18px; height: 18px;
+  line-height: 18px;
+  text-align: center;
+  border-radius: 50%;
+  background: var(--border);
+  font-size: 10px;
+  margin-right: 4px;
+}
+.nav-pill.active .pill-num { background: var(--gold); color: #fffdf7; }
+
+/* ── Container ── */
+.container {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 20px 16px 80px;
+}
+
+/* ── Section ── */
+.section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 18px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+  box-shadow: var(--shadow);
+}
+.section:hover { box-shadow: var(--shadow-lg); border-color: #cbbfa6; }
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  cursor: pointer;
+  user-select: none;
+  background: linear-gradient(180deg, #fdfcf9 0%, #f7f4ec 100%);
+  border-bottom: 1px solid transparent;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.section-header:hover { background: linear-gradient(180deg, #fbf8f0 0%, #f2ede1 100%); }
+.section:not(.collapsed) .section-header { border-bottom-color: var(--border); }
+.section-header h2 {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-header h2 .num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, var(--gold), var(--gold-dim));
+  border: none;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(143,109,30,0.3);
+}
+.section-header .toggle {
+  color: var(--gold);
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+.section.collapsed .toggle { transform: rotate(-90deg); }
+.section.collapsed .section-body { display: none; }
+.section-body {
+  padding: 20px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Field grid ── */
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.field label {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+.field label .req { color: var(--red); margin-left: 2px; }
+.field input,
+.field select,
+.field textarea {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 9px 12px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+  width: 100%;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(169,130,42,0.14);
+}
+.field input::placeholder, .field textarea::placeholder { color: #b9b1a0; }
+.field input[type="checkbox"] {
+  width: 18px; height: 18px;
+  accent-color: var(--gold);
+  cursor: pointer;
+}
+.field input[readonly],
+.field select[disabled] {
+  background: #f4f1e9;
+  color: var(--text-dim);
+  cursor: not-allowed;
+  border-style: dashed;
+}
+.field .error-msg {
+  font-size: 11px;
+  color: var(--red);
+  display: none;
+}
+.field.invalid .error-msg { display: block; }
+.field.invalid input,
+.field.invalid select,
+.field.invalid textarea {
+  border-color: var(--red);
+}
+
+/* Checkbox row */
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.checkbox-row label { color: var(--text); font-size: 13px; }
+
+/* ── Repeating group ── */
+.repeat-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.repeat-item {
+  background: linear-gradient(180deg, #faf8f2 0%, #f6f3ea 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  position: relative;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+}
+.repeat-item.locked {
+  border-color: rgba(169,130,42,0.4);
+  background: linear-gradient(180deg, rgba(169,130,42,0.06), rgba(169,130,42,0.03));
+}
+.repeat-item .item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.repeat-item .item-header .item-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.5px;
+}
+.repeat-item .item-header .item-title .badge-locked {
+  font-size: 10px;
+  background: linear-gradient(145deg, var(--gold), var(--gold-dim));
+  color: #fffdf7;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-left: 8px;
+  letter-spacing: 1px;
+}
+.repeat-item .remove-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.repeat-item .remove-btn:hover { border-color: var(--red); color: var(--red); }
+.repeat-item .remove-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.add-btn {
+  background: transparent;
+  border: 1px dashed var(--gold-dim);
+  color: var(--gold);
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 500;
+  align-self: flex-start;
+}
+.add-btn:hover {
+  background: var(--gold-glow);
+  border-color: var(--gold);
+  border-style: solid;
+}
+
+/* ── Submit ── */
+.submit-section {
+  text-align: center;
+  padding: 40px 0 20px;
+}
+.submit-btn {
+  background: linear-gradient(135deg, var(--gold-dim), var(--gold-soft));
+  color: #fffdf7;
+  border: none;
+  padding: 17px 54px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 6px 20px rgba(143,109,30,0.28);
+}
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(143,109,30,0.42);
+}
+.submit-btn:active { transform: translateY(0); }
+
+/* ── Toast ── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 24px;
+  color: var(--text);
+  font-size: 13px;
+  box-shadow: var(--shadow);
+  z-index: 1000;
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+.toast.success { border-color: var(--green); }
+.toast.error { border-color: var(--red); }
+
+/* ── Info banner ── */
+.info-banner {
+  background: linear-gradient(180deg, rgba(169,130,42,0.10), rgba(169,130,42,0.05));
+  border: 1px solid rgba(169,130,42,0.35);
+  border-left: 3px solid var(--gold);
+  border-radius: 8px;
+  padding: 13px 18px;
+  margin-bottom: 20px;
+  font-size: 12.5px;
+  color: #5a4a20;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.info-banner strong { color: var(--gold-dim); }
+.info-banner svg { flex-shrink: 0; color: var(--gold); }
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 11px;
+  color: var(--text-dim);
+  border-top: 1px solid var(--border);
+}
+.footer a { color: var(--gold-dim); text-decoration: none; }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .header h1 { font-size: 20px; letter-spacing: 3px; }
+  .header .subtitle { font-size: 11px; letter-spacing: 2px; }
+  .field-grid { grid-template-columns: 1fr; }
+  .nav-pills { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; }
+  .container { padding: 12px 8px 60px; }
+  .section-body { padding: 16px 12px 20px; }
+  .repeat-item { padding: 12px 14px; }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<div class="header">
+  <h1>Mick Boggis <span class="accent">Studios</span></h1>
+  <div class="subtitle">Master Metadata Form</div>
+</div>
+
+<!-- ═══ PROGRESS ═══ -->
+<div class="progress-bar">
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-label" id="progressLabel">0% complete</span>
+</div>
+
+<!-- ═══ NAV PILLS ═══ -->
+<div class="nav-pills" id="navPills"></div>
+
+<div class="container">
+
+  <div class="info-banner">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+    <span>Fill in all sections below, then click <strong>Generate JSON</strong>. Email the downloaded file to <strong>mickmastering@gmail.com</strong>. Fields marked <span style="color:var(--red)">*</span> are required.</span>
+  </div>
+
+  <!-- ═══ 01 PROJECT ═══ -->
+  <div class="section" id="sec-project">
+    <div class="section-header" onclick="toggleSection('sec-project')">
+      <h2><span class="num">1</span> Project</h2>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field">
+          <label>Project Title <span class="req">*</span></label>
+          <input type="text" id="proj_title" data-required="true" placeholder="e.g. Midnight Sessions">
+          <div class="error-msg">Title is required</div>
+        </div>
+        <div class="field">
+          <label>Project Type <span class="req">*</span></label>
+          <select id="proj_type" data-required="true">
+          <option value="">— Select —</option>
+          <option value="Album">Album</option>
+          <option value="EP">EP</option>
+          <option value="Single">Single</option>
+          <option value="Compilation">Compilation</option>
+          <option value="Soundtrack">Soundtrack</option>
+          <option value="Score">Score</option>
+          <option value="AudioVisual">AudioVisual</option>
+          <option value="Unknown">Unknown</option>
+        </select>
+          <div class="error-msg">Type is required</div>
+        </div>
+        <div class="field">
+          <label>Catalogue Number</label>
+          <input type="text" id="proj_catno" placeholder="e.g. MBS001">
+        </div>
+        <div class="field">
+          <label>UPC / EAN</label>
+          <input type="text" id="proj_upc" placeholder="12–13 digit barcode">
+        </div>
+        <div class="field">
+          <label>Label</label>
+          <input type="text" id="proj_label" placeholder="Record label name">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 02 SOUND RECORDING ═══ -->
+  <div class="section" id="sec-tracks">
+    <div class="section-header" onclick="toggleSection('sec-tracks')">
+      <h2><span class="num">2</span> Sound Recording</h2>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="repeat-group" id="tracksGroup"></div>
+      <button class="add-btn" onclick="addTrack()">+ Add Track</button>
+    </div>
+  </div>
+
+  <!-- ═══ 03 RECORDING SESSION ═══ -->
+  <div class="section" id="sec-recsession">
+    <div class="section-header" onclick="toggleSection('sec-recsession')">
+      <h2><span class="num">3</span> Recording Session</h2>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field">
+          <label>Session Type</label>
+          <select id="rec_type">
+          <option value="">— Select —</option>
+          <option value="RecordingSession">RecordingSession</option>
+          <option value="MixingSession">MixingSession</option>
+          <option value="MasteringSession">MasteringSession</option>
+          <option value="OverdubSession">OverdubSession</option>
+          <option value="EditingSession">EditingSession</option>
+          <option value="RehearsalSession">RehearsalSession</option>
+          <option value="ProgrammingSession">ProgrammingSession</option>
+        </select>
+        </div>
+        <div class="field">
+          <label>Date</label>
+          <input type="date" id="rec_date">
+        </div>
+        <div class="field">
+          <label>Venue</label>
+          <input type="text" id="rec_venue" placeholder="Studio name">
+        </div>
+        <div class="field">
+          <label>Room</label>
+          <input type="text" id="rec_room" placeholder="e.g. Live Room A">
+        </div>
+        <div class="field">
+          <label>City</label>
+          <input type="text" id="rec_city">
+        </div>
+        <div class="field">
+          <label>Country</label>
+          <input type="text" id="rec_country" placeholder="e.g. GB">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 04 MIXING SESSION ═══ -->
+  <div class="section" id="sec-mixsession">
+    <div class="section-header" onclick="toggleSection('sec-mixsession')">
+      <h2><span class="num">4</span> Mixing Session</h2>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field">
+          <label>Session Type</label>
+          <select id="mix_type">
+          <option value="">— Select —</option>
+          <option value="RecordingSession">RecordingSession</option>
+          <option value="MixingSession">MixingSession</option>
+          <option value="MasteringSession">MasteringSession</option>
+          <option value="OverdubSession">OverdubSession</option>
+          <option value="EditingSession">EditingSession</option>
+          <option value="RehearsalSession">RehearsalSession</option>
+          <option value="ProgrammingSession">ProgrammingSession</option>
+        </select>
+        </div>
+        <div class="field">
+          <label>Date</label>
+          <input type="date" id="mix_date">
+        </div>
+        <div class="field">
+          <label>Venue</label>
+          <input type="text" id="mix_venue" placeholder="Studio name">
+        </div>
+        <div class="field">
+          <label>Room</label>
+          <input type="text" id="mix_room">
+        </div>
+        <div class="field">
+          <label>City</label>
+          <input type="text" id="mix_city">
+        </div>
+        <div class="field">
+          <label>Country</label>
+          <input type="text" id="mix_country" placeholder="e.g. GB">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 05 MASTERING SESSION (locked) ═══ -->
+  <div class="section" id="sec-mastsession">
+    <div class="section-header" onclick="toggleSection('sec-mastsession')">
+      <h2><span class="num">5</span> Mastering Session</h2>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field">
+          <label>Session Type</label>
+          <input type="text" value="MasteringSession" readonly>
+        </div>
+        <div class="field">
+          <label>Date</label>
+          <input type="date" id="mast_date" value="">
+        </div>
+        <div class="field">
+          <label>Venue</label>
+          <input type="text" value="Mick Boggis Studios" readonly>
+        </div>
+        <div class="field">
+          <label>Room</label>
+          <input type="text" value="Studio One" readonly>
+        </div>
+        <div class="field">
+          <label>City</label>
+          <input type="text" value="Marazion" readonly>
+        </div>
+        <div class="field">
+          <label>Country</label>
+          <input type="text" value="GB" readonly>
+        </div>
+      </div>
+      <div class="info-banner" style="margin-top:8px; margin-bottom:0;">
+        <span>Mastering session details are pre-filled by Mick Boggis Studios. Only the mastering date needs completing.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 06 CONTRIBUTORS ═══ -->
+  <div class="section" id="sec-contributors">
+    <div class="section-header" onclick="toggleSection('sec-contributors')">
+      <h2><span class="num">6</span> Contributors</h2>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="info-banner" style="margin-bottom:12px;">
+        <span><strong>Mastered by Mick Boggis</strong> — ISNI: 0000 0005 1481 2832</span>
+      </div>
+      <!-- Mick Boggis — pre-filled, locked, no JS needed -->
+      <div class="repeat-item locked" data-contrib-index="1" style="margin-bottom:12px;">
+        <div class="item-header">
+          <span class="item-title">Contributor 1 <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(P1)</span><span class="badge-locked">LOCKED</span></span>
+          <button class="remove-btn" disabled>Remove</button>
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <label>Name</label>
+            <input type="text" data-contrib-field="name" value="Mick Boggis" readonly>
+          </div>
+          <div class="field">
+            <label>Role</label>
+            <select data-contrib-field="role" disabled>
+              <option value="MasteringEngineer" selected>MasteringEngineer</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Instrument</label>
+            <select data-contrib-field="instrument" disabled>
+              <option value="" selected>— N/A —</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>ISNI</label>
+            <input type="text" data-contrib-field="isni" value="0000000514812832" readonly>
+          </div>
+          <div class="field">
+            <label>IPN</label>
+            <input type="text" data-contrib-field="ipn" readonly>
+          </div>
+        </div>
+        <div class="field-grid" style="margin-top:12px;">
+          <div class="field"><div class="checkbox-row"><input type="checkbox" data-contrib-field="main_artist" disabled><label>Main Artist</label></div></div>
+        </div>
+      </div>
+      <div class="repeat-group" id="contributorsGroup"></div>
+      <button class="add-btn" onclick="addContributor()">+ Add Contributor</button>
+    </div>
+  </div>
+
+  <!-- ═══ 07 MUSICAL WORK ═══ -->
+  <div class="section" id="sec-musicalwork">
+    <div class="section-header" onclick="toggleSection('sec-musicalwork')">
+      <h2><span class="num">7</span> Musical Work</h2>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="repeat-group" id="musicalWorkGroup"></div>
+      <button class="add-btn" onclick="addMusicalWork()">+ Add Musical Work</button>
+    </div>
+  </div>
+
+  <!-- ═══ 08 TECHNICAL ═══ -->
+  <div class="section" id="sec-technical">
+    <div class="section-header" onclick="toggleSection('sec-technical')">
+      <h2><span class="num">8</span> Technical</h2>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field">
+          <label>File Format <span class="req">*</span></label>
+          <select id="tech_format" data-required="true">
+          <option value="">— Select —</option>
+          <option value="WAV" selected>WAV</option>
+          <option value="AIFF">AIFF</option>
+          <option value="FLAC">FLAC</option>
+          <option value="DSD">DSD</option>
+          <option value="MP3">MP3</option>
+          <option value="AAC">AAC</option>
+          <option value="ALAC">ALAC</option>
+          <option value="Stems">Stems</option>
+        </select>
+          <div class="error-msg">Format is required</div>
+        </div>
+        <div class="field">
+          <label>Sample Rate</label>
+          <select id="tech_samplerate">
+          <option value="">— Select —</option>
+          <option value="44100">44100</option>
+          <option value="48000" selected>48000</option>
+          <option value="88200">88200</option>
+          <option value="96000">96000</option>
+          <option value="176400">176400</option>
+          <option value="192000">192000</option>
+          <option value="352800">352800</option>
+          <option value="2822400">2822400</option>
+        </select>
+        </div>
+        <div class="field">
+          <label>Bit Depth</label>
+          <select id="tech_bitdepth">
+          <option value="">— Select —</option>
+          <option value="16">16</option>
+          <option value="24" selected>24</option>
+          <option value="32 Bit FP">32 Bit FP</option>
+          <option value="64 Bit FP">64 Bit FP</option>
+          <option value="1 (DSD)">1 (DSD)</option>
+        </select>
+        </div>
+        <div class="field">
+          <label>Channels</label>
+          <select id="tech_channels">
+          <option value="">— Select —</option>
+          <option value="Mono">Mono</option>
+          <option value="Stereo" selected>Stereo</option>
+          <option value="5.1">5.1</option>
+          <option value="7.1">7.1</option>
+          <option value="Atmos">Atmos</option>
+          <option value="Binaural">Binaural</option>
+        </select>
+        </div>
+        <div class="field">
+          <label>File Name</label>
+          <input type="text" id="tech_filename" placeholder="e.g. track01.wav">
+        </div>
+        <div class="field">
+          <label>File Size</label>
+          <input type="text" id="tech_filesize" placeholder="e.g. 45.2 MB">
+        </div>
+        <div class="field">
+          <label>Loudness (LUFS)</label>
+          <input type="text" id="tech_lufs" placeholder="e.g. -14.0">
+        </div>
+        <div class="field">
+          <label>SHA-256 Hash</label>
+          <input type="text" id="tech_sha256" placeholder="64-char hex hash">
+        </div>
+        <div class="field">
+          <label>Audio Fingerprint</label>
+          <input type="text" id="tech_fingerprint" placeholder="Chromaprint / AcoustID">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 09 WRITERS & SPLITS ═══ -->
+  <div class="section" id="sec-writers">
+    <div class="section-header" onclick="toggleSection('sec-writers')">
+      <h2><span class="num">9</span> Writers & Splits</h2>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="repeat-group" id="writersGroup"></div>
+      <button class="add-btn" onclick="addWriter()">+ Add Writer</button>
+    </div>
+  </div>
+
+  <!-- ═══ 10 RIGHTS ═══ -->
+  <div class="section" id="sec-rights">
+    <div class="section-header" onclick="toggleSection('sec-rights')">
+      <h2><span class="num">10</span> Rights</h2>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field">
+          <label>Rights Controller</label>
+          <input type="text" id="rights_controller" placeholder="Entity controlling rights">
+        </div>
+        <div class="field">
+          <label>Controlled Share %</label>
+          <input type="number" id="rights_share" min="0" max="100" placeholder="100">
+        </div>
+        <div class="field">
+          <label>P-Line</label>
+          <input type="text" id="rights_pline" placeholder="e.g. 2026 Mick Boggis Studios">
+        </div>
+        <div class="field">
+          <label>P-Line Year</label>
+          <input type="number" id="rights_plineyear" min="1900" max="2100" placeholder="2026">
+        </div>
+        <div class="field">
+          <label>C-Line</label>
+          <input type="text" id="rights_cline" placeholder="e.g. 2026 Mick Boggis Studios">
+        </div>
+        <div class="field">
+          <label>Territories</label>
+          <input type="text" id="rights_territories" placeholder="Worldwide">
+        </div>
+      </div>
+      <div class="field-grid" style="margin-top:8px;">
+        <div class="field"><div class="checkbox-row"><input type="checkbox" id="rights_exclusive"><label for="rights_exclusive">Exclusive Rights</label></div></div>
+        <div class="field"><div class="checkbox-row"><input type="checkbox" id="rights_workforhire"><label for="rights_workforhire">Work for Hire</label></div></div>
+        <div class="field"><div class="checkbox-row"><input type="checkbox" id="rights_samplescleared"><label for="rights_samplescleared">Samples Cleared</label></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SUBMIT ═══ -->
+  <div class="submit-section">
+    <button class="submit-btn" onclick="generateJSON()">Generate JSON</button>
+    <p style="margin-top:14px; color:var(--text-dim); font-size:12px;">Download the JSON file and email it to <strong style="color:var(--gold)">mickmastering@gmail.com</strong></p>
+  </div>
+
+</div>
+
+<!-- ═══ TOAST ═══ -->
+<div class="toast" id="toast"></div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  Mick Boggis Studios · Marazion, Cornwall, UK · <a href="mailto:mickmastering@gmail.com">mickmastering@gmail.com</a>
+</div>
+
+<!-- Templates: repeating-row dropdowns (pre-filled options, cloned by JS) -->
+
+<template id="tmpl-version-types"><option value="">— Select —</option><option value="Original">Original</option><option value="Remix">Remix</option><option value="EditVersion">EditVersion</option><option value="ExtendedVersion">ExtendedVersion</option><option value="AcousticVersion">AcousticVersion</option><option value="LiveVersion">LiveVersion</option><option value="InstrumentalVersion">InstrumentalVersion</option><option value="AcapellaVersion">AcapellaVersion</option><option value="DemoVersion">DemoVersion</option></template>
+
+<template id="tmpl-languages"><option value="">— Select —</option><option value="en">en</option><option value="es">es</option><option value="fr">fr</option><option value="de">de</option><option value="it">it</option><option value="pt">pt</option><option value="ja">ja</option><option value="ko">ko</option><option value="zh">zh</option><option value="zxx">zxx</option></template>
+
+<template id="tmpl-genres"><option value="">— Select —</option><option value="Pop">Pop</option><option value="Rock">Rock</option><option value="Hip-Hop/Rap">Hip-Hop/Rap</option><option value="R&amp;B/Soul">R&amp;B/Soul</option><option value="Electronic/Dance">Electronic/Dance</option><option value="Jazz">Jazz</option><option value="Classical">Classical</option><option value="Country">Country</option><option value="Folk">Folk</option><option value="Latin">Latin</option><option value="Metal">Metal</option><option value="Blues">Blues</option><option value="Reggae">Reggae</option><option value="World">World</option><option value="Soundtrack">Soundtrack</option></template>
+
+<template id="tmpl-subgenres"><option value="">— Select —</option><option value="AcousticChicagoBlues">AcousticChicagoBlues</option><option value="BoogieWoogie">BoogieWoogie</option><option value="BritishBlues">BritishBlues</option><option value="ChicagoBlues">ChicagoBlues</option><option value="ClassicFemaleBlues">ClassicFemaleBlues</option><option value="CountryBlues">CountryBlues</option><option value="DeltaBlues">DeltaBlues</option><option value="ElectricTexasBlues">ElectricTexasBlues</option><option value="HillCountryBlues">HillCountryBlues</option><option value="JumpBlues">JumpBlues</option><option value="ModernBlues">ModernBlues</option><option value="NewOrleansBlues">NewOrleansBlues</option><option value="PianoBlues">PianoBlues</option><option value="PiedmontBlues">PiedmontBlues</option><option value="Roots">Roots</option><option value="SwampBlues">SwampBlues</option><option value="TexasBlues">TexasBlues</option><option value="TraditionalAcoustic">TraditionalAcoustic</option><option value="TraditionalElectric">TraditionalElectric</option><option value="WestCoastBlues">WestCoastBlues</option><option value="20thCentury">20thCentury</option><option value="21stCentury">21stCentury</option><option value="Acousmatic">Acousmatic</option><option value="AmbrosianChant">AmbrosianChant</option><option value="ArsAntiqua">ArsAntiqua</option><option value="ArsNova">ArsNova</option><option value="Baroque">Baroque</option><option value="ByzantineChant">ByzantineChant</option><option value="Classical">Classical</option><option value="ClassicalCrossover">ClassicalCrossover</option><option value="Contemporary">Contemporary</option><option value="Early20thCentury">Early20thCentury</option><option value="EarlyBaroque">EarlyBaroque</option><option value="EarlyElectronic">EarlyElectronic</option><option value="EarlyRenaissance">EarlyRenaissance</option><option value="EarlyRomantic">EarlyRomantic</option><option value="ExperimentalClassical">ExperimentalClassical</option><option value="Expressionism">Expressionism</option><option value="FirstVienneseSchool">FirstVienneseSchool</option><option value="Futurism">Futurism</option><option value="GregorianChant">GregorianChant</option><option value="Impressionism">Impressionism</option><option value="Late20thCentury">Late20thCentury</option><option value="LateBaroque">LateBaroque</option><option value="LateRenaissance">LateRenaissance</option><option value="LateRomantic">LateRomantic</option><option value="LightMusic">LightMusic</option><option value="Medieval">Medieval</option><option value="Middle20thCentury">Middle20thCentury</option><option value="MiddleBaroque">MiddleBaroque</option><option value="MiddleRenaissance">MiddleRenaissance</option><option value="MiddleRomantic">MiddleRomantic</option><option value="Minimalism">Minimalism</option><option value="Modernism">Modernism</option><option value="MusiqueConcrete">MusiqueConcrete</option><option value="Nationalist">Nationalist</option><option value="NeoClassical">NeoClassical</option><option value="NeoRomantic">NeoRomantic</option><option value="OrchestralFusion">OrchestralFusion</option><option value="Organum">Organum</option><option value="Plainsong">Plainsong</option><option value="PostClassical">PostClassical</option><option value="PostMinimalism">PostMinimalism</option><option value="PreClassical">PreClassical</option><option value="Renaissance">Renaissance</option><option value="Romantic">Romantic</option><option value="Serialism">Serialism</option><option value="Spectralism">Spectralism</option><option value="AlternativeCountry">AlternativeCountry</option><option value="Americana">Americana</option><option value="BakersfieldSound">BakersfieldSound</option><option value="Bluegrass">Bluegrass</option><option value="CountryPop">CountryPop</option><option value="CountryRap">CountryRap</option><option value="CountryRock">CountryRock</option><option value="HonkyTonk">HonkyTonk</option><option value="ModernCountry">ModernCountry</option><option value="NashvilleSound">NashvilleSound</option><option value="NeoTraditionalCountry">NeoTraditionalCountry</option><option value="OutlawCountry">OutlawCountry</option><option value="TexasCountry">TexasCountry</option><option value="TraditionalCountry">TraditionalCountry</option><option value="WesternSwing">WesternSwing</option><option value="2StepGarage">2StepGarage</option><option value="AcidHouse">AcidHouse</option><option value="AcidTechno">AcidTechno</option><option value="Ambient">Ambient</option><option value="AmbientHouse">AmbientHouse</option><option value="Bassline">Bassline</option><option value="BigBeat">BigBeat</option><option value="Breakbeat">Breakbeat</option><option value="BrokenBeat">BrokenBeat</option><option value="ChicagoHouse">ChicagoHouse</option><option value="DeepHouse">DeepHouse</option><option value="DetroitHouse">DetroitHouse</option><option value="DetroitTechno">DetroitTechno</option><option value="DigitalHardcore">DigitalHardcore</option><option value="Downtempo">Downtempo</option><option value="DrillNBass">DrillNBass</option><option value="DrumNBass">DrumNBass</option><option value="Drumstep">Drumstep</option><option value="DubstepUK">DubstepUK</option><option value="DubstepUS">DubstepUS</option><option value="Dubtronica">Dubtronica</option><option value="DutchHouse">DutchHouse</option><option value="EBM">EBM</option><option value="Electro">Electro</option><option value="ElectroHouse">ElectroHouse</option><option value="Electronica/Eclectic">Electronica/Eclectic</option><option value="Eurodance">Eurodance</option><option value="ExperimentalElectronic">ExperimentalElectronic</option><option value="FrenchHouse">FrenchHouse</option><option value="FutureGarage">FutureGarage</option><option value="Gabba">Gabba</option><option value="GarageHouse">GarageHouse</option><option value="Glitch">Glitch</option><option value="HappyHardcore">HappyHardcore</option><option value="HardTrance">HardTrance</option><option value="Hardcore">Hardcore</option><option value="HardcoreBreakbeat">HardcoreBreakbeat</option><option value="Hardstyle">Hardstyle</option><option value="HipHouse">HipHouse</option><option value="House">House</option><option value="IDM">IDM</option><option value="JazzHouse">JazzHouse</option><option value="Jungle">Jungle</option><option value="Kwaito">Kwaito</option><option value="LatinHouse">LatinHouse</option><option value="MinimalHouse">MinimalHouse</option><option value="MinimalTechno">MinimalTechno</option><option value="NoiseMusic">NoiseMusic</option><option value="NuDisco">NuDisco</option><option value="ProgressiveHouse">ProgressiveHouse</option><option value="ProgressiveTrance">ProgressiveTrance</option><option value="PsychedelicTrance">PsychedelicTrance</option><option value="Schranz">Schranz</option><option value="SpeedGarage">SpeedGarage</option><option value="Synthwave">Synthwave</option><option value="TechHouse">TechHouse</option><option value="Techno">Techno</option><option value="Trance">Trance</option><option value="TribalHouse">TribalHouse</option><option value="TripHop">TripHop</option><option value="UKFunky">UKFunky</option><option value="UKGarage">UKGarage</option><option value="VocalHouse">VocalHouse</option><option value="AmericanFolk">AmericanFolk</option><option value="AmericanPrimitiveGuitar">AmericanPrimitiveGuitar</option><option value="BarbershopMusic">BarbershopMusic</option><option value="BritishFolk">BritishFolk</option><option value="CanadianFiddling">CanadianFiddling</option><option value="CanadianFolk">CanadianFolk</option><option value="Celtic">Celtic</option><option value="ElectricFolk">ElectricFolk</option><option value="EnglishFolk">EnglishFolk</option><option value="FolkBaroque">FolkBaroque</option><option value="FolkRevival">FolkRevival</option><option value="IndieFolk">IndieFolk</option><option value="IrishFolk">IrishFolk</option><option value="NorthAmericanFolk">NorthAmericanFolk</option><option value="OldTime">OldTime</option><option value="ScottishFolk">ScottishFolk</option><option value="SeaShanties">SeaShanties</option><option value="WelshFolk">WelshFolk</option><option value="Zydeco">Zydeco</option><option value="ClassicGospel">ClassicGospel</option><option value="SouthernGospel">SouthernGospel</option><option value="AlternativeRap">AlternativeRap</option><option value="ChristianRap">ChristianRap</option><option value="ClassicHipHop">ClassicHipHop</option><option value="ConsciousRap">ConsciousRap</option><option value="Crunk">Crunk</option><option value="DirtyRap">DirtyRap</option><option value="EastCoastHipHop">EastCoastHipHop</option><option value="ExperimentalHipHop">ExperimentalHipHop</option><option value="FunkCarioca">FunkCarioca</option><option value="GFunk">GFunk</option><option value="GangstaRap">GangstaRap</option><option value="GoldenAge">GoldenAge</option><option value="Grime">Grime</option><option value="HardcoreRap">HardcoreRap</option><option value="InstrumentalHipHop">InstrumentalHipHop</option><option value="MiamiBass">MiamiBass</option><option value="PopRap">PopRap</option><option value="SouthernRap">SouthernRap</option><option value="Trap">Trap</option><option value="WestCoastHipHop">WestCoastHipHop</option><option value="AcidJazz">AcidJazz</option><option value="AfricanJazz">AfricanJazz</option><option value="AvantGardeJazz">AvantGardeJazz</option><option value="Bebop">Bebop</option><option value="BossaNova">BossaNova</option><option value="BritishDanceBand">BritishDanceBand</option><option value="CapeJazz">CapeJazz</option><option value="CoolJazz">CoolJazz</option><option value="Dixieland">Dixieland</option><option value="EthiopianJazz">EthiopianJazz</option><option value="FreeJazz">FreeJazz</option><option value="GypsyJazz">GypsyJazz</option><option value="HardBop">HardBop</option><option value="JazzBlues">JazzBlues</option><option value="JazzFunk">JazzFunk</option><option value="JazzFusion">JazzFusion</option><option value="JazzRock">JazzRock</option><option value="JazzPop">JazzPop</option><option value="LatinJazz">LatinJazz</option><option value="ModalJazz">ModalJazz</option><option value="ModernCreative">ModernCreative</option><option value="ModernJazz">ModernJazz</option><option value="PostBop">PostBop</option><option value="SmoothJazz">SmoothJazz</option><option value="SoulJazz">SoulJazz</option><option value="Swing">Swing</option><option value="SwingRevival">SwingRevival</option><option value="TraditionalJazz">TraditionalJazz</option><option value="TraditionalPop">TraditionalPop</option><option value="Bachata">Bachata</option><option value="Banda">Banda</option><option value="Boogaloo">Boogaloo</option><option value="Brazilian">Brazilian</option><option value="Conjunto">Conjunto</option><option value="Corridos">Corridos</option><option value="Duranguense">Duranguense</option><option value="Grupera">Grupera</option><option value="Hupango">Hupango</option><option value="Mariachi">Mariachi</option><option value="NewMexicoMusic">NewMexicoMusic</option><option value="Norteno">Norteno</option><option value="Ranchera">Ranchera</option><option value="Reggaeton">Reggaeton</option><option value="RegionalMexican">RegionalMexican</option><option value="Salsa">Salsa</option><option value="Sertanejo">Sertanejo</option><option value="Tejano">Tejano</option><option value="AfricanPop">AfricanPop</option><option value="Afrobeat">Afrobeat</option><option value="AlternativeDance">AlternativeDance</option><option value="AlternativePop">AlternativePop</option><option value="Axe">Axe</option><option value="Bikutsi">Bikutsi</option><option value="Bollywood">Bollywood</option><option value="BrazilianPop">BrazilianPop</option><option value="Brega">Brega</option><option value="CantoPop">CantoPop</option><option value="CaribbeanPop">CaribbeanPop</option><option value="ChamberPop">ChamberPop</option><option value="Chimurenga">Chimurenga</option><option value="ChinesePop">ChinesePop</option><option value="DreamPop">DreamPop</option><option value="Electroclash">Electroclash</option><option value="ElectronicPop">ElectronicPop</option><option value="Enka">Enka</option><option value="FilipinoPop">FilipinoPop</option><option value="Folktronica">Folktronica</option><option value="FrenchPop">FrenchPop</option><option value="GermanPop">GermanPop</option><option value="GreekPop">GreekPop</option><option value="Highlife">Highlife</option><option value="Hiplife">Hiplife</option><option value="HokkienPop">HokkienPop</option><option value="IndianPop">IndianPop</option><option value="IndiePop">IndiePop</option><option value="Indietronica">Indietronica</option><option value="IndonesianPop">IndonesianPop</option><option value="JapanesePop">JapanesePop</option><option value="Kayokyoku">Kayokyoku</option><option value="Kizomba">Kizomba</option><option value="KoreanPop">KoreanPop</option><option value="Kuduro">Kuduro</option><option value="LatinFreestyle">LatinFreestyle</option><option value="Madchester">Madchester</option><option value="Makossa">Makossa</option><option value="MandoPop">MandoPop</option><option value="Mbalax">Mbalax</option><option value="Mbaqanga">Mbaqanga</option><option value="ModernLaiko">ModernLaiko</option><option value="ModernPop">ModernPop</option><option value="MPB">MPB</option><option value="MusicOfThePhilippines">MusicOfThePhilippines</option><option value="NDW">NDW</option><option value="NeoPsychedelia">NeoPsychedelia</option><option value="NewRomantic">NewRomantic</option><option value="NewWave">NewWave</option><option value="NoisePop">NoisePop</option><option value="NouvelleChanson">NouvelleChanson</option><option value="PopRock">PopRock</option><option value="PsychedelicPop">PsychedelicPop</option><option value="Schlager">Schlager</option><option value="Soca">Soca</option><option value="Soukous">Soukous</option><option value="SynthPop">SynthPop</option><option value="Telugu">Telugu</option><option value="TweePop">TweePop</option><option value="AfroFunk">AfroFunk</option><option value="AlternativeR'n'B">AlternativeR'n'B</option><option value="BlueEyedSoul">BlueEyedSoul</option><option value="Boogie">Boogie</option><option value="ChicagoSoul">ChicagoSoul</option><option value="ClassicR'n'B">ClassicR'n'B</option><option value="ContemporaryR'n'B">ContemporaryR'n'B</option><option value="DeepSoul">DeepSoul</option><option value="Disco">Disco</option><option value="DooWop">DooWop</option><option value="Funk">Funk</option><option value="GoGo">GoGo</option><option value="HiNRG">HiNRG</option><option value="ItaloDisco">ItaloDisco</option><option value="MemphisSoul">MemphisSoul</option><option value="MinneapolisFunk">MinneapolisFunk</option><option value="ModernR'n'B">ModernR'n'B</option><option value="MotownSound">MotownSound</option><option value="NeoSoul">NeoSoul</option><option value="NewJackSwing">NewJackSwing</option><option value="NewOrleansR'n'B">NewOrleansR'n'B</option><option value="OGFunk">OGFunk</option><option value="PFunk">PFunk</option><option value="Phillysound">Phillysound</option><option value="PopFunk">PopFunk</option><option value="PsychedelicSoul">PsychedelicSoul</option><option value="QuietStorm">QuietStorm</option><option value="RetroSoul">RetroSoul</option><option value="Soul">Soul</option><option value="SouthernSoul">SouthernSoul</option><option value="TraditionalR'n'B">TraditionalR'n'B</option><option value="UrbanContemporaryGospel">UrbanContemporaryGospel</option><option value="WestCoastSoul">WestCoastSoul</option><option value="Dancehall">Dancehall</option><option value="Dub">Dub</option><option value="Rocksteady">Rocksteady</option><option value="RootsReggae">RootsReggae</option><option value="Ska">Ska</option><option value="AfroRock">AfroRock</option><option value="AltMetal">AltMetal</option><option value="AlternativeRock">AlternativeRock</option><option value="ArtRock">ArtRock</option><option value="BlackMetal">BlackMetal</option><option value="BoogieRock">BoogieRock</option><option value="BritRock">BritRock</option><option value="BritishInvasion">BritishInvasion</option><option value="BritPop">BritPop</option><option value="ClassicRock">ClassicRock</option><option value="DarkWave">DarkWave</option><option value="DeathMetal">DeathMetal</option><option value="DoomMetal">DoomMetal</option><option value="EarlyRock">EarlyRock</option><option value="ElectroGoth">ElectroGoth</option><option value="EmoRock">EmoRock</option><option value="ExperimentalRock">ExperimentalRock</option><option value="FunkMetal">FunkMetal</option><option value="GarageRock">GarageRock</option><option value="GlamRock">GlamRock</option><option value="GothicMetal">GothicMetal</option><option value="GothicRock">GothicRock</option><option value="Grindcore">Grindcore</option><option value="Grunge">Grunge</option><option value="HairMetal">HairMetal</option><option value="HardRock">HardRock</option><option value="HardcorePunk">HardcorePunk</option><option value="HeartlandRock">HeartlandRock</option><option value="IndieRock">IndieRock</option><option value="Industrial">Industrial</option><option value="IndustrialMetal">IndustrialMetal</option><option value="JovemGuarda">JovemGuarda</option><option value="Krautrock">Krautrock</option><option value="MathRock">MathRock</option><option value="Merseybeat">Merseybeat</option><option value="Metal">Metal</option><option value="Metalcore">Metalcore</option><option value="NoWave">NoWave</option><option value="NoiseRock">NoiseRock</option><option value="NuMetal">NuMetal</option><option value="PopPunk">PopPunk</option><option value="PostGrunge">PostGrunge</option><option value="PostRock">PostRock</option><option value="PostHardcore">PostHardcore</option><option value="PostPunk">PostPunk</option><option value="PowerPop">PowerPop</option><option value="ProgressiveMetal">ProgressiveMetal</option><option value="ProgressiveRock">ProgressiveRock</option><option value="ProtoPunk">ProtoPunk</option><option value="PsychedelicRock">PsychedelicRock</option><option value="Psychobilly">Psychobilly</option><option value="Punk">Punk</option><option value="RiotGrrrl">RiotGrrrl</option><option value="RockNRoll">RockNRoll</option><option value="Rockabilly">Rockabilly</option><option value="SambaRock">SambaRock</option><option value="Screamo">Screamo</option><option value="Shoegaze">Shoegaze</option><option value="SoftRock">SoftRock</option><option value="SouthAmericanRock">SouthAmericanRock</option><option value="SouthernRock">SouthernRock</option><option value="SpaceRock">SpaceRock</option><option value="SpeedMetal">SpeedMetal</option><option value="StonerRock">StonerRock</option><option value="Surf">Surf</option><option value="SwampRock">SwampRock</option><option value="ThirdWaveSka">ThirdWaveSka</option><option value="ThrashMetal">ThrashMetal</option><option value="Tropicalia">Tropicalia</option><option value="TwoTone">TwoTone</option><option value="Underground">Underground</option><option value="Commentary">Commentary</option><option value="Conversation">Conversation</option><option value="Interview">Interview</option><option value="Monologue">Monologue</option><option value="Poetry">Poetry</option><option value="Skit">Skit</option><option value="StandUpComedy">StandUpComedy</option><option value="Afoxe">Afoxe</option><option value="AfricanMusic">AfricanMusic</option><option value="ArgentinianMusic">ArgentinianMusic</option><option value="BalineseMusic">BalineseMusic</option><option value="BrazilianMusic">BrazilianMusic</option><option value="Calypso">Calypso</option><option value="CapoeiraMusic">CapoeiraMusic</option><option value="CaribbeanMusic">CaribbeanMusic</option><option value="CarnaticMusic">CarnaticMusic</option><option value="ChaChaCha">ChaChaCha</option><option value="ChileanMusic">ChileanMusic</option><option value="Choro">Choro</option><option value="ColombianMusic">ColombianMusic</option><option value="Contradanza">Contradanza</option><option value="CubanMusic">CubanMusic</option><option value="Cueca">Cueca</option><option value="Cumbia">Cumbia</option><option value="CzechMusic">CzechMusic</option><option value="Danzon">Danzon</option><option value="Dimotiko">Dimotiko</option><option value="DominicanMusic">DominicanMusic</option><option value="Fado">Fado</option><option value="Flamenco">Flamenco</option><option value="FrenchMusic">FrenchMusic</option><option value="GauchoMusic">GauchoMusic</option><option value="GermanMusic">GermanMusic</option><option value="GreekMusic">GreekMusic</option><option value="Guaracha">Guaracha</option><option value="HindustaniClassicalMusic">HindustaniClassicalMusic</option><option value="IndianMusic">IndianMusic</option><option value="IndonesianMusic">IndonesianMusic</option><option value="IrishMusic">IrishMusic</option><option value="ItalianMusic">ItalianMusic</option><option value="JamaicanMusic">JamaicanMusic</option><option value="JavaneseMusic">JavaneseMusic</option><option value="JewishMusic">JewishMusic</option><option value="JugEnsemble">JugEnsemble</option><option value="Klezmer">Klezmer</option><option value="Mambo">Mambo</option><option value="Maracatu">Maracatu</option><option value="Merengue">Merengue</option><option value="MexicanMusic">MexicanMusic</option><option value="MiddleEasternMusic">MiddleEasternMusic</option><option value="NeapolitanSong">NeapolitanSong</option><option value="NorthAmericanMusic">NorthAmericanMusic</option><option value="PakistaniMusic">PakistaniMusic</option><option value="Palo">Palo</option><option value="Pilon">Pilon</option><option value="Polka">Polka</option><option value="PortugueseMusic">PortugueseMusic</option><option value="PuertoRicanMusic">PuertoRicanMusic</option><option value="PunjabiMusic">PunjabiMusic</option><option value="Ragtime">Ragtime</option><option value="Repente">Repente</option><option value="RomanianMusic">RomanianMusic</option><option value="Salves">Salves</option><option value="Samba">Samba</option><option value="Son">Son</option><option value="SouthAmericanMusic">SouthAmericanMusic</option><option value="SpanishMusic">SpanishMusic</option><option value="Spiritual">Spiritual</option><option value="Tango">Tango</option><option value="TibetanMusic">TibetanMusic</option><option value="Tonada">Tonada</option><option value="TurkishMusic">TurkishMusic</option><option value="TurkishClassicalMusic">TurkishClassicalMusic</option><option value="WorkSongs">WorkSongs</option><option value="Exotica">Exotica</option><option value="NewAge">NewAge</option><option value="NewFlamenco">NewFlamenco</option><option value="WorldFusionJazz">WorldFusionJazz</option><option value="Worldbeat">Worldbeat</option></template>
+
+<template id="tmpl-parental-warning"><option value="">— Select —</option><option value="NotExplicit">NotExplicit</option><option value="Explicit">Explicit</option><option value="ExplicitContentEdited">ExplicitContentEdited</option><option value="Unknown">Unknown</option></template>
+
+<template id="tmpl-musical-keys"><option value="">— Select —</option><option value="A♭ major">A♭ major</option><option value="A♭ minor">A♭ minor</option><option value="A major">A major</option><option value="A minor">A minor</option><option value="A♯ minor">A♯ minor</option><option value="B♭ major">B♭ major</option><option value="B♭ minor">B♭ minor</option><option value="B major">B major</option><option value="B minor">B minor</option><option value="C♭ major">C♭ major</option><option value="C major">C major</option><option value="C minor">C minor</option><option value="C♯ major">C♯ major</option><option value="C♯ minor">C♯ minor</option><option value="D♭ major">D♭ major</option><option value="D major">D major</option><option value="D minor">D minor</option><option value="D♯ minor">D♯ minor</option><option value="E♭ major">E♭ major</option><option value="E♭ minor">E♭ minor</option><option value="E major">E major</option><option value="E minor">E minor</option><option value="F major">F major</option><option value="F minor">F minor</option><option value="F♯ major">F♯ major</option><option value="F♯ minor">F♯ minor</option><option value="G♭ major">G♭ major</option><option value="G major">G major</option><option value="G minor">G minor</option><option value="G♯ minor">G♯ minor</option><option value="Major">Major</option><option value="Minor">Minor</option></template>
+
+<template id="tmpl-time-signatures"><option value="">— Select —</option><option value="1/4">1/4</option><option value="2/4">2/4</option><option value="2/8">2/8</option><option value="3/4">3/4</option><option value="3/8">3/8</option><option value="4/4">4/4</option><option value="4/8">4/8</option><option value="5/4">5/4</option><option value="5/8">5/8</option><option value="6/8">6/8</option><option value="7/8">7/8</option><option value="8/8">8/8</option><option value="9/8">9/8</option><option value="9/16">9/16</option><option value="12/8">12/8</option><option value="32/64">32/64</option></template>
+
+<template id="tmpl-contributor-roles"><option value="">— Select —</option><option value="AssociatedPerformer">AssociatedPerformer</option><option value="Vocalist">Vocalist</option><option value="LeadVocalist">LeadVocalist</option><option value="BackgroundVocalist">BackgroundVocalist</option><option value="Rapper">Rapper</option><option value="Guitar">Guitar</option><option value="AcousticGuitar">AcousticGuitar</option><option value="ElectricGuitar">ElectricGuitar</option><option value="BassGuitar">BassGuitar</option><option value="DoubleBass">DoubleBass</option><option value="Drums">Drums</option><option value="Percussion">Percussion</option><option value="Keyboards">Keyboards</option><option value="Piano">Piano</option><option value="Organ">Organ</option><option value="Synthesizer">Synthesizer</option><option value="Violin">Violin</option><option value="Viola">Viola</option><option value="Cello">Cello</option><option value="Saxophone">Saxophone</option><option value="Trumpet">Trumpet</option><option value="Trombone">Trombone</option><option value="Flute">Flute</option><option value="Programmer">Programmer</option><option value="Turntables">Turntables</option><option value="Orchestra">Orchestra</option><option value="Choir">Choir</option><option value="Producer">Producer</option><option value="CoProducer">CoProducer</option><option value="ExecutiveProducer">ExecutiveProducer</option><option value="VocalProducer">VocalProducer</option><option value="RecordingEngineer">RecordingEngineer</option><option value="MixingEngineer">MixingEngineer</option><option value="MasteringEngineer">MasteringEngineer</option><option value="AssistantEngineer">AssistantEngineer</option><option value="Programmer">Programmer</option><option value="Arranger">Arranger</option><option value="StringArranger">StringArranger</option><option value="Conductor">Conductor</option><option value="MusicalDirector">MusicalDirector</option><option value="AandRDirector">AandRDirector</option><option value="Remixer">Remixer</option><option value="Editor">Editor</option></template>
+
+<template id="tmpl-writer-roles"><option value="">— Select —</option><option value="Composer">Composer</option><option value="Lyricist">Lyricist</option><option value="ComposerLyricist">ComposerLyricist</option><option value="Author">Author</option><option value="Adapter">Adapter</option><option value="Arranger">Arranger</option><option value="Translator">Translator</option><option value="OriginalPublisher">OriginalPublisher</option><option value="SubPublisher">SubPublisher</option><option value="Administrator">Administrator</option></template>
+
+<template id="tmpl-societies"><option value="">— Select —</option><option value="ASCAP">ASCAP</option><option value="BMI">BMI</option><option value="SESAC">SESAC</option><option value="GMR">GMR</option><option value="PRS">PRS</option><option value="GEMA">GEMA</option><option value="SACEM">SACEM</option><option value="SIAE">SIAE</option><option value="SGAE">SGAE</option><option value="JASRAC">JASRAC</option><option value="SOCAN">SOCAN</option><option value="APRA">APRA</option><option value="STIM">STIM</option><option value="BUMA">BUMA</option><option value="Non-affiliated">Non-affiliated</option></template>
+
+<template id="tmpl-performer-roles"><option value="">— None —</option><option value=""></option><option value="AssociatedPerformer">AssociatedPerformer</option><option value="Vocalist">Vocalist</option><option value="LeadVocalist">LeadVocalist</option><option value="BackgroundVocalist">BackgroundVocalist</option><option value="Rapper">Rapper</option><option value="Guitar">Guitar</option><option value="AcousticGuitar">AcousticGuitar</option><option value="ElectricGuitar">ElectricGuitar</option><option value="BassGuitar">BassGuitar</option><option value="DoubleBass">DoubleBass</option><option value="Drums">Drums</option><option value="Percussion">Percussion</option><option value="Keyboards">Keyboards</option><option value="Piano">Piano</option><option value="Organ">Organ</option><option value="Synthesizer">Synthesizer</option><option value="Violin">Violin</option><option value="Viola">Viola</option><option value="Cello">Cello</option><option value="Saxophone">Saxophone</option><option value="Trumpet">Trumpet</option><option value="Trombone">Trombone</option><option value="Flute">Flute</option><option value="Programmer">Programmer</option><option value="Turntables">Turntables</option><option value="Orchestra">Orchestra</option><option value="Choir">Choir</option></template>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   EMBEDDED DROPDOWN LISTS (from form_lists.json)
+   ═══════════════════════════════════════════════════════════ */
+const LISTS = {
+  ProjectTypes: ["Album","EP","Single","Compilation","Soundtrack","Score","AudioVisual","Unknown"],
+  SessionTypes: ["RecordingSession","MixingSession","MasteringSession","OverdubSession","EditingSession","RehearsalSession","ProgrammingSession"],
+  VersionTypes: ["Original","Remix","EditVersion","ExtendedVersion","AcousticVersion","LiveVersion","InstrumentalVersion","AcapellaVersion","DemoVersion"],
+  ParentalWarning: ["NotExplicit","Explicit","ExplicitContentEdited","Unknown"],
+  PerformerRoles: ["AssociatedPerformer","Vocalist","LeadVocalist","BackgroundVocalist","Rapper","Guitar","AcousticGuitar","ElectricGuitar","BassGuitar","DoubleBass","Drums","Percussion","Keyboards","Piano","Organ","Synthesizer","Violin","Viola","Cello","Saxophone","Trumpet","Trombone","Flute","Programmer","Turntables","Orchestra","Choir"],
+  ProductionRoles: ["Producer","CoProducer","ExecutiveProducer","VocalProducer","RecordingEngineer","MixingEngineer","MasteringEngineer","AssistantEngineer","Programmer","Arranger","StringArranger","Conductor","MusicalDirector","AandRDirector","Remixer","Editor"],
+  AllContributorRoles: ["AssociatedPerformer","Vocalist","LeadVocalist","BackgroundVocalist","Rapper","Guitar","AcousticGuitar","ElectricGuitar","BassGuitar","DoubleBass","Drums","Percussion","Keyboards","Piano","Organ","Synthesizer","Violin","Viola","Cello","Saxophone","Trumpet","Trombone","Flute","Programmer","Turntables","Orchestra","Choir","Producer","CoProducer","ExecutiveProducer","VocalProducer","RecordingEngineer","MixingEngineer","MasteringEngineer","AssistantEngineer","Programmer","Arranger","StringArranger","Conductor","MusicalDirector","AandRDirector","Remixer","Editor"],
+  WriterRoles: ["Composer","Lyricist","ComposerLyricist","Author","Adapter","Arranger","Translator","OriginalPublisher","SubPublisher","Administrator"],
+  Societies: ["ASCAP","BMI","SESAC","GMR","PRS","GEMA","SACEM","SIAE","SGAE","JASRAC","SOCAN","APRA","STIM","BUMA","Non-affiliated"],
+  FileFormats: ["WAV","AIFF","FLAC","DSD","MP3","AAC","ALAC","Stems"],
+  SampleRates: ["44100","48000","88200","96000","176400","192000","352800","2822400"],
+  BitDepths: ["16","24","32 Bit FP","64 Bit FP","1 (DSD)"],
+  ChannelConfigs: ["Mono","Stereo","5.1","7.1","Atmos","Binaural"],
+  Languages: ["en","es","fr","de","it","pt","ja","ko","zh","zxx"],
+  Genres: ["Pop","Rock","Hip-Hop/Rap","R&B/Soul","Electronic/Dance","Jazz","Classical","Country","Folk","Latin","Metal","Blues","Reggae","World","Soundtrack"],
+  SubGenres: ["AcousticChicagoBlues","BoogieWoogie","BritishBlues","ChicagoBlues","ClassicFemaleBlues","CountryBlues","DeltaBlues","ElectricTexasBlues","HillCountryBlues","JumpBlues","ModernBlues","NewOrleansBlues","PianoBlues","PiedmontBlues","Roots","SwampBlues","TexasBlues","TraditionalAcoustic","TraditionalElectric","WestCoastBlues","20thCentury","21stCentury","Acousmatic","AmbrosianChant","ArsAntiqua","ArsNova","Baroque","ByzantineChant","Classical","ClassicalCrossover","Contemporary","Early20thCentury","EarlyBaroque","EarlyElectronic","EarlyRenaissance","EarlyRomantic","ExperimentalClassical","Expressionism","FirstVienneseSchool","Futurism","GregorianChant","Impressionism","Late20thCentury","LateBaroque","LateRenaissance","LateRomantic","LightMusic","Medieval","Middle20thCentury","MiddleBaroque","MiddleRenaissance","MiddleRomantic","Minimalism","Modernism","MusiqueConcrete","Nationalist","NeoClassical","NeoRomantic","OrchestralFusion","Organum","Plainsong","PostClassical","PostMinimalism","PreClassical","Renaissance","Romantic","Serialism","Spectralism","AlternativeCountry","Americana","BakersfieldSound","Bluegrass","CountryPop","CountryRap","CountryRock","HonkyTonk","ModernCountry","NashvilleSound","NeoTraditionalCountry","OutlawCountry","TexasCountry","TraditionalCountry","WesternSwing","2StepGarage","AcidHouse","AcidTechno","Ambient","AmbientHouse","Bassline","BigBeat","Breakbeat","BrokenBeat","ChicagoHouse","DeepHouse","DetroitHouse","DetroitTechno","DigitalHardcore","Downtempo","DrillNBass","DrumNBass","Drumstep","DubstepUK","DubstepUS","Dubtronica","DutchHouse","EBM","Electro","ElectroHouse","Electronica/Eclectic","Eurodance","ExperimentalElectronic","FrenchHouse","FutureGarage","Gabba","GarageHouse","Glitch","HappyHardcore","HardTrance","Hardcore","HardcoreBreakbeat","Hardstyle","HipHouse","House","IDM","JazzHouse","Jungle","Kwaito","LatinHouse","MinimalHouse","MinimalTechno","NoiseMusic","NuDisco","ProgressiveHouse","ProgressiveTrance","PsychedelicTrance","Schranz","SpeedGarage","Synthwave","TechHouse","Techno","Trance","TribalHouse","TripHop","UKFunky","UKGarage","VocalHouse","AmericanFolk","AmericanPrimitiveGuitar","BarbershopMusic","BritishFolk","CanadianFiddling","CanadianFolk","Celtic","ElectricFolk","EnglishFolk","FolkBaroque","FolkRevival","IndieFolk","IrishFolk","NorthAmericanFolk","OldTime","ScottishFolk","SeaShanties","WelshFolk","Zydeco","ClassicGospel","SouthernGospel","AlternativeRap","ChristianRap","ClassicHipHop","ConsciousRap","Crunk","DirtyRap","EastCoastHipHop","ExperimentalHipHop","FunkCarioca","GFunk","GangstaRap","GoldenAge","Grime","HardcoreRap","InstrumentalHipHop","MiamiBass","PopRap","SouthernRap","Trap","WestCoastHipHop","AcidJazz","AfricanJazz","AvantGardeJazz","Bebop","BossaNova","BritishDanceBand","CapeJazz","CoolJazz","Dixieland","EthiopianJazz","FreeJazz","GypsyJazz","HardBop","JazzBlues","JazzFunk","JazzFusion","JazzRock","JazzPop","LatinJazz","ModalJazz","ModernCreative","ModernJazz","PostBop","SmoothJazz","SoulJazz","Swing","SwingRevival","TraditionalJazz","TraditionalPop","Bachata","Banda","Boogaloo","Brazilian","Conjunto","Corridos","Duranguense","Grupera","Hupango","Mariachi","NewMexicoMusic","Norteno","Ranchera","Reggaeton","RegionalMexican","Salsa","Sertanejo","Tejano","AfricanPop","Afrobeat","AlternativeDance","AlternativePop","Axe","Bikutsi","Bollywood","BrazilianPop","Brega","CantoPop","CaribbeanPop","ChamberPop","Chimurenga","ChinesePop","DreamPop","Electroclash","ElectronicPop","Enka","FilipinoPop","Folktronica","FrenchPop","GermanPop","GreekPop","Highlife","Hiplife","HokkienPop","IndianPop","IndiePop","Indietronica","IndonesianPop","JapanesePop","Kayokyoku","Kizomba","KoreanPop","Kuduro","LatinFreestyle","Madchester","Makossa","MandoPop","Mbalax","Mbaqanga","ModernLaiko","ModernPop","MPB","MusicOfThePhilippines","NDW","NeoPsychedelia","NewRomantic","NewWave","NoisePop","NouvelleChanson","PopRock","PsychedelicPop","Schlager","Soca","Soukous","SynthPop","Telugu","TweePop","AfroFunk","AlternativeR'n'B","BlueEyedSoul","Boogie","ChicagoSoul","ClassicR'n'B","ContemporaryR'n'B","DeepSoul","Disco","DooWop","Funk","GoGo","HiNRG","ItaloDisco","MemphisSoul","MinneapolisFunk","ModernR'n'B","MotownSound","NeoSoul","NewJackSwing","NewOrleansR'n'B","OGFunk","PFunk","Phillysound","PopFunk","PsychedelicSoul","QuietStorm","RetroSoul","Soul","SouthernSoul","TraditionalR'n'B","UrbanContemporaryGospel","WestCoastSoul","Dancehall","Dub","Rocksteady","RootsReggae","Ska","AfroRock","AltMetal","AlternativeRock","ArtRock","BlackMetal","BoogieRock","BritRock","BritishInvasion","BritPop","ClassicRock","DarkWave","DeathMetal","DoomMetal","EarlyRock","ElectroGoth","EmoRock","ExperimentalRock","FunkMetal","GarageRock","GlamRock","GothicMetal","GothicRock","Grindcore","Grunge","HairMetal","HardRock","HardcorePunk","HeartlandRock","IndieRock","Industrial","IndustrialMetal","JovemGuarda","Krautrock","MathRock","Merseybeat","Metal","Metalcore","NoWave","NoiseRock","NuMetal","PopPunk","PostGrunge","PostRock","PostHardcore","PostPunk","PowerPop","ProgressiveMetal","ProgressiveRock","ProtoPunk","PsychedelicRock","Psychobilly","Punk","RiotGrrrl","RockNRoll","Rockabilly","SambaRock","Screamo","Shoegaze","SoftRock","SouthAmericanRock","SouthernRock","SpaceRock","SpeedMetal","StonerRock","Surf","SwampRock","ThirdWaveSka","ThrashMetal","Tropicalia","TwoTone","Underground","Commentary","Conversation","Interview","Monologue","Poetry","Skit","StandUpComedy","Afoxe","AfricanMusic","ArgentinianMusic","BalineseMusic","BrazilianMusic","Calypso","CapoeiraMusic","CaribbeanMusic","CarnaticMusic","ChaChaCha","ChileanMusic","Choro","ColombianMusic","Contradanza","CubanMusic","Cueca","Cumbia","CzechMusic","Danzon","Dimotiko","DominicanMusic","Fado","Flamenco","FrenchMusic","GauchoMusic","GermanMusic","GreekMusic","Guaracha","HindustaniClassicalMusic","IndianMusic","IndonesianMusic","IrishMusic","ItalianMusic","JamaicanMusic","JavaneseMusic","JewishMusic","JugEnsemble","Klezmer","Mambo","Maracatu","Merengue","MexicanMusic","MiddleEasternMusic","NeapolitanSong","NorthAmericanMusic","PakistaniMusic","Palo","Pilon","Polka","PortugueseMusic","PuertoRicanMusic","PunjabiMusic","Ragtime","Repente","RomanianMusic","Salves","Samba","Son","SouthAmericanMusic","SpanishMusic","Spiritual","Tango","TibetanMusic","Tonada","TurkishMusic","TurkishClassicalMusic","WorkSongs","Exotica","NewAge","NewFlamenco","WorldFusionJazz","Worldbeat"],
+  MusicalKeys: ["A♭ major","A♭ minor","A major","A minor","A♯ minor","B♭ major","B♭ minor","B major","B minor","C♭ major","C major","C minor","C♯ major","C♯ minor","D♭ major","D major","D minor","D♯ minor","E♭ major","E♭ minor","E major","E minor","F major","F minor","F♯ major","F♯ minor","G♭ major","G major","G minor","G♯ minor","Major","Minor"],
+  TimeSignatures: ["1/4","2/4","2/8","3/4","3/8","4/4","4/8","5/4","5/8","6/8","7/8","8/8","9/8","9/16","12/8","32/64"]
+};
+
+/* ═══════════════════════════════════════════════════════════
+   INIT — populate dropdowns
+   ═══════════════════════════════════════════════════════════ */
+function populateSelect(el, list, placeholder) {
+  if (placeholder !== undefined) {
+    const opt = document.createElement('option');
+    opt.value = ''; opt.textContent = placeholder;
+    el.appendChild(opt);
+  }
+  list.forEach(v => {
+    const opt = document.createElement('option');
+    opt.value = v; opt.textContent = v;
+    el.appendChild(opt);
+  });
+}
+
+function cloneOptions(templateId, selectEl) {
+  var template = document.getElementById(templateId);
+  if (template) {
+    selectEl.innerHTML = template.innerHTML;
+  }
+}
+
+function init() {
+  // Set default technical values
+  document.getElementById('tech_format').value = 'WAV';
+  document.getElementById('tech_samplerate').value = '48000';
+  document.getElementById('tech_bitdepth').value = '24';
+  document.getElementById('tech_channels').value = 'Stereo';
+  // Today's date for mastering
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('mast_date').value = today;
+
+  // Build nav pills
+  const sections = document.querySelectorAll('.section');
+  sections.forEach((sec, i) => {
+    const pill = document.createElement('div');
+    pill.className = 'nav-pill';
+    pill.dataset.target = sec.id;
+    pill.onclick = () => { sec.scrollIntoView({behavior:'smooth'}); sec.classList.remove('collapsed'); };
+    const num = sec.querySelector('.num').textContent;
+    const title = sec.querySelector('h2').textContent.replace(/^\d+/, '').trim();
+    pill.innerHTML = `<span class="pill-num">${num}</span>${title}`;
+    document.getElementById('navPills').appendChild(pill);
+  });
+
+  // Initial repeating rows
+  addTrack();
+  // Contributor 1 (Mick) is hardcoded in the HTML — do not add via JS
+  addMusicalWork();
+  addWriter();
+
+  // Listeners for progress
+  document.addEventListener('input', updateProgress);
+  document.addEventListener('change', updateProgress);
+  document.addEventListener('click', updateProgress);
+
+  updateProgress();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION TOGGLE
+   ═══════════════════════════════════════════════════════════ */
+function toggleSection(id) {
+  document.getElementById(id).classList.toggle('collapsed');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   REPEATING: TRACKS
+   ═══════════════════════════════════════════════════════════ */
+let trackCount = 0;
+function addTrack() {
+  trackCount++;
+  const idx = trackCount;
+  const container = document.getElementById('tracksGroup');
+  const ref = 'A' + idx;
+
+  const div = document.createElement('div');
+  div.className = 'repeat-item';
+  div.dataset.trackIndex = idx;
+
+  div.innerHTML = `
+    <div class="item-header">
+      <span class="item-title">Track ${idx} <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(${ref})</span></span>
+      <button class="remove-btn" onclick="removeItem(this, 'track')" ${trackCount === 1 ? 'disabled' : ''}>Remove</button>
+    </div>
+    <div class="field-grid">
+      <div class="field">
+        <label>ISRC</label>
+        <input type="text" data-track-field="isrc" placeholder="CC-XXX-YY-NNNNN" onblur="validateISRC(this)">
+        <div class="error-msg">Format: CC-XXX-YY-NNNNN (e.g. GB-ABC-25-00001)</div>
+      </div>
+      <div class="field">
+        <label>Track Title <span class="req">*</span></label>
+        <input type="text" data-track-field="title" placeholder="Track title">
+        <div class="error-msg">Title is required</div>
+      </div>
+      <div class="field">
+        <label>Version Type</label>
+        <select data-track-field="version_type"></select>
+      </div>
+      <div class="field">
+        <label>Duration</label>
+        <input type="text" data-track-field="duration" placeholder="MM:SS">
+      </div>
+      <div class="field">
+        <label>Recording Date</label>
+        <input type="date" data-track-field="recording_date">
+      </div>
+      <div class="field">
+        <label>Language</label>
+        <select data-track-field="language"></select>
+      </div>
+      <div class="field">
+        <label>Genre</label>
+        <select data-track-field="genre"></select>
+      </div>
+      <div class="field">
+        <label>Subgenre</label>
+        <select data-track-field="subgenre"></select>
+      </div>
+      <div class="field">
+        <label>Parental Warning</label>
+        <select data-track-field="parental_warning"></select>
+      </div>
+      <div class="field">
+        <label>Musical Key</label>
+        <select data-track-field="key"></select>
+      </div>
+      <div class="field">
+        <label>Time Signature</label>
+        <select data-track-field="time_signature"></select>
+      </div>
+      <div class="field">
+        <label>Tempo / BPM</label>
+        <input type="number" data-track-field="bpm" placeholder="128">
+      </div>
+      <div class="field">
+        <label>Artist / Display Artist</label>
+        <input type="text" data-track-field="artist" placeholder="Main artist name">
+      </div>
+      <div class="field">
+        <label>Writer (display)</label>
+        <input type="text" data-track-field="writer" placeholder="Writer name(s)">
+      </div>
+    </div>
+    <div class="field-grid" style="margin-top:12px;">
+      <div class="field"><div class="checkbox-row"><input type="checkbox" data-track-field="instrumental"><label>Instrumental</label></div></div>
+      <div class="field"><div class="checkbox-row"><input type="checkbox" data-track-field="remastered"><label>Remastered</label></div></div>
+    </div>
+  `;
+  container.appendChild(div);
+
+  // Populate selects
+  cloneOptions('tmpl-version-types', div.querySelector('[data-track-field="version_type"]'));
+  cloneOptions('tmpl-languages', div.querySelector('[data-track-field="language"]'));
+  cloneOptions('tmpl-genres', div.querySelector('[data-track-field="genre"]'));
+  cloneOptions('tmpl-subgenres', div.querySelector('[data-track-field="subgenre"]'));
+  cloneOptions('tmpl-parental-warning', div.querySelector('[data-track-field="parental_warning"]'));
+  cloneOptions('tmpl-musical-keys', div.querySelector('[data-track-field="key"]'));
+  cloneOptions('tmpl-time-signatures', div.querySelector('[data-track-field="time_signature"]'));
+
+  // Defaults
+  div.querySelector('[data-track-field="version_type"]').value = 'Original';
+  div.querySelector('[data-track-field="parental_warning"]').value = 'NotExplicit';
+  div.querySelector('[data-track-field="language"]').value = 'en';
+
+  updateProgress();
+}
+
+/* ═══ REPEATING: CONTRIBUTORS ═══ */
+let contributorCount = 1;   // Mick is hardcoded as P1 in the HTML
+let mickAdded = true;        // prevent JS from adding a duplicate Mick
+
+function addContributor() {
+  contributorCount++;
+  const idx = contributorCount;
+  const container = document.getElementById('contributorsGroup');
+  const ref = 'P' + idx;
+  const isMick = !mickAdded && idx === 1;
+
+  const div = document.createElement('div');
+  div.className = 'repeat-item' + (isMick ? ' locked' : '');
+  div.dataset.contribIndex = idx;
+
+  div.innerHTML = `
+    <div class="item-header">
+      <span class="item-title">Contributor ${idx} <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(${ref})</span>${isMick ? '<span class="badge-locked">LOCKED</span>' : ''}</span>
+      <button class="remove-btn" onclick="removeItem(this, 'contributor')" ${isMick ? 'disabled' : ''}>Remove</button>
+    </div>
+    <div class="field-grid">
+      <div class="field">
+        <label>Name ${isMick ? '' : '<span class="req">*</span>'}</label>
+        <input type="text" data-contrib-field="name" ${isMick ? 'value="Mick Boggis" readonly' : 'placeholder="Contributor name"'}>
+      </div>
+      <div class="field">
+        <label>Role</label>
+        <select data-contrib-field="role" ${isMick ? 'disabled' : ''}></select>
+      </div>
+      <div class="field">
+        <label>Instrument</label>
+        <select data-contrib-field="instrument" ${isMick ? 'disabled' : ''}></select>
+      </div>
+      <div class="field">
+        <label>ISNI</label>
+        <input type="text" data-contrib-field="isni" ${isMick ? 'value="0000000514812832" readonly' : 'placeholder="0000 0000 0000 0000"'} onblur="validateISNI(this)">
+        <div class="error-msg">16 digits (spaces OK)</div>
+      </div>
+      <div class="field">
+        <label>IPN</label>
+        <input type="text" data-contrib-field="ipn" ${isMick ? 'readonly' : 'placeholder="IPN number"'}>
+      </div>
+    </div>
+    <div class="field-grid" style="margin-top:12px;">
+      <div class="field"><div class="checkbox-row"><input type="checkbox" data-contrib-field="main_artist" ${isMick ? 'disabled' : ''}><label>Main Artist</label></div></div>
+    </div>
+  `;
+  container.appendChild(div);
+
+  // Populate selects
+  const roleSel = div.querySelector('[data-contrib-field="role"]');
+  const instSel = div.querySelector('[data-contrib-field="instrument"]');
+  cloneOptions('tmpl-contributor-roles', roleSel);
+  cloneOptions('tmpl-performer-roles', instSel);
+
+  if (isMick) {
+    roleSel.value = 'MasteringEngineer';
+    mickAdded = true;
+  }
+
+  updateProgress();
+}
+
+/* ═══ REPEATING: MUSICAL WORK ═══ */
+let musicalWorkCount = 0;
+function addMusicalWork() {
+  musicalWorkCount++;
+  const idx = musicalWorkCount;
+  const container = document.getElementById('musicalWorkGroup');
+
+  const div = document.createElement('div');
+  div.className = 'repeat-item';
+  div.dataset.mwIndex = idx;
+
+  div.innerHTML = `
+    <div class="item-header">
+      <span class="item-title">Musical Work ${idx}</span>
+      <button class="remove-btn" onclick="removeItem(this, 'mw')" ${musicalWorkCount === 1 ? 'disabled' : ''}>Remove</button>
+    </div>
+    <div class="field-grid">
+      <div class="field">
+        <label>Work Title <span class="req">*</span></label>
+        <input type="text" data-mw-field="title" placeholder="Composition title">
+        <div class="error-msg">Title is required</div>
+      </div>
+      <div class="field">
+        <label>ISWC</label>
+        <input type="text" data-mw-field="iswc" placeholder="T-XXXXXXXXX-X" onblur="validateISWC(this)">
+        <div class="error-msg">Format: T-XXXXXXXXX-X</div>
+      </div>
+      <div class="field">
+        <label>Key</label>
+        <select data-mw-field="key"></select>
+      </div>
+      <div class="field">
+        <label>Time Signature</label>
+        <select data-mw-field="time_signature"></select>
+      </div>
+      <div class="field">
+        <label>Tempo / BPM</label>
+        <input type="number" data-mw-field="bpm" placeholder="128">
+      </div>
+    </div>
+  `;
+  container.appendChild(div);
+
+  cloneOptions('tmpl-musical-keys', div.querySelector('[data-mw-field="key"]'));
+  cloneOptions('tmpl-time-signatures', div.querySelector('[data-mw-field="time_signature"]'));
+
+  updateProgress();
+}
+
+/* ═══ REPEATING: WRITERS ═══ */
+let writerCount = 0;
+function addWriter() {
+  writerCount++;
+  const idx = writerCount;
+  const container = document.getElementById('writersGroup');
+  const ref = 'W' + idx;
+
+  const div = document.createElement('div');
+  div.className = 'repeat-item';
+  div.dataset.writerIndex = idx;
+
+  div.innerHTML = `
+    <div class="item-header">
+      <span class="item-title">Writer ${idx} <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(${ref})</span></span>
+      <button class="remove-btn" onclick="removeItem(this, 'writer')" ${writerCount === 1 ? 'disabled' : ''}>Remove</button>
+    </div>
+    <div class="field-grid">
+      <div class="field">
+        <label>Writer Name <span class="req">*</span></label>
+        <input type="text" data-writer-field="name" placeholder="Writer full name">
+        <div class="error-msg">Name is required</div>
+      </div>
+      <div class="field">
+        <label>Role</label>
+        <select data-writer-field="role"></select>
+      </div>
+      <div class="field">
+        <label>ISNI</label>
+        <input type="text" data-writer-field="isni" placeholder="0000 0000 0000 0000" onblur="validateISNI(this)">
+        <div class="error-msg">16 digits (spaces OK)</div>
+      </div>
+      <div class="field">
+        <label>Society</label>
+        <select data-writer-field="society"></select>
+      </div>
+      <div class="field">
+        <label>Share %</label>
+        <input type="number" data-writer-field="share" min="0" max="100" step="0.01" placeholder="50">
+      </div>
+      <div class="field">
+        <label>Work Reference</label>
+        <input type="text" data-writer-field="work_ref" value="${ref}" placeholder="${ref}">
+      </div>
+    </div>
+  `;
+  container.appendChild(div);
+
+  cloneOptions('tmpl-writer-roles', div.querySelector('[data-writer-field="role"]'));
+  cloneOptions('tmpl-societies', div.querySelector('[data-writer-field="society"]'));
+
+  div.querySelector('[data-writer-field="role"]').value = 'Composer';
+
+  updateProgress();
+}
+
+/* ═══ REMOVE ITEM ═══ */
+function removeItem(btn, type) {
+  if (btn.disabled) return;
+  const item = btn.closest('.repeat-item');
+  item.remove();
+  // Renumber remaining items
+  if (type === 'track') {
+    document.querySelectorAll('#tracksGroup .repeat-item').forEach((el, i) => {
+      const newIdx = i + 1;
+      const title = el.querySelector('.item-title');
+      if (title) title.innerHTML = `Track ${newIdx} <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(A${newIdx})</span>`;
+    });
+    trackCount = document.querySelectorAll('#tracksGroup .repeat-item').length;
+    // Re-enable remove if only 1 left
+    if (trackCount === 1) { document.querySelector('#tracksGroup .remove-btn').disabled = true; }
+  } else if (type === 'contributor') {
+    document.querySelectorAll('#contributorsGroup .repeat-item').forEach((el, i) => {
+      const newIdx = i + 1;
+      const title = el.querySelector('.item-title');
+      const isLocked = el.classList.contains('locked');
+      if (title) title.innerHTML = `Contributor ${newIdx} <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(P${newIdx})</span>${isLocked ? '<span class="badge-locked">LOCKED</span>' : ''}`;
+    });
+    contributorCount = document.querySelectorAll('#contributorsGroup .repeat-item').length;
+    if (contributorCount === 1) { document.querySelector('#contributorsGroup .remove-btn:not(:disabled)')?.remove?.(); }
+  } else if (type === 'mw') {
+    document.querySelectorAll('#musicalWorkGroup .repeat-item').forEach((el, i) => {
+      const newIdx = i + 1;
+      const title = el.querySelector('.item-title');
+      if (title) title.textContent = `Musical Work ${newIdx}`;
+    });
+    musicalWorkCount = document.querySelectorAll('#musicalWorkGroup .repeat-item').length;
+    if (musicalWorkCount === 1) { document.querySelector('#musicalWorkGroup .remove-btn').disabled = true; }
+  } else if (type === 'writer') {
+    document.querySelectorAll('#writersGroup .repeat-item').forEach((el, i) => {
+      const newIdx = i + 1;
+      const title = el.querySelector('.item-title');
+      if (title) title.innerHTML = `Writer ${newIdx} <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(W${newIdx})</span>`;
+    });
+    writerCount = document.querySelectorAll('#writersGroup .repeat-item').length;
+    if (writerCount === 1) { document.querySelector('#writersGroup .remove-btn').disabled = true; }
+  }
+  updateProgress();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   VALIDATION
+   ═══════════════════════════════════════════════════════════ */
+function validateISRC(el) {
+  const val = el.value.trim();
+  if (!val) return true;
+  const re = /^[A-Z]{2}-[A-Z0-9]{3}-\d{2}-\d{5}$/;
+  const field = el.closest('.field');
+  if (!re.test(val)) {
+    field.classList.add('invalid');
+    return false;
+  }
+  field.classList.remove('invalid');
+  return true;
+}
+
+function validateISWC(el) {
+  const val = el.value.trim();
+  if (!val) return true;
+  const re = /^T-\d{9}-\d$/;
+  const field = el.closest('.field');
+  if (!re.test(val)) {
+    field.classList.add('invalid');
+    return false;
+  }
+  field.classList.remove('invalid');
+  return true;
+}
+
+function validateISNI(el) {
+  const val = el.value.replace(/\s/g, '');
+  if (!val) return true;
+  const field = el.closest('.field');
+  if (!/^\d{16}$/.test(val)) {
+    field.classList.add('invalid');
+    return false;
+  }
+  field.classList.remove('invalid');
+  return true;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PROGRESS BAR
+   ═══════════════════════════════════════════════════════════ */
+function updateProgress() {
+  const totalFields = document.querySelectorAll('input[data-required="true"], select[data-required="true"], input[data-track-field="title"], input[data-mw-field="title"], input[data-writer-field="name"], #proj_title'.split(',')).length;
+  const allInputs = document.querySelectorAll('input:not([type="checkbox"]):not([type="hidden"]):not([readonly]):not([disabled]), select:not([disabled])');
+  const filled = Array.from(allInputs).filter(el => el.value && el.value.trim() !== '').length;
+  const pct = allInputs.length > 0 ? Math.round((filled / allInputs.length) * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = pct + '% complete';
+
+  // Active nav pill based on scroll position
+  const sections = document.querySelectorAll('.section');
+  let activeId = null;
+  sections.forEach(sec => {
+    const rect = sec.getBoundingClientRect();
+    if (rect.top < window.innerHeight / 2 && rect.bottom > window.innerHeight / 4) {
+      activeId = sec.id;
+    }
+  });
+  document.querySelectorAll('.nav-pill').forEach(p => {
+    p.classList.toggle('active', p.dataset.target === activeId);
+  });
+}
+
+window.addEventListener('scroll', updateProgress);
+
+/* ═══════════════════════════════════════════════════════════
+   TOAST
+   ═══════════════════════════════════════════════════════════ */
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + (type || '');
+  setTimeout(() => t.className = 'toast ' + (type || ''), 3500);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GENERATE JSON
+   ═══════════════════════════════════════════════════════════ */
+function generateJSON() {
+  // Validate required top-level fields
+  let errors = [];
+
+  const projTitle = document.getElementById('proj_title');
+  const projType = document.getElementById('proj_type');
+  [projTitle, projType].forEach(el => {
+    const field = el.closest('.field');
+    if (!el.value || !el.value.trim()) {
+      field.classList.add('invalid');
+      errors.push(el.id === 'proj_title' ? 'Project Title' : 'Project Type');
+    } else {
+      field.classList.remove('invalid');
+    }
+  });
+
+  // Validate tracks
+  const trackItems = document.querySelectorAll('#tracksGroup .repeat-item');
+  if (trackItems.length === 0) errors.push('At least one track is required');
+
+  // Validate ISRCs (optional — only checked for format if provided)
+  trackItems.forEach((item, i) => {
+    const isrcEl = item.querySelector('[data-track-field="isrc"]');
+    const titleEl = item.querySelector('[data-track-field="title"]');
+    if (isrcEl.value.trim() && !validateISRC(isrcEl)) {
+      errors.push(`Track ${i+1}: Invalid ISRC format`);
+    }
+    if (!titleEl.value.trim()) {
+      titleEl.closest('.field').classList.add('invalid');
+      errors.push(`Track ${i+1}: Title required`);
+    }
+  });
+
+  // Validate writers
+  document.querySelectorAll('#writersGroup .repeat-item').forEach((item, i) => {
+    const nameEl = item.querySelector('[data-writer-field="name"]');
+    if (!nameEl.value.trim()) {
+      nameEl.closest('.field').classList.add('invalid');
+      errors.push(`Writer ${i+1}: Name required`);
+    }
+  });
+
+  if (errors.length > 0) {
+    showToast('⚠ ' + errors.length + ' validation error(s) — please fix highlighted fields', 'error');
+    // Expand first section with error
+    const firstInvalid = document.querySelector('.field.invalid');
+    if (firstInvalid) {
+      const sec = firstInvalid.closest('.section');
+      if (sec) sec.classList.remove('collapsed');
+      firstInvalid.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+    return;
+  }
+
+  // ── Build JSON ──
+  const today = new Date().toISOString().split('T')[0];
+
+  const project = {
+    reference: "J1",
+    title: document.getElementById('proj_title').value.trim(),
+    type: document.getElementById('proj_type').value,
+    catalogue_number: document.getElementById('proj_catno').value.trim(),
+    upc: document.getElementById('proj_upc').value.trim(),
+    label: document.getElementById('proj_label').value.trim()
+  };
+
+  // Tracks
+  const tracks = [];
+  trackItems.forEach((item, i) => {
+    const ref = 'A' + (i + 1);
+    const getVal = (field) => {
+      const el = item.querySelector(`[data-track-field="${field}"]`);
+      if (!el) return '';
+      if (el.type === 'checkbox') return el.checked;
+      return el.value.trim();
+    };
+    tracks.push({
+      isrc: getVal('isrc'),
+      resource_ref: ref,
+      title: getVal('title'),
+      version_type: getVal('version_type'),
+      duration: getVal('duration'),
+      recording_date: getVal('recording_date'),
+      language: getVal('language'),
+      genre: getVal('genre'),
+      subgenre: getVal('subgenre'),
+      parental_warning: getVal('parental_warning'),
+      key: getVal('key'),
+      time_signature: getVal('time_signature'),
+      bpm: getVal('bpm'),
+      instrumental: getVal('instrumental'),
+      remastered: getVal('remastered'),
+      writer_refs: ['W1'],
+      display_artist_ref: 'P2',
+      artist: getVal('artist'),
+      writer: getVal('writer')
+    });
+  });
+
+  // Contributors
+  const contributors = [];
+  document.querySelectorAll('#contributorsGroup .repeat-item').forEach((item, i) => {
+    const ref = 'P' + (i + 1);
+    const getVal = (field) => {
+      const el = item.querySelector(`[data-contrib-field="${field}"]`);
+      if (!el) return '';
+      if (el.type === 'checkbox') return el.checked;
+      return el.value.trim();
+    };
+    contributors.push({
+      party_ref: ref,
+      name: getVal('name'),
+      role: getVal('role'),
+      isni: getVal('isni').replace(/\s/g,''),
+      ipn: getVal('ipn'),
+      instrument: getVal('instrument'),
+      main_artist: getVal('main_artist')
+    });
+  });
+
+  // Musical Works (embedded as writer_refs on tracks — stored separately)
+  const musicalWorks = [];
+  document.querySelectorAll('#musicalWorkGroup .repeat-item').forEach((item, i) => {
+    const getVal = (field) => {
+      const el = item.querySelector(`[data-mw-field="${field}"]`);
+      return el ? el.value.trim() : '';
+    };
+    musicalWorks.push({
+      work_ref: 'W' + (i + 1),
+      title: getVal('title'),
+      iswc: getVal('iswc'),
+      key: getVal('key'),
+      time_signature: getVal('time_signature'),
+      bpm: getVal('bpm')
+    });
+  });
+
+  // Writers
+  const writers = [];
+  document.querySelectorAll('#writersGroup .repeat-item').forEach((item, i) => {
+    const ref = 'W' + (i + 1);
+    const getVal = (field) => {
+      const el = item.querySelector(`[data-writer-field="${field}"]`);
+      return el ? el.value.trim() : '';
+    };
+    const share = parseFloat(getVal('share'));
+    writers.push({
+      work_ref: getVal('work_ref') || ref,
+      name: getVal('name'),
+      role: getVal('role'),
+      isni: getVal('isni').replace(/\s/g,''),
+      society: getVal('society'),
+      share: isNaN(share) ? 0 : share
+    });
+  });
+
+  // Sessions
+  const sessions = [];
+  // Recording
+  const recDate = document.getElementById('rec_date').value;
+  if (recDate || document.getElementById('rec_venue').value) {
+    sessions.push({
+      ref: 'O1',
+      type: document.getElementById('rec_type').value || 'RecordingSession',
+      date: recDate,
+      venue: document.getElementById('rec_venue').value.trim(),
+      room: document.getElementById('rec_room').value.trim(),
+      city: document.getElementById('rec_city').value.trim(),
+      country: document.getElementById('rec_country').value.trim()
+    });
+  }
+  // Mixing
+  const mixDate = document.getElementById('mix_date').value;
+  if (mixDate || document.getElementById('mix_venue').value) {
+    sessions.push({
+      ref: 'O2',
+      type: document.getElementById('mix_type').value || 'MixingSession',
+      date: mixDate,
+      venue: document.getElementById('mix_venue').value.trim(),
+      room: document.getElementById('mix_room').value.trim(),
+      city: document.getElementById('mix_city').value.trim(),
+      country: document.getElementById('mix_country').value.trim()
+    });
+  }
+  // Mastering (always included)
+  sessions.push({
+    ref: 'O3',
+    type: 'MasteringSession',
+    date: document.getElementById('mast_date').value || today,
+    venue: 'Mick Boggis Studios',
+    room: 'Studio One',
+    city: 'Marazion',
+    country: 'GB'
+  });
+
+  // Rights
+  const rights = [{
+    controller: document.getElementById('rights_controller').value.trim(),
+    share: parseInt(document.getElementById('rights_share').value) || 100,
+    p_line: document.getElementById('rights_pline').value.trim(),
+    p_line_year: parseInt(document.getElementById('rights_plineyear').value) || new Date().getFullYear(),
+    c_line: document.getElementById('rights_cline').value.trim(),
+    territories: document.getElementById('rights_territories').value.trim() || 'Worldwide'
+  }];
+
+  // Technical
+  const technical = {
+    format: document.getElementById('tech_format').value,
+    sample_rate: document.getElementById('tech_samplerate').value,
+    bit_depth: document.getElementById('tech_bitdepth').value,
+    channels: document.getElementById('tech_channels').value,
+    file_name: document.getElementById('tech_filename').value.trim(),
+    file_size: document.getElementById('tech_filesize').value.trim(),
+    loudness_lufs: document.getElementById('tech_lufs').value.trim(),
+    sha256: document.getElementById('tech_sha256').value.trim(),
+    fingerprint: document.getElementById('tech_fingerprint').value.trim()
+  };
+
+  // Assemble
+  const data = {
+    project,
+    tracks,
+    contributors,
+    writers,
+    sessions,
+    rights,
+    technical,
+    musical_works: musicalWorks,
+    metadata: {
+      dpid: 'PA-DPIDA-2026062605-5',
+      mastering_credit: 'Mastered by Mick Boggis',
+      generated_at: new Date().toISOString(),
+      form_version: '1.0'
+    }
+  };
+
+  // ── Send to Mick Boggis Studios (Google Apps Script endpoint) ──
+  const jsonStr = JSON.stringify(data, null, 2);
+  const safeTitle = (project.title || 'metadata').replace(/[^a-zA-Z0-9_-]/g, '_');
+
+  // Local download fallback helper
+  function downloadJSON() {
+    const blob = new Blob([jsonStr], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = safeTitle + '_metadata.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  // Paste your deployed Apps Script Web App URL between the quotes below.
+  // Until then, the form falls back to downloading the JSON.
+  const ENDPOINT = 'https://script.google.com/macros/s/AKfycbzJCrhL_Yr5lUbgK7ZMg_c1kDygqY6qS2BcOzWi-H2r9DJe5T_LCD0GqTkgX65A6ALXnA/exec';
+
+  if (!ENDPOINT || ENDPOINT.indexOf('PASTE_YOUR') === 0) {
+    downloadJSON();
+    showToast('✓ JSON downloaded — email it to mickmastering@gmail.com', 'success');
+    return;
+  }
+
+  const btn = document.querySelector('.submit-btn');
+  const originalLabel = btn ? btn.textContent : '';
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+
+  // text/plain avoids a CORS preflight to Apps Script; body is still JSON.
+  fetch(ENDPOINT, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+    body: jsonStr
+  }).then(() => {
+    showToast('✓ Sent to Mick Boggis Studios — thank you!', 'success');
+    if (btn) { btn.textContent = '✓ Submitted'; }
+  }).catch(() => {
+    downloadJSON();
+    showToast('⚠ Could not send online — JSON downloaded, please email it to mickmastering@gmail.com', 'error');
+    if (btn) { btn.disabled = false; btn.textContent = originalLabel; }
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BOOT
+   ═══════════════════════════════════════════════════════════ */
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+</script>
+</body>
+</html>
