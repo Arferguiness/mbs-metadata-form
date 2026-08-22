@@ -1,0 +1,172 @@
+{
+  "project": {
+    "reference": "J1",
+    "title": "Neon Tides EP",
+    "type": "EP",
+    "catalogue_number": "MBS-001",
+    "upc": "5059025400123",
+    "label": "Self Released"
+  },
+  "tracks": [
+    {
+      "isrc": "GBMBS2600001",
+      "resource_ref": "A1",
+      "title": "Neon Tides",
+      "version_type": "Original",
+      "duration": "03:42",
+      "recording_date": "2026-01-15",
+      "language": "en",
+      "genre": "Electronic/Dance",
+      "subgenre": "Ambient",
+      "parental_warning": "NotExplicit",
+      "key": "C major",
+      "time_signature": "4/4",
+      "bpm": "128",
+      "instrumental": false,
+      "remastered": false,
+      "writer_refs": ["W1"],
+      "display_artist_ref": "P2",
+      "artist": "Luna Vega",
+      "writer": "Luna Vega"
+    },
+    {
+      "isrc": "GBMBS2600002",
+      "resource_ref": "A2",
+      "title": "Midnight Drive",
+      "version_type": "Original",
+      "duration": "04:18",
+      "recording_date": "2026-01-15",
+      "language": "en",
+      "genre": "Electronic/Dance",
+      "subgenre": "Synthwave",
+      "parental_warning": "NotExplicit",
+      "key": "A minor",
+      "time_signature": "4/4",
+      "bpm": "120",
+      "instrumental": false,
+      "remastered": false,
+      "writer_refs": ["W1", "W2"],
+      "display_artist_ref": "P2",
+      "artist": "Luna Vega",
+      "writer": "Luna Vega, Tom Baker"
+    },
+    {
+      "isrc": "GBMBS2600003",
+      "resource_ref": "A3",
+      "title": "Last Light",
+      "version_type": "Original",
+      "duration": "05:02",
+      "recording_date": "2026-01-16",
+      "language": "en",
+      "genre": "Electronic/Dance",
+      "subgenre": "Downtempo",
+      "parental_warning": "NotExplicit",
+      "key": "F major",
+      "time_signature": "6/8",
+      "bpm": "90",
+      "instrumental": true,
+      "remastered": false,
+      "writer_refs": ["W1"],
+      "display_artist_ref": "P2",
+      "artist": "Luna Vega",
+      "writer": "Luna Vega"
+    }
+  ],
+  "contributors": [
+    {
+      "party_ref": "P1",
+      "name": "Mick Boggis",
+      "role": "MasteringEngineer",
+      "isni": "0000000514812832",
+      "ipn": "",
+      "instrument": "",
+      "main_artist": false
+    },
+    {
+      "party_ref": "P2",
+      "name": "Luna Vega",
+      "role": "AssociatedPerformer",
+      "isni": "",
+      "ipn": "",
+      "instrument": "Vocalist",
+      "main_artist": true
+    },
+    {
+      "party_ref": "P3",
+      "name": "Tom Baker",
+      "role": "AssociatedPerformer",
+      "isni": "",
+      "ipn": "",
+      "instrument": "Synthesizer",
+      "main_artist": false
+    }
+  ],
+  "writers": [
+    {
+      "work_ref": "W1",
+      "name": "Luna Vega",
+      "role": "Composer",
+      "isni": "",
+      "society": "PRS",
+      "share": 75
+    },
+    {
+      "work_ref": "W2",
+      "name": "Tom Baker",
+      "role": "Composer",
+      "isni": "",
+      "society": "PRS",
+      "share": 25
+    }
+  ],
+  "sessions": [
+    {
+      "ref": "O1",
+      "type": "RecordingSession",
+      "date": "2026-01-15",
+      "venue": "Home Studio",
+      "room": "",
+      "city": "London",
+      "country": "GB"
+    },
+    {
+      "ref": "O2",
+      "type": "MixingSession",
+      "date": "2026-02-10",
+      "venue": "Mixdown Studios",
+      "room": "Studio B",
+      "city": "London",
+      "country": "GB"
+    },
+    {
+      "ref": "O3",
+      "type": "MasteringSession",
+      "date": "2026-08-20",
+      "venue": "Mick Boggis Studios",
+      "room": "Studio One",
+      "city": "Marazion",
+      "country": "GB"
+    }
+  ],
+  "rights": [
+    {
+      "controller": "Luna Vega",
+      "share": 100,
+      "p_line": "2026 Luna Vega",
+      "p_line_year": 2026,
+      "c_line": "2026 Luna Vega",
+      "territories": "Worldwide"
+    }
+  ],
+  "technical": {
+    "format": "WAV",
+    "sample_rate": "48000",
+    "bit_depth": "24",
+    "channels": "Stereo",
+    "file_name": "",
+    "file_size": "",
+    "loudness_lufs": "",
+    "sha256": "",
+    "fingerprint": ""
+  }
+}
