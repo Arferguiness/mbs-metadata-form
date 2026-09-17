@@ -486,6 +486,164 @@ body {
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
+
+/* ═══════════════════════════════════════════════════════════
+   V2 — TRACK STEPPER (one page per track)
+   ═══════════════════════════════════════════════════════════ */
+.stepper {
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  background: rgba(246,244,238,0.94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  overflow-x: auto;
+}
+.step-chip {
+  border: 1px solid var(--border);
+  background: var(--bg-panel);
+  color: var(--text-dim);
+  padding: 5px 14px;
+  border-radius: 18px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+.step-chip:hover { border-color: var(--gold-dim); color: var(--text); }
+.step-chip.current {
+  background: linear-gradient(145deg, var(--gold), var(--gold-dim));
+  border-color: var(--gold);
+  color: #fffdf7;
+  font-weight: 600;
+}
+.step-chip.done { border-color: var(--gold-dim); color: var(--gold-dim); }
+.step-nav {
+  margin-top: 4px;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+}
+.nav-btn {
+  background: transparent;
+  border: 1px solid var(--gold-dim);
+  color: var(--gold-dim);
+  padding: 10px 22px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.nav-btn:hover { background: var(--gold-glow); border-color: var(--gold); color: var(--gold); }
+.nav-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.nav-btn.primary {
+  background: linear-gradient(135deg, var(--gold-dim), var(--gold-soft));
+  color: #fffdf7;
+  border: none;
+  box-shadow: 0 4px 14px rgba(143,109,30,0.25);
+}
+.nav-btn.primary:hover { box-shadow: 0 6px 20px rgba(143,109,30,0.4); transform: translateY(-1px); }
+.track-page { display: none; }
+.track-page.active { display: block; }
+
+/* ═══ People directory ═══ */
+.person-item {
+  background: linear-gradient(180deg, #faf8f2 0%, #f6f3ea 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  position: relative;
+}
+.person-item .item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.person-item .item-header .item-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.5px;
+}
+.id-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 1fr 1fr 60px 34px;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+.id-row select, .id-row input {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 10px;
+  color: var(--text);
+  font-size: 12.5px;
+  font-family: inherit;
+  outline: none;
+  width: 100%;
+}
+.id-row select:focus, .id-row input:focus { border-color: var(--gold); }
+.id-row .id-remove {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 6px 0;
+  transition: var(--transition);
+}
+.id-row .id-remove:hover { border-color: var(--red); color: var(--red); }
+.id-row select[disabled], .id-row input[readonly] {
+  background: #f4f1e9;
+  color: var(--text-dim);
+  border-style: dashed;
+  cursor: not-allowed;
+}
+.person-picker-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: end;
+  background: rgba(169,130,42,0.05);
+  border: 1px dashed rgba(169,130,42,0.4);
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+}
+.person-picker-row .person-hint { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+.person-picker-row .person-pick {
+  min-width: 220px;
+}
+.person-picked-banner {
+  font-size: 11.5px;
+  color: var(--gold-dim);
+  background: rgba(169,130,42,0.07);
+  border-left: 3px solid var(--gold);
+  padding: 4px 10px;
+  margin: 8px 0;
+  border-radius: 0 4px 4px 0;
+}
+.id-refs {
+  font-size: 11px;
+  color: var(--text-dim);
+  background: #f6f3ea;
+  border-radius: 4px;
+  padding: 3px 8px;
+  display: inline-block;
+  margin-top: 6px;
+}
+.id-refs:empty { display: none; }
 </style>
 </head>
 <body>
@@ -503,403 +661,102 @@ body {
 </div>
 
 <!-- ═══ NAV PILLS ═══ -->
-<div class="nav-pills" id="navPills"></div>
+<!-- ═══ STEPPER (track pages) ═══ -->
+<div class="stepper" id="stepper" style="display:none;">
+  <span style="font-size:11px; color:var(--text-dim); letter-spacing:1px; text-transform:uppercase; margin-right:6px;">Tracks</span>
+  <div id="stepperChips" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
+</div>
 
 <div class="container">
 
-  <div class="info-banner">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-    <span>Fill in every section below — all data must be complete before the mastering session can begin. Fields marked <span style="color:var(--red)">*</span> are required.</span>
-  </div>
+  <!-- ═══ PROJECT PAGE ═══ -->
+  <div id="page-project">
+    <div class="info-banner">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <span>Fill in the project details and People directory below, then continue to each track. Fields marked <span style="color:var(--red)">*</span> are required.</span>
+    </div>
 
-  <!-- ═══ 01 PROJECT ═══ -->
-  <div class="section" id="sec-project">
-    <div class="section-header" onclick="toggleSection('sec-project')">
-      <h2><span class="num">1</span> Project</h2>
-      <span class="toggle">▾</span>
-    </div>
-    <div class="section-body">
-      <div class="field-grid">
-        <div class="field">
-          <label>Project Title <span class="req">*</span></label>
-          <input type="text" id="proj_title" data-required="true" placeholder="e.g. Midnight Sessions">
-          <div class="error-msg">Title is required</div>
-        </div>
-        <div class="field">
-          <label>Project Type <span class="req">*</span></label>
-          <select id="proj_type" data-required="true">
-          <option value="">— Select —</option>
-          <option value="Album">Album</option>
-          <option value="EP">EP</option>
-          <option value="Single">Single</option>
-          <option value="Compilation">Compilation</option>
-          <option value="Soundtrack">Soundtrack</option>
-          <option value="Score">Score</option>
-          <option value="AudioVisual">AudioVisual</option>
-          <option value="Unknown">Unknown</option>
-        </select>
-          <div class="error-msg">Type is required</div>
-        </div>
-        <div class="field">
-          <label>Catalogue Number</label>
-          <input type="text" id="proj_catno" placeholder="e.g. MBS001">
-        </div>
-        <div class="field">
-          <label>UPC / EAN</label>
-          <input type="text" id="proj_upc" placeholder="12–13 digit barcode">
-        </div>
-        <div class="field">
-          <label>Label</label>
-          <input type="text" id="proj_label" placeholder="Record label name">
-        </div>
+    <!-- ═══ 01 PROJECT ═══ -->
+    <div class="section" id="sec-project">
+      <div class="section-header" onclick="toggleSection('sec-project')">
+        <h2><span class="num">1</span> Project</h2>
+        <span class="toggle">▾</span>
       </div>
-    </div>
-  </div>
-
-  <!-- ═══ 02 SOUND RECORDING ═══ -->
-  <div class="section" id="sec-tracks">
-    <div class="section-header" onclick="toggleSection('sec-tracks')">
-      <h2><span class="num">2</span> Sound Recording</h2>
-      <span class="toggle">▾</span>
-    </div>
-    <div class="section-body">
-      <div class="repeat-group" id="tracksGroup"></div>
-      <button class="add-btn" onclick="addTrack()">+ Add Track</button>
-      <button class="add-btn" onclick="bulkCopyFromFirstTrack()" title="Copy Artist, Writer, Genre, Sub-Genre, Language and Parental Advisory from Track 1 to every other track">Copy Track 1 details to all tracks</button>
-    </div>
-  </div>
-
-  <!-- ═══ 03 RECORDING SESSION ═══ -->
-  <div class="section" id="sec-recsession">
-    <div class="section-header" onclick="toggleSection('sec-recsession')">
-      <h2><span class="num">3</span> Recording Session</h2>
-      <span class="toggle">▾</span>
-    </div>
-    <div class="section-body">
-      <div class="field-grid">
-        <div class="field">
-          <label>Session Type</label>
-          <select id="rec_type">
-          <option value="">— Select —</option>
-          <option value="RecordingSession">RecordingSession</option>
-          <option value="MixingSession">MixingSession</option>
-          <option value="MasteringSession">MasteringSession</option>
-          <option value="OverdubSession">OverdubSession</option>
-          <option value="EditingSession">EditingSession</option>
-          <option value="RehearsalSession">RehearsalSession</option>
-          <option value="ProgrammingSession">ProgrammingSession</option>
-        </select>
-        </div>
-        <div class="field">
-          <label>Date</label>
-          <input type="date" id="rec_date">
-        </div>
-        <div class="field">
-          <label>Venue</label>
-          <input type="text" id="rec_venue" placeholder="Studio name">
-        </div>
-        <div class="field">
-          <label>Room</label>
-          <input type="text" id="rec_room" placeholder="e.g. Live Room A">
-        </div>
-        <div class="field">
-          <label>City</label>
-          <input type="text" id="rec_city">
-        </div>
-        <div class="field">
-          <label>Country</label>
-          <input type="text" id="rec_country" placeholder="e.g. GB">
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══ 04 MIXING SESSION ═══ -->
-  <div class="section" id="sec-mixsession">
-    <div class="section-header" onclick="toggleSection('sec-mixsession')">
-      <h2><span class="num">4</span> Mixing Session</h2>
-      <span class="toggle">▾</span>
-    </div>
-    <div class="section-body">
-      <div class="field-grid">
-        <div class="field">
-          <label>Session Type</label>
-          <select id="mix_type">
-          <option value="">— Select —</option>
-          <option value="RecordingSession">RecordingSession</option>
-          <option value="MixingSession">MixingSession</option>
-          <option value="MasteringSession">MasteringSession</option>
-          <option value="OverdubSession">OverdubSession</option>
-          <option value="EditingSession">EditingSession</option>
-          <option value="RehearsalSession">RehearsalSession</option>
-          <option value="ProgrammingSession">ProgrammingSession</option>
-        </select>
-        </div>
-        <div class="field">
-          <label>Date</label>
-          <input type="date" id="mix_date">
-        </div>
-        <div class="field">
-          <label>Venue</label>
-          <input type="text" id="mix_venue" placeholder="Studio name">
-        </div>
-        <div class="field">
-          <label>Room</label>
-          <input type="text" id="mix_room">
-        </div>
-        <div class="field">
-          <label>City</label>
-          <input type="text" id="mix_city">
-        </div>
-        <div class="field">
-          <label>Country</label>
-          <input type="text" id="mix_country" placeholder="e.g. GB">
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══ 05 MASTERING SESSION (locked) ═══ -->
-  <div class="section" id="sec-mastsession">
-    <div class="section-header" onclick="toggleSection('sec-mastsession')">
-      <h2><span class="num">5</span> Mastering Session</h2>
-      <span class="toggle">▾</span>
-    </div>
-    <div class="section-body">
-      <div class="field-grid">
-        <div class="field">
-          <label>Session Type</label>
-          <input type="text" value="MasteringSession" readonly>
-        </div>
-        <div class="field">
-          <label>Date</label>
-          <input type="date" id="mast_date" value="">
-        </div>
-        <div class="field">
-          <label>Venue</label>
-          <input type="text" value="Mick Boggis Studios" readonly>
-        </div>
-        <div class="field">
-          <label>Room</label>
-          <input type="text" value="Studio One" readonly>
-        </div>
-        <div class="field">
-          <label>City</label>
-          <input type="text" value="Marazion" readonly>
-        </div>
-        <div class="field">
-          <label>Country</label>
-          <input type="text" value="GB" readonly>
-        </div>
-      </div>
-      <div class="info-banner" style="margin-top:8px; margin-bottom:0;">
-        <span>Mastering session details are pre-filled by Mick Boggis Studios. Only the mastering date needs completing.</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══ 06 CONTRIBUTORS ═══ -->
-  <div class="section" id="sec-contributors">
-    <div class="section-header" onclick="toggleSection('sec-contributors')">
-      <h2><span class="num">6</span> Contributors</h2>
-      <span class="toggle">▾</span>
-    </div>
-    <div class="section-body">
-      <div class="info-banner" style="margin-bottom:12px;">
-        <span><strong>Mastered by Mick Boggis</strong> — ISNI: 0000 0005 1481 2832</span>
-      </div>
-      <!-- Mick Boggis — pre-filled, locked, no JS needed -->
-      <div class="repeat-item locked" data-contrib-index="1" style="margin-bottom:12px;">
-        <div class="item-header">
-          <span class="item-title">Contributor 1 <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(P1)</span><span class="badge-locked">LOCKED</span></span>
-          <button class="remove-btn" disabled>Remove</button>
-        </div>
+      <div class="section-body">
         <div class="field-grid">
           <div class="field">
-            <label>Name</label>
-            <input type="text" data-contrib-field="name" value="Mick Boggis" readonly>
+            <label>Project Title <span class="req">*</span></label>
+            <input type="text" id="proj_title" data-required="true" placeholder="e.g. Midnight Sessions">
+            <div class="error-msg">Title is required</div>
           </div>
           <div class="field">
-            <label>Role</label>
-            <select data-contrib-field="role" disabled>
-              <option value="MasteringEngineer" selected>MasteringEngineer</option>
+            <label>Project Type <span class="req">*</span></label>
+            <select id="proj_type" data-required="true">
+            <option value="">— Select —</option>
+          </select>
+            <div class="error-msg">Type is required</div>
+          </div>
+          <div class="field">
+            <label>Catalogue Number</label>
+            <input type="text" id="proj_catno" placeholder="e.g. MBS001">
+          </div>
+          <div class="field">
+            <label>UPC / EAN</label>
+            <input type="text" id="proj_upc" placeholder="12–13 digit barcode">
+          </div>
+          <div class="field">
+            <label>Label</label>
+            <input type="text" id="proj_label" placeholder="Record label name">
+          </div>
+          <div class="field">
+            <label>Number of Tracks <span class="req">*</span></label>
+            <select id="track_count" onchange="buildTrackPages()">
+              <option value="1" selected>1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
             </select>
+            <div class="error-msg">Choose the number of tracks</div>
           </div>
-          <div class="field">
-            <label>Instrument</label>
-            <select data-contrib-field="instrument" disabled>
-              <option value="" selected>— N/A —</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>ISNI</label>
-            <input type="text" data-contrib-field="isni" value="0000000514812832" readonly>
-          </div>
-          <div class="field">
-            <label>IPN</label>
-            <input type="text" data-contrib-field="ipn" readonly>
-          </div>
-        </div>
-        <div class="field-grid" style="margin-top:12px;">
-          <div class="field"><div class="checkbox-row"><input type="checkbox" data-contrib-field="main_artist" disabled><label>Main Artist</label></div></div>
-        </div>
-      </div>
-      <div class="repeat-group" id="contributorsGroup"></div>
-      <button class="add-btn" onclick="addContributor()">+ Add Contributor</button>
-    </div>
-  </div>
-
-  <!-- ═══ 07 MUSICAL WORK ═══ -->
-  <div class="section" id="sec-musicalwork">
-    <div class="section-header" onclick="toggleSection('sec-musicalwork')">
-      <h2><span class="num">7</span> Musical Work</h2>
-      <span class="toggle">▾</span>
-    </div>
-    <div class="section-body">
-      <div class="repeat-group" id="musicalWorkGroup"></div>
-      <button class="add-btn" onclick="addMusicalWork()">+ Add Musical Work</button>
-    </div>
-  </div>
-
-  <!-- ═══ 08 TECHNICAL ═══ -->
-  <div class="section" id="sec-technical">
-    <div class="section-header" onclick="toggleSection('sec-technical')">
-      <h2><span class="num">8</span> Technical</h2>
-      <span class="toggle">▾</span>
-    </div>
-    <div class="section-body">
-      <div class="field-grid">
-        <div class="field">
-          <label>File Format <span class="req">*</span></label>
-          <select id="tech_format" data-required="true">
-          <option value="">— Select —</option>
-          <option value="WAV" selected>WAV</option>
-          <option value="AIFF">AIFF</option>
-          <option value="FLAC">FLAC</option>
-          <option value="DSD">DSD</option>
-          <option value="MP3">MP3</option>
-          <option value="AAC">AAC</option>
-          <option value="ALAC">ALAC</option>
-          <option value="Stems">Stems</option>
-        </select>
-          <div class="error-msg">Format is required</div>
-        </div>
-        <div class="field">
-          <label>Sample Rate</label>
-          <select id="tech_samplerate">
-          <option value="">— Select —</option>
-          <option value="44100">44100</option>
-          <option value="48000" selected>48000</option>
-          <option value="88200">88200</option>
-          <option value="96000">96000</option>
-          <option value="176400">176400</option>
-          <option value="192000">192000</option>
-          <option value="352800">352800</option>
-          <option value="2822400">2822400</option>
-        </select>
-        </div>
-        <div class="field">
-          <label>Bit Depth</label>
-          <select id="tech_bitdepth">
-          <option value="">— Select —</option>
-          <option value="16">16</option>
-          <option value="24" selected>24</option>
-          <option value="32 Bit FP">32 Bit FP</option>
-          <option value="64 Bit FP">64 Bit FP</option>
-          <option value="1 (DSD)">1 (DSD)</option>
-        </select>
-        </div>
-        <div class="field">
-          <label>Channels</label>
-          <select id="tech_channels">
-          <option value="">— Select —</option>
-          <option value="Mono">Mono</option>
-          <option value="Stereo" selected>Stereo</option>
-          <option value="5.1">5.1</option>
-          <option value="7.1">7.1</option>
-          <option value="Atmos">Atmos</option>
-          <option value="Binaural">Binaural</option>
-        </select>
-        </div>
-        <div class="field">
-          <label>File Name</label>
-          <input type="text" id="tech_filename" placeholder="e.g. track01.wav">
-        </div>
-        <div class="field">
-          <label>File Size</label>
-          <input type="text" id="tech_filesize" placeholder="e.g. 45.2 MB">
-        </div>
-        <div class="field">
-          <label>Loudness (LUFS)</label>
-          <input type="text" id="tech_lufs" placeholder="e.g. -14.0">
-        </div>
-        <div class="field">
-          <label>SHA-256 Hash</label>
-          <input type="text" id="tech_sha256" placeholder="64-char hex hash">
-        </div>
-        <div class="field">
-          <label>Audio Fingerprint</label>
-          <input type="text" id="tech_fingerprint" placeholder="Chromaprint / AcoustID">
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- ═══ 09 WRITERS & SPLITS ═══ -->
-  <div class="section" id="sec-writers">
-    <div class="section-header" onclick="toggleSection('sec-writers')">
-      <h2><span class="num">9</span> Writers & Splits</h2>
-      <span class="toggle">▾</span>
-    </div>
-    <div class="section-body">
-      <div class="repeat-group" id="writersGroup"></div>
-      <button class="add-btn" onclick="addWriter()">+ Add Writer</button>
-    </div>
-  </div>
-
-  <!-- ═══ 10 RIGHTS ═══ -->
-  <div class="section" id="sec-rights">
-    <div class="section-header" onclick="toggleSection('sec-rights')">
-      <h2><span class="num">10</span> Rights</h2>
-      <span class="toggle">▾</span>
-    </div>
-    <div class="section-body">
-      <div class="field-grid">
-        <div class="field">
-          <label>Rights Controller</label>
-          <input type="text" id="rights_controller" placeholder="Entity controlling rights">
-        </div>
-        <div class="field">
-          <label>Controlled Share %</label>
-          <input type="number" id="rights_share" min="0" max="100" placeholder="100">
-        </div>
-        <div class="field">
-          <label>P-Line</label>
-          <input type="text" id="rights_pline" placeholder="e.g. 2026 Mick Boggis Studios">
-        </div>
-        <div class="field">
-          <label>P-Line Year</label>
-          <input type="number" id="rights_plineyear" min="1900" max="2100" placeholder="2026">
-        </div>
-        <div class="field">
-          <label>C-Line</label>
-          <input type="text" id="rights_cline" placeholder="e.g. 2026 Mick Boggis Studios">
-        </div>
-        <div class="field">
-          <label>Territories</label>
-          <input type="text" id="rights_territories" placeholder="Worldwide">
-        </div>
+    <!-- ═══ PEOPLE DIRECTORY ═══ -->
+    <div class="section" id="sec-people">
+      <div class="section-header" onclick="toggleSection('sec-people')">
+        <h2><span class="num">2</span> People Directory <span style="font-size:11px; color:var(--text-dim); font-weight:400; margin-left:6px;">(shared across all tracks)</span></h2>
+        <span class="toggle">▾</span>
       </div>
-      <div class="field-grid" style="margin-top:8px;">
-        <div class="field"><div class="checkbox-row"><input type="checkbox" id="rights_exclusive"><label for="rights_exclusive">Exclusive Rights</label></div></div>
-        <div class="field"><div class="checkbox-row"><input type="checkbox" id="rights_workforhire"><label for="rights_workforhire">Work for Hire</label></div></div>
-        <div class="field"><div class="checkbox-row"><input type="checkbox" id="rights_samplescleared"><label for="rights_samplescleared">Samples Cleared</label></div></div>
+      <div class="section-body">
+        <div class="info-banner" style="margin-bottom:12px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          <span>Store each person <strong>once</strong> with their ID numbers (IPI / IPN / ISNI). Track pages then pick people from this directory — names and IDs fill in automatically and stay editable per track.</span>
+        </div>
+        <div class="repeat-group" id="peopleGroup"></div>
+        <button class="add-btn" onclick="addPerson()">+ Add Person</button>
       </div>
     </div>
+
+    <div class="step-nav" style="margin-top:20px;">
+      <span></span>
+      <button class="nav-btn primary" onclick="startTracks()">Start Track 1 →</button>
+    </div>
   </div>
 
-  <!-- ═══ SUBMIT ═══ -->
-  <div class="submit-section">
+  <!-- ═══ TRACK PAGES (one per track, built by JS) ═══ -->
+  <div id="trackPages"></div>
+
+  <!-- ═══ SUBMIT (final track page footer) ═══ -->
+  <div class="submit-section" id="submitSection" style="display:none;">
     <button class="submit-btn" onclick="generateJSON()">Send</button>
     <p style="margin-top:14px; color:var(--text-dim); font-size:12px;">Your details are sent securely to Mick Boggis Studios. If sending fails, the JSON file downloads automatically — email it to <strong style="color:var(--gold)">mickmastering@gmail.com</strong></p>
   </div>
@@ -958,284 +815,864 @@ const LISTS = {
   ChannelConfigs: ["Mono","Stereo","5.1","7.1","Atmos","Binaural"],
   Languages: ["en","es","fr","de","it","pt","ja","ko","zh","zxx"],
   Genres: ["Pop","Rock","Hip-Hop/Rap","R&B/Soul","Electronic/Dance","Jazz","Classical","Country","Folk","Latin","Metal","Blues","Reggae","World","Soundtrack"],
-  SubGenres: ["AcousticChicagoBlues","BoogieWoogie","BritishBlues","ChicagoBlues","ClassicFemaleBlues","CountryBlues","DeltaBlues","ElectricTexasBlues","HillCountryBlues","JumpBlues","ModernBlues","NewOrleansBlues","PianoBlues","PiedmontBlues","Roots","SwampBlues","TexasBlues","TraditionalAcoustic","TraditionalElectric","WestCoastBlues","20thCentury","21stCentury","Acousmatic","AmbrosianChant","ArsAntiqua","ArsNova","Baroque","ByzantineChant","Classical","ClassicalCrossover","Contemporary","Early20thCentury","EarlyBaroque","EarlyElectronic","EarlyRenaissance","EarlyRomantic","ExperimentalClassical","Expressionism","FirstVienneseSchool","Futurism","GregorianChant","Impressionism","Late20thCentury","LateBaroque","LateRenaissance","LateRomantic","LightMusic","Medieval","Middle20thCentury","MiddleBaroque","MiddleRenaissance","MiddleRomantic","Minimalism","Modernism","MusiqueConcrete","Nationalist","NeoClassical","NeoRomantic","OrchestralFusion","Organum","Plainsong","PostClassical","PostMinimalism","PreClassical","Renaissance","Romantic","Serialism","Spectralism","AlternativeCountry","Americana","BakersfieldSound","Bluegrass","CountryPop","CountryRap","CountryRock","HonkyTonk","ModernCountry","NashvilleSound","NeoTraditionalCountry","OutlawCountry","TexasCountry","TraditionalCountry","WesternSwing","2StepGarage","AcidHouse","AcidTechno","Ambient","AmbientHouse","Bassline","BigBeat","Breakbeat","BrokenBeat","ChicagoHouse","DeepHouse","DetroitHouse","DetroitTechno","DigitalHardcore","Downtempo","DrillNBass","DrumNBass","Drumstep","DubstepUK","DubstepUS","Dubtronica","DutchHouse","EBM","Electro","ElectroHouse","Electronica/Eclectic","Eurodance","ExperimentalElectronic","FrenchHouse","FutureGarage","Gabba","GarageHouse","Glitch","HappyHardcore","HardTrance","Hardcore","HardcoreBreakbeat","Hardstyle","HipHouse","House","IDM","JazzHouse","Jungle","Kwaito","LatinHouse","MinimalHouse","MinimalTechno","NoiseMusic","NuDisco","ProgressiveHouse","ProgressiveTrance","PsychedelicTrance","Schranz","SpeedGarage","Synthwave","TechHouse","Techno","Trance","TribalHouse","TripHop","UKFunky","UKGarage","VocalHouse","AmericanFolk","AmericanPrimitiveGuitar","BarbershopMusic","BritishFolk","CanadianFiddling","CanadianFolk","Celtic","ElectricFolk","EnglishFolk","FolkBaroque","FolkRevival","IndieFolk","IrishFolk","NorthAmericanFolk","OldTime","ScottishFolk","SeaShanties","WelshFolk","Zydeco","ClassicGospel","SouthernGospel","AlternativeRap","ChristianRap","ClassicHipHop","ConsciousRap","Crunk","DirtyRap","EastCoastHipHop","ExperimentalHipHop","FunkCarioca","GFunk","GangstaRap","GoldenAge","Grime","HardcoreRap","InstrumentalHipHop","MiamiBass","PopRap","SouthernRap","Trap","WestCoastHipHop","AcidJazz","AfricanJazz","AvantGardeJazz","Bebop","BossaNova","BritishDanceBand","CapeJazz","CoolJazz","Dixieland","EthiopianJazz","FreeJazz","GypsyJazz","HardBop","JazzBlues","JazzFunk","JazzFusion","JazzRock","JazzPop","LatinJazz","ModalJazz","ModernCreative","ModernJazz","PostBop","SmoothJazz","SoulJazz","Swing","SwingRevival","TraditionalJazz","TraditionalPop","Bachata","Banda","Boogaloo","Brazilian","Conjunto","Corridos","Duranguense","Grupera","Hupango","Mariachi","NewMexicoMusic","Norteno","Ranchera","Reggaeton","RegionalMexican","Salsa","Sertanejo","Tejano","AfricanPop","Afrobeat","AlternativeDance","AlternativePop","Axe","Bikutsi","Bollywood","BrazilianPop","Brega","CantoPop","CaribbeanPop","ChamberPop","Chimurenga","ChinesePop","DreamPop","Electroclash","ElectronicPop","Enka","FilipinoPop","Folktronica","FrenchPop","GermanPop","GreekPop","Highlife","Hiplife","HokkienPop","IndianPop","IndiePop","Indietronica","IndonesianPop","JapanesePop","Kayokyoku","Kizomba","KoreanPop","Kuduro","LatinFreestyle","Madchester","Makossa","MandoPop","Mbalax","Mbaqanga","ModernLaiko","ModernPop","MPB","MusicOfThePhilippines","NDW","NeoPsychedelia","NewRomantic","NewWave","NoisePop","NouvelleChanson","PopRock","PsychedelicPop","Schlager","Soca","Soukous","SynthPop","Telugu","TweePop","AfroFunk","AlternativeR'n'B","BlueEyedSoul","Boogie","ChicagoSoul","ClassicR'n'B","ContemporaryR'n'B","DeepSoul","Disco","DooWop","Funk","GoGo","HiNRG","ItaloDisco","MemphisSoul","MinneapolisFunk","ModernR'n'B","MotownSound","NeoSoul","NewJackSwing","NewOrleansR'n'B","OGFunk","PFunk","Phillysound","PopFunk","PsychedelicSoul","QuietStorm","RetroSoul","Soul","SouthernSoul","TraditionalR'n'B","UrbanContemporaryGospel","WestCoastSoul","Dancehall","Dub","Rocksteady","RootsReggae","Ska","AfroRock","AltMetal","AlternativeRock","ArtRock","BlackMetal","BoogieRock","BritRock","BritishInvasion","BritPop","ClassicRock","DarkWave","DeathMetal","DoomMetal","EarlyRock","ElectroGoth","EmoRock","ExperimentalRock","FunkMetal","GarageRock","GlamRock","GothicMetal","GothicRock","Grindcore","Grunge","HairMetal","HardRock","HardcorePunk","HeartlandRock","IndieRock","Industrial","IndustrialMetal","JovemGuarda","Krautrock","MathRock","Merseybeat","Metal","Metalcore","NoWave","NoiseRock","NuMetal","PopPunk","PostGrunge","PostRock","PostHardcore","PostPunk","PowerPop","ProgressiveMetal","ProgressiveRock","ProtoPunk","PsychedelicRock","Psychobilly","Punk","RiotGrrrl","RockNRoll","Rockabilly","SambaRock","Screamo","Shoegaze","SoftRock","SouthAmericanRock","SouthernRock","SpaceRock","SpeedMetal","StonerRock","Surf","SwampRock","ThirdWaveSka","ThrashMetal","Tropicalia","TwoTone","Underground","Commentary","Conversation","Interview","Monologue","Poetry","Skit","StandUpComedy","Afoxe","AfricanMusic","ArgentinianMusic","BalineseMusic","BrazilianMusic","Calypso","CapoeiraMusic","CaribbeanMusic","CarnaticMusic","ChaChaCha","ChileanMusic","Choro","ColombianMusic","Contradanza","CubanMusic","Cueca","Cumbia","CzechMusic","Danzon","Dimotiko","DominicanMusic","Fado","Flamenco","FrenchMusic","GauchoMusic","GermanMusic","GreekMusic","Guaracha","HindustaniClassicalMusic","IndianMusic","IndonesianMusic","IrishMusic","ItalianMusic","JamaicanMusic","JavaneseMusic","JewishMusic","JugEnsemble","Klezmer","Mambo","Maracatu","Merengue","MexicanMusic","MiddleEasternMusic","NeapolitanSong","NorthAmericanMusic","PakistaniMusic","Palo","Pilon","Polka","PortugueseMusic","PuertoRicanMusic","PunjabiMusic","Ragtime","Repente","RomanianMusic","Salves","Samba","Son","SouthAmericanMusic","SpanishMusic","Spiritual","Tango","TibetanMusic","Tonada","TurkishMusic","TurkishClassicalMusic","WorkSongs","Exotica","NewAge","NewFlamenco","WorldFusionJazz","Worldbeat"],
+  SubGenres: [],
   MusicalKeys: ["A♭ major","A♭ minor","A major","A minor","A♯ minor","B♭ major","B♭ minor","B major","B minor","C♭ major","C major","C minor","C♯ major","C♯ minor","D♭ major","D major","D minor","D♯ minor","E♭ major","E♭ minor","E major","E minor","F major","F minor","F♯ major","F♯ minor","G♭ major","G major","G minor","G♯ minor","Major","Minor"],
   TimeSignatures: ["1/4","2/4","2/8","3/4","3/8","4/4","4/8","5/4","5/8","6/8","7/8","8/8","9/8","9/16","12/8","32/64"]
 };
 
 /* ═══════════════════════════════════════════════════════════
-   INIT — populate dropdowns
+   V2 STATE
    ═══════════════════════════════════════════════════════════ */
-function populateSelect(el, list, placeholder) {
-  if (placeholder !== undefined) {
-    const opt = document.createElement('option');
-    opt.value = ''; opt.textContent = placeholder;
-    el.appendChild(opt);
-  }
-  list.forEach(v => {
-    const opt = document.createElement('option');
-    opt.value = v; opt.textContent = v;
-    el.appendChild(opt);
-  });
-}
+let pagesBuilt = false;
+let currentPage = -1;   // -1 = project page
+let personCount = 0;
 
 function cloneOptions(templateId, selectEl) {
   var template = document.getElementById(templateId);
-  if (template) {
-    selectEl.innerHTML = template.innerHTML;
-  }
+  if (template) { selectEl.innerHTML = template.innerHTML; }
 }
 
-function init() {
-  // Set default technical values
-  document.getElementById('tech_format').value = 'WAV';
-  document.getElementById('tech_samplerate').value = '48000';
-  document.getElementById('tech_bitdepth').value = '24';
-  document.getElementById('tech_channels').value = 'Stereo';
-  // Today's date for mastering
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('mast_date').value = today;
-
-  // Build nav pills
-  const sections = document.querySelectorAll('.section');
-  sections.forEach((sec, i) => {
-    const pill = document.createElement('div');
-    pill.className = 'nav-pill';
-    pill.dataset.target = sec.id;
-    pill.onclick = () => { sec.scrollIntoView({behavior:'smooth'}); sec.classList.remove('collapsed'); };
-    const num = sec.querySelector('.num').textContent;
-    const title = sec.querySelector('h2').textContent.replace(/^\d+/, '').trim();
-    pill.innerHTML = `<span class="pill-num">${num}</span>${title}`;
-    document.getElementById('navPills').appendChild(pill);
-  });
-
-  // Initial repeating rows
-  addTrack();
-  // Contributor 1 (Mick) is hardcoded in the HTML — do not add via JS
-  addMusicalWork();
-  addWriter();
-
-  // Listeners for progress
-  document.addEventListener('input', updateProgress);
-  document.addEventListener('change', updateProgress);
-  document.addEventListener('click', updateProgress);
-
-  updateProgress();
-}
-
-/* ═══════════════════════════════════════════════════════════
-   SECTION TOGGLE
-   ═══════════════════════════════════════════════════════════ */
 function toggleSection(id) {
   document.getElementById(id).classList.toggle('collapsed');
 }
 
 /* ═══════════════════════════════════════════════════════════
-   REPEATING: TRACKS
+   PEOPLE DIRECTORY (Project page — shared across all tracks)
    ═══════════════════════════════════════════════════════════ */
-let trackCount = 0;
-function addTrack() {
-  trackCount++;
-  const idx = trackCount;
-  const container = document.getElementById('tracksGroup');
-  const ref = 'A' + idx;
-
+function addPerson() {
+  personCount++;
+  const idx = personCount;
+  const container = document.getElementById('peopleGroup');
   const div = document.createElement('div');
-  div.className = 'repeat-item';
-  div.dataset.trackIndex = idx;
-
+  div.className = 'person-item';
+  div.dataset.personIdx = idx;
   div.innerHTML = `
     <div class="item-header">
-      <span class="item-title">Track ${idx} <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(${ref})</span></span>
-      <button class="remove-btn" onclick="removeItem(this, 'track')" ${trackCount === 1 ? 'disabled' : ''}>Remove</button>
+      <span class="item-title">Person ${idx} <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(PID${idx})</span></span>
+      <button class="remove-btn" onclick="removePerson(this)">Remove</button>
     </div>
     <div class="field-grid">
       <div class="field">
-        <label>ISRC</label>
-        <input type="text" data-track-field="isrc" placeholder="CC-XXX-YY-NNNNN" onblur="validateISRC(this)">
-        <div class="error-msg">Format: CC-XXX-YY-NNNNN (e.g. GB-ABC-25-00001)</div>
+        <label>Display Name <span class="req">*</span></label>
+        <input type="text" data-person-field="name" placeholder="e.g. Mick Boggis">
+        <div class="error-msg">Name is required</div>
       </div>
       <div class="field">
-        <label>Track Title <span class="req">*</span></label>
-        <input type="text" data-track-field="title" placeholder="Track title">
-        <div class="error-msg">Title is required</div>
-      </div>
-      <div class="field">
-        <label>Version Type</label>
-        <select data-track-field="version_type"></select>
-      </div>
-      <div class="field">
-        <label>Duration</label>
-        <input type="text" data-track-field="duration" placeholder="MM:SS">
-      </div>
-      <div class="field">
-        <label>Recording Date</label>
-        <input type="date" data-track-field="recording_date">
-      </div>
-      <div class="field">
-        <label>Language</label>
-        <select data-track-field="language"></select>
-      </div>
-      <div class="field">
-        <label>Genre</label>
-        <select data-track-field="genre"></select>
-      </div>
-      <div class="field">
-        <label>Subgenre</label>
-        <select data-track-field="subgenre"></select>
-      </div>
-      <div class="field">
-        <label>Parental Warning</label>
-        <select data-track-field="parental_warning"></select>
-      </div>
-      <div class="field">
-        <label>Musical Key</label>
-        <select data-track-field="key"></select>
-      </div>
-      <div class="field">
-        <label>Time Signature</label>
-        <select data-track-field="time_signature"></select>
-      </div>
-      <div class="field">
-        <label>Tempo / BPM</label>
-        <input type="number" data-track-field="bpm" placeholder="128">
-      </div>
-      <div class="field">
-        <label>Artist / Display Artist</label>
-        <input type="text" data-track-field="artist" placeholder="Main artist name">
-      </div>
-      <div class="field">
-        <label>Writer (display)</label>
-        <input type="text" data-track-field="writer" placeholder="Writer name(s)">
-      </div>
-    </div>
-    <div class="field-grid" style="margin-top:12px;">
-      <div class="field"><div class="checkbox-row"><input type="checkbox" data-track-field="instrumental"><label>Instrumental</label></div></div>
-      <div class="field"><div class="checkbox-row"><input type="checkbox" data-track-field="remastered"><label>Remastered</label></div></div>
-    </div>
-  `;
-  container.appendChild(div);
-
-  // Populate selects
-  cloneOptions('tmpl-version-types', div.querySelector('[data-track-field="version_type"]'));
-  cloneOptions('tmpl-languages', div.querySelector('[data-track-field="language"]'));
-  cloneOptions('tmpl-genres', div.querySelector('[data-track-field="genre"]'));
-  cloneOptions('tmpl-subgenres', div.querySelector('[data-track-field="subgenre"]'));
-  cloneOptions('tmpl-parental-warning', div.querySelector('[data-track-field="parental_warning"]'));
-  cloneOptions('tmpl-musical-keys', div.querySelector('[data-track-field="key"]'));
-  cloneOptions('tmpl-time-signatures', div.querySelector('[data-track-field="time_signature"]'));
-
-  // Defaults
-  div.querySelector('[data-track-field="version_type"]').value = 'Original';
-  div.querySelector('[data-track-field="parental_warning"]').value = 'NotExplicit';
-  div.querySelector('[data-track-field="language"]').value = 'en';
-
-  updateProgress();
-}
-
-/* ═══ REPEATING: CONTRIBUTORS ═══ */
-let contributorCount = 1;   // Mick is hardcoded as P1 in the HTML
-let mickAdded = true;        // prevent JS from adding a duplicate Mick
-
-function addContributor() {
-  contributorCount++;
-  const idx = contributorCount;
-  const container = document.getElementById('contributorsGroup');
-  const ref = 'P' + idx;
-  const isMick = !mickAdded && idx === 1;
-
-  const div = document.createElement('div');
-  div.className = 'repeat-item' + (isMick ? ' locked' : '');
-  div.dataset.contribIndex = idx;
-
-  div.innerHTML = `
-    <div class="item-header">
-      <span class="item-title">Contributor ${idx} <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(${ref})</span>${isMick ? '<span class="badge-locked">LOCKED</span>' : ''}</span>
-      <button class="remove-btn" onclick="removeItem(this, 'contributor')" ${isMick ? 'disabled' : ''}>Remove</button>
-    </div>
-    <div class="field-grid">
-      <div class="field">
-        <label>Name ${isMick ? '' : '<span class="req">*</span>'}</label>
-        <input type="text" data-contrib-field="name" ${isMick ? 'value="Mick Boggis" readonly' : 'placeholder="Contributor name"'}>
+        <label>Legal Name</label>
+        <input type="text" data-person-field="legal_name" placeholder="Full legal name (optional)">
       </div>
       <div class="field">
         <label>Role</label>
-        <select data-contrib-field="role" ${isMick ? 'disabled' : ''}></select>
+        <select data-person-field="role"></select>
+      </div>
+    </div>
+    <div style="margin-top:10px;">
+      <div style="font-size:11px; color:var(--text-dim); letter-spacing:1px; text-transform:uppercase; margin-bottom:4px;">ID Numbers (IPI / IPN / ISNI)</div>
+      <div class="id-rows"></div>
+      <button class="add-btn" style="margin-top:8px;" onclick="addIdRecord(this)">+ Add ID</button>
+    </div>
+  `;
+  container.appendChild(div);
+  const roleSel = div.querySelector('[data-person-field="role"]');
+  if (roleSel) cloneOptions('tmpl-contributor-roles', roleSel);
+  populatePersonPickers();
+}
+
+function addIdRecord(btn) {
+  const rows = btn.closest('.person-item').querySelector('.id-rows');
+  const row = document.createElement('div');
+  row.className = 'id-row';
+  row.innerHTML = `
+    <select data-id-field="type">
+      <option value="IPI">IPI</option>
+      <option value="IPN">IPN</option>
+      <option value="ISNI">ISNI</option>
+    </select>
+    <input type="text" data-id-field="number" placeholder="Number">
+    <input type="text" data-id-field="name" placeholder="Registered name (optional)">
+    <select data-id-field="society"></select>
+    <label style="font-size:11px; color:var(--text-dim); display:flex; align-items:center; gap:4px;"><input type="checkbox" data-id-field="isdefault">Def</label>
+    <button class="id-remove" onclick="this.closest('.id-row').remove(); populatePersonPickers();" title="Remove ID">✕</button>
+  `;
+  cloneOptions('tmpl-societies', row.querySelector('[data-id-field="society"]'));
+  rows.appendChild(row);
+}
+
+function removePerson(btn) {
+  btn.closest('.person-item').remove();
+  renumberPeople();
+  populatePersonPickers();
+}
+
+function renumberPeople() {
+  document.querySelectorAll('#peopleGroup .person-item').forEach((el, i) => {
+    const title = el.querySelector('.item-title');
+    if (title) title.innerHTML = `Person ${i + 1} <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(PID${i + 1})</span>`;
+  });
+  personCount = document.querySelectorAll('#peopleGroup .person-item').length;
+}
+
+/* People as JSON objects (used by pickers + generateJSON) */
+function getPeople() {
+  const people = [];
+  document.querySelectorAll('#peopleGroup .person-item').forEach((el, i) => {
+    const name = (el.querySelector('[data-person-field="name"]')?.value || '').trim();
+    if (!name) return;
+    const legal = (el.querySelector('[data-person-field="legal_name"]')?.value || '').trim();
+    const ids = [];
+    el.querySelectorAll('.id-row').forEach((row) => {
+      const type = row.querySelector('[data-id-field="type"]')?.value;
+      const number = (row.querySelector('[data-id-field="number"]')?.value || '').trim();
+      if (!type || !number) return;
+      ids.push({
+        type: type,
+        number: number,
+        name: (row.querySelector('[data-id-field="name"]')?.value || '').trim(),
+        society: row.querySelector('[data-id-field="society"]')?.value || '',
+        default: row.querySelector('[data-id-field="isdefault"]')?.checked || false
+      });
+    });
+    people.push({ pid: 'PID' + (i + 1), name: name, legal_name: legal, role: (el.querySelector('[data-person-field="role"]')?.value || ''), ids: ids });
+  });
+  return people;
+}
+
+/* Default ID lookup: prefers the row flagged Default, else the first of that type */
+function personDefaultId(person, type) {
+  if (!person) return '';
+  const rows = person.ids.filter(function (id) { return id.type === type; });
+  if (rows.length === 0) return '';
+  const dflt = rows.find(function (id) { return id.default; });
+  return (dflt || rows[0]).number;
+}
+
+/* Populate every person picker select on track pages */
+function populatePersonPickers() {
+  const people = getPeople();
+  document.querySelectorAll('select.person-pick').forEach(function (sel) {
+    const current = sel.value;
+    let html = '<option value="">— Pick from directory (optional) —</option>';
+    people.forEach(function (p) {
+      const label = p.name + (p.ids.length ? ' · ' + p.ids.map(function (id) { return id.type + ' ' + id.number; }).join(' · ') : '');
+      html += `<option value="${p.pid}">${label}</option>`;
+    });
+    sel.innerHTML = html;
+    if (current) {
+      const still = people.find(function (p) { return p.pid === current; });
+      if (still) sel.value = current;
+    }
+  });
+}
+
+function pickPerson(sel, kind) {
+  const pid = sel.value;
+  const row = sel.closest('.repeat-item');
+  const banner = row.querySelector('.person-picked-banner');
+  if (!pid) { banner.textContent = ''; return; }
+  const person = getPeople().find(function (p) { return p.pid === pid; });
+  if (!person) return;
+
+  const nameEl = row.querySelector(`[data-${kind}-field="name"]`);
+  if (nameEl && !nameEl.readOnly) nameEl.value = person.name;
+  const isniEl = row.querySelector(`[data-${kind}-field="isni"]`);
+  if (isniEl && !isniEl.readOnly) isniEl.value = personDefaultId(person, 'ISNI');
+
+  if (kind === 'contrib') {
+    const ipnEl = row.querySelector('[data-contrib-field="ipn"]');
+    if (ipnEl && !ipnEl.readOnly) ipnEl.value = personDefaultId(person, 'IPN');
+    const roleSel = row.querySelector('[data-contrib-field="role"]');
+    if (roleSel && !roleSel.disabled && person.role) roleSel.value = person.role;
+  }
+  if (kind === 'writer') {
+    const socEl = row.querySelector('[data-writer-field="society"]');
+    if (socEl && personDefaultId(person, 'IPI')) {
+      const ipiRow = person.ids.find(function (id) { return id.type === 'IPI' && (id.default || person.ids.filter(function (x) { return x.type === 'IPI'; }).length === 1); });
+      if (ipiRow && ipiRow.society) socEl.value = ipiRow.society;
+    }
+  }
+  if (banner) banner.textContent = `Auto-filled from ${pid} · ${person.name} — fields stay editable for this track`;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TRACK PAGES
+   ═══════════════════════════════════════════════════════════ */
+const TRACK_TPL = `<div class="track-page" data-page-idx="__IDX__" id="trackPage__IDX__">
+  <div class="track-page-head" style="margin:18px 0 6px;">
+    <h2 style="font-family:Georgia,'Times New Roman',serif; font-size:21px; color:var(--ink); font-weight:400; letter-spacing:1px;">Track __NUM__ <span style="color:var(--text-dim); font-size:14px;">(A__NUM__)</span></h2>
+  </div>
+
+  <!-- ═══ 03 SOUND RECORDING ═══ -->
+  <div class="section" id="sec-tracks-__IDX__">
+    <div class="section-header" onclick="toggleSection('sec-tracks-__IDX__')">
+      <h2><span class="num">3</span> Sound Recording</h2>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field">
+          <label>ISRC</label>
+          <input type="text" data-track-field="isrc" placeholder="CC-XXX-YY-NNNNN" onblur="validateISRC(this)">
+          <div class="error-msg">Format: CC-XXX-YY-NNNNN (e.g. GB-ABC-25-00001)</div>
+        </div>
+        <div class="field">
+          <label>Track Title <span class="req">*</span></label>
+          <input type="text" data-track-field="title" placeholder="Track title">
+          <div class="error-msg">Title is required</div>
+        </div>
+        <div class="field">
+          <label>Version Type</label>
+          <select data-track-field="version_type"></select>
+        </div>
+        <div class="field">
+          <label>Duration</label>
+          <input type="text" data-track-field="duration" placeholder="MM:SS">
+        </div>
+        <div class="field">
+          <label>Recording Date</label>
+          <input type="date" data-track-field="recording_date">
+        </div>
+        <div class="field">
+          <label>Language</label>
+          <select data-track-field="language"></select>
+        </div>
+        <div class="field">
+          <label>Genre</label>
+          <select data-track-field="genre"></select>
+        </div>
+        <div class="field">
+          <label>Subgenre</label>
+          <select data-track-field="subgenre"></select>
+        </div>
+        <div class="field">
+          <label>Parental Warning</label>
+          <select data-track-field="parental_warning"></select>
+        </div>
+        <div class="field">
+          <label>Musical Key</label>
+          <select data-track-field="key"></select>
+        </div>
+        <div class="field">
+          <label>Time Signature</label>
+          <select data-track-field="time_signature"></select>
+        </div>
+        <div class="field">
+          <label>Tempo / BPM</label>
+          <input type="number" data-track-field="bpm" placeholder="128">
+        </div>
+        <div class="field">
+          <label>Artist / Display Artist</label>
+          <input type="text" data-track-field="artist" placeholder="Main artist name">
+        </div>
+        <div class="field">
+          <label>Writer (display)</label>
+          <input type="text" data-track-field="writer" placeholder="Writer name(s)">
+        </div>
+      </div>
+      <div class="field-grid" style="margin-top:12px;">
+        <div class="field"><div class="checkbox-row"><input type="checkbox" data-track-field="instrumental"><label>Instrumental</label></div></div>
+        <div class="field"><div class="checkbox-row"><input type="checkbox" data-track-field="remastered"><label>Remastered</label></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 04 RECORDING SESSION ═══ -->
+  <div class="section" id="sec-recsession-__IDX__">
+    <div class="section-header" onclick="toggleSection('sec-recsession-__IDX__')">
+      <h2><span class="num">4</span> Recording Session</h2>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="info-banner" style="margin-bottom:12px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <span>Copied from the previous track — edit freely for this song.</span>
+      </div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Session Type</label>
+          <select data-session-field="rec_type" data-copy="1">
+          <option value="">— Select —</option>
+          <option value="RecordingSession">RecordingSession</option>
+          <option value="MixingSession">MixingSession</option>
+          <option value="MasteringSession">MasteringSession</option>
+          <option value="OverdubSession">OverdubSession</option>
+          <option value="EditingSession">EditingSession</option>
+          <option value="RehearsalSession">RehearsalSession</option>
+          <option value="ProgrammingSession">ProgrammingSession</option>
+        </select>
+        </div>
+        <div class="field">
+          <label>Date</label>
+          <input type="date" data-session-field="rec_date" data-copy="1">
+        </div>
+        <div class="field">
+          <label>Venue</label>
+          <input type="text" data-session-field="rec_venue" placeholder="Studio name" data-copy="1">
+        </div>
+        <div class="field">
+          <label>Room</label>
+          <input type="text" data-session-field="rec_room" placeholder="e.g. Live Room A" data-copy="1">
+        </div>
+        <div class="field">
+          <label>City</label>
+          <input type="text" data-session-field="rec_city" data-copy="1">
+        </div>
+        <div class="field">
+          <label>Country</label>
+          <input type="text" data-session-field="rec_country" placeholder="e.g. GB" data-copy="1">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 05 MIXING SESSION ═══ -->
+  <div class="section" id="sec-mixsession-__IDX__">
+    <div class="section-header" onclick="toggleSection('sec-mixsession-__IDX__')">
+      <h2><span class="num">5</span> Mixing Session</h2>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="info-banner" style="margin-bottom:12px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <span>Copied from the previous track — edit freely for this song.</span>
+      </div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Session Type</label>
+          <select data-session-field="mix_type" data-copy="1">
+          <option value="">— Select —</option>
+          <option value="RecordingSession">RecordingSession</option>
+          <option value="MixingSession">MixingSession</option>
+          <option value="MasteringSession">MasteringSession</option>
+          <option value="OverdubSession">OverdubSession</option>
+          <option value="EditingSession">EditingSession</option>
+          <option value="RehearsalSession">RehearsalSession</option>
+          <option value="ProgrammingSession">ProgrammingSession</option>
+        </select>
+        </div>
+        <div class="field">
+          <label>Date</label>
+          <input type="date" data-session-field="mix_date" data-copy="1">
+        </div>
+        <div class="field">
+          <label>Venue</label>
+          <input type="text" data-session-field="mix_venue" placeholder="Studio name" data-copy="1">
+        </div>
+        <div class="field">
+          <label>Room</label>
+          <input type="text" data-session-field="mix_room" data-copy="1">
+        </div>
+        <div class="field">
+          <label>City</label>
+          <input type="text" data-session-field="mix_city" data-copy="1">
+        </div>
+        <div class="field">
+          <label>Country</label>
+          <input type="text" data-session-field="mix_country" placeholder="e.g. GB" data-copy="1">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 06 MASTERING SESSION (locked constants + per-track date) ═══ -->
+  <div class="section" id="sec-mastsession-__IDX__">
+    <div class="section-header" onclick="toggleSection('sec-mastsession-__IDX__')">
+      <h2><span class="num">6</span> Mastering Session</h2>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field">
+          <label>Session Type</label>
+          <input type="text" value="MasteringSession" readonly>
+        </div>
+        <div class="field">
+          <label>Date</label>
+          <input type="date" data-session-field="mast_date">
+        </div>
+        <div class="field">
+          <label>Venue</label>
+          <input type="text" value="Mick Boggis Studios" readonly>
+        </div>
+        <div class="field">
+          <label>Room</label>
+          <input type="text" value="Studio One" readonly>
+        </div>
+        <div class="field">
+          <label>City</label>
+          <input type="text" value="Marazion" readonly>
+        </div>
+        <div class="field">
+          <label>Country</label>
+          <input type="text" value="GB" readonly>
+        </div>
+      </div>
+      <div class="info-banner" style="margin-top:8px; margin-bottom:0;">
+        <span>Mastering session details are pre-filled by Mick Boggis Studios. Only the mastering date needs completing.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 07 CONTRIBUTORS ═══ -->
+  <div class="section" id="sec-contributors-__IDX__">
+    <div class="section-header" onclick="toggleSection('sec-contributors-__IDX__')">
+      <h2><span class="num">7</span> Contributors</h2>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="info-banner" style="margin-bottom:12px;">
+        <span><strong>Mastered by Mick Boggis</strong> — ISNI: 0000 0005 1481 2832</span>
+      </div>
+      <div class="repeat-item locked" style="margin-bottom:12px;">
+        <div class="item-header">
+          <span class="item-title">Contributor 1 <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(P1)</span><span class="badge-locked">LOCKED</span></span>
+          <button class="remove-btn" disabled>Remove</button>
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <label>Name</label>
+            <input type="text" data-contrib-field="name" value="Mick Boggis" readonly>
+          </div>
+          <div class="field">
+            <label>Role</label>
+            <select data-contrib-field="role" disabled>
+              <option value="MasteringEngineer" selected>MasteringEngineer</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Instrument</label>
+            <select data-contrib-field="instrument" disabled>
+              <option value="" selected>— N/A —</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>ISNI</label>
+            <input type="text" data-contrib-field="isni" value="0000000514812832" readonly>
+          </div>
+          <div class="field">
+            <label>IPN</label>
+            <input type="text" data-contrib-field="ipn" readonly>
+          </div>
+        </div>
+        <div class="field-grid" style="margin-top:12px;">
+          <div class="field"><div class="checkbox-row"><input type="checkbox" data-contrib-field="main_artist" disabled><label>Main Artist</label></div></div>
+        </div>
+      </div>
+      <div class="repeat-group contributorsGroup" id="contributorsGroup-__IDX__"></div>
+      <button class="add-btn" onclick="addContributor(this)">+ Add Contributor</button>
+    </div>
+  </div>
+
+  <!-- ═══ 08 MUSICAL WORK ═══ -->
+  <div class="section" id="sec-musicalwork-__IDX__">
+    <div class="section-header" onclick="toggleSection('sec-musicalwork-__IDX__')">
+      <h2><span class="num">8</span> Musical Work</h2>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="repeat-group musicalWorkGroup" id="musicalWorkGroup-__IDX__"></div>
+      <button class="add-btn" onclick="addMusicalWork(this)">+ Add Musical Work</button>
+    </div>
+  </div>
+
+  <!-- ═══ 09 TECHNICAL ═══ -->
+  <div class="section" id="sec-technical-__IDX__">
+    <div class="section-header" onclick="toggleSection('sec-technical-__IDX__')">
+      <h2><span class="num">9</span> Technical</h2>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field">
+          <label>File Format <span class="req">*</span></label>
+          <select data-tech-field="format">
+          <option value="">— Select —</option>
+          <option value="WAV" selected>WAV</option>
+          <option value="AIFF">AIFF</option>
+          <option value="FLAC">FLAC</option>
+          <option value="DSD">DSD</option>
+          <option value="MP3">MP3</option>
+          <option value="AAC">AAC</option>
+          <option value="ALAC">ALAC</option>
+          <option value="Stems">Stems</option>
+        </select>
+          <div class="error-msg">Format is required</div>
+        </div>
+        <div class="field">
+          <label>Sample Rate</label>
+          <select data-tech-field="samplerate">
+          <option value="">— Select —</option>
+          <option value="44100">44100</option>
+          <option value="48000" selected>48000</option>
+          <option value="88200">88200</option>
+          <option value="96000">96000</option>
+          <option value="176400">176400</option>
+          <option value="192000">192000</option>
+          <option value="352800">352800</option>
+          <option value="2822400">2822400</option>
+        </select>
+        </div>
+        <div class="field">
+          <label>Bit Depth</label>
+          <select data-tech-field="bitdepth">
+          <option value="">— Select —</option>
+          <option value="16">16</option>
+          <option value="24" selected>24</option>
+          <option value="32 Bit FP">32 Bit FP</option>
+          <option value="64 Bit FP">64 Bit FP</option>
+          <option value="1 (DSD)">1 (DSD)</option>
+        </select>
+        </div>
+        <div class="field">
+          <label>Channels</label>
+          <select data-tech-field="channels">
+          <option value="">— Select —</option>
+          <option value="Mono">Mono</option>
+          <option value="Stereo" selected>Stereo</option>
+          <option value="5.1">5.1</option>
+          <option value="7.1">7.1</option>
+          <option value="Atmos">Atmos</option>
+          <option value="Binaural">Binaural</option>
+        </select>
+        </div>
+        <div class="field">
+          <label>File Name</label>
+          <input type="text" data-tech-field="filename" placeholder="e.g. track01.wav">
+        </div>
+        <div class="field">
+          <label>File Size</label>
+          <input type="text" data-tech-field="filesize" placeholder="e.g. 45.2 MB">
+        </div>
+        <div class="field">
+          <label>Loudness (LUFS)</label>
+          <input type="text" data-tech-field="lufs" placeholder="e.g. -14.0">
+        </div>
+        <div class="field">
+          <label>SHA-256 Hash</label>
+          <input type="text" data-tech-field="sha256" placeholder="64-char hex hash">
+        </div>
+        <div class="field">
+          <label>Audio Fingerprint</label>
+          <input type="text" data-tech-field="fingerprint" placeholder="Chromaprint / AcoustID">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 10 WRITERS & SPLITS ═══ -->
+  <div class="section" id="sec-writers-__IDX__">
+    <div class="section-header" onclick="toggleSection('sec-writers-__IDX__')">
+      <h2><span class="num">10</span> Writers &amp; Splits</h2>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="repeat-group writersGroup" id="writersGroup-__IDX__"></div>
+      <button class="add-btn" onclick="addWriter(this)">+ Add Writer</button>
+    </div>
+  </div>
+
+  <!-- ═══ 11 RIGHTS ═══ -->
+  <div class="section" id="sec-rights-__IDX__">
+    <div class="section-header" onclick="toggleSection('sec-rights-__IDX__')">
+      <h2><span class="num">11</span> Rights</h2>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="info-banner" style="margin-bottom:12px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <span>Copied from the previous track — edit freely for this song.</span>
+      </div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Rights Controller</label>
+          <input type="text" data-rights-field="controller" placeholder="Entity controlling rights" data-copy="1">
+        </div>
+        <div class="field">
+          <label>Controlled Share %</label>
+          <input type="number" data-rights-field="share" min="0" max="100" placeholder="100" data-copy="1">
+        </div>
+        <div class="field">
+          <label>P-Line</label>
+          <input type="text" data-rights-field="pline" placeholder="e.g. 2026 Mick Boggis Studios" data-copy="1">
+        </div>
+        <div class="field">
+          <label>P-Line Year</label>
+          <input type="number" data-rights-field="plineyear" min="1900" max="2100" placeholder="2026" data-copy="1">
+        </div>
+        <div class="field">
+          <label>C-Line</label>
+          <input type="text" data-rights-field="cline" placeholder="e.g. 2026 Mick Boggis Studios" data-copy="1">
+        </div>
+        <div class="field">
+          <label>Territories</label>
+          <input type="text" data-rights-field="territories" placeholder="Worldwide" data-copy="1">
+        </div>
+      </div>
+      <div class="field-grid" style="margin-top:8px;">
+        <div class="field"><div class="checkbox-row"><input type="checkbox" data-rights-field="exclusive"><label>Exclusive Rights</label></div></div>
+        <div class="field"><div class="checkbox-row"><input type="checkbox" data-rights-field="workforhire"><label>Work for Hire</label></div></div>
+        <div class="field"><div class="checkbox-row"><input type="checkbox" data-rights-field="samplescleared"><label>Samples Cleared</label></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-nav" style="margin:20px 0 8px;">
+    <button class="nav-btn" onclick="goToTrackPage(__PREV__)">← Previous</button>
+    <button class="nav-btn primary">Next Track →</button>
+  </div>
+</div>`;
+
+function buildTrackPages() {
+  const n = parseInt(document.getElementById('track_count').value, 10) || 1;
+
+  // Preserve data if pages already exist
+  let existing = [];
+  if (pagesBuilt) { existing = collectAllTrackData(); }
+
+  const container = document.getElementById('trackPages');
+  container.innerHTML = '';
+  for (let i = 0; i < n; i++) {
+    const div = document.createElement('div');
+    div.innerHTML = TRACK_TPL
+      .replace(/__IDX__/g, String(i))
+      .replace(/__NUM__/g, String(i + 1))
+      .replace(/__PREV__/g, String(i - 1));
+    const page = div.firstElementChild;
+    // Dropdowns
+    cloneOptions('tmpl-version-types', page.querySelector('[data-track-field="version_type"]'));
+    cloneOptions('tmpl-languages', page.querySelector('[data-track-field="language"]'));
+    cloneOptions('tmpl-genres', page.querySelector('[data-track-field="genre"]'));
+    cloneOptions('tmpl-subgenres', page.querySelector('[data-track-field="subgenre"]'));
+    cloneOptions('tmpl-parental-warning', page.querySelector('[data-track-field="parental_warning"]'));
+    cloneOptions('tmpl-musical-keys', page.querySelector('[data-track-field="key"]'));
+    cloneOptions('tmpl-time-signatures', page.querySelector('[data-track-field="time_signature"]'));
+    // Defaults
+    page.querySelector('[data-track-field="version_type"]').value = 'Original';
+    page.querySelector('[data-track-field="parental_warning"]').value = 'NotExplicit';
+    page.querySelector('[data-track-field="language"]').value = 'en';
+    page.querySelector('[data-tech-field="format"]').value = 'WAV';
+    page.querySelector('[data-tech-field="samplerate"]').value = '48000';
+    page.querySelector('[data-tech-field="bitdepth"]').value = '24';
+    page.querySelector('[data-tech-field="channels"]').value = 'Stereo';
+    page.querySelector('[data-session-field="mast_date"]').value = new Date().toISOString().split('T')[0];
+
+    // Prefill from previous track
+    if (i > 0 && existing[i - 1]) { prefillFromPrevious(page, existing[i - 1]); }
+    else if (i > 0) { prefillFromPage(page, container.children[i - 1]); }
+
+    // Seed rows
+    addMusicalWork(page);
+    addWriter(page);
+
+    // Next button: validate + advance; on last page it reveals the submit block
+    const nextBtn = page.querySelector('.step-nav .nav-btn.primary');
+    nextBtn.onclick = function () {
+      if (validateTrackPage(i)) {
+        if (i === n - 1) { document.getElementById('submitSection').style.display = ''; document.getElementById('submitSection').scrollIntoView({ behavior: 'smooth' }); }
+        else { goToTrackPage(i + 1); }
+      } else { showToast('⚠ Complete the highlighted fields on this track before continuing', 'error'); }
+    };
+
+    container.appendChild(page);
+  }
+  pagesBuilt = true;
+
+  // Restore any previously entered data (track count changed)
+  existing.forEach(function (data, i) {
+    if (i < n && data) applyTrackData(container.children[i], data);
+  });
+
+  buildStepperChips(n);
+  populatePersonPickers();
+}
+
+/* Prefill helpers — Artist/Writer + every data-copy field (recording & mixing sessions) */
+function prefillFromPage(page, prevPage) {
+  if (!prevPage) return;
+  ['artist', 'writer'].forEach(function (f) {
+    const prev = prevPage.querySelector(`[data-track-field="${f}"]`);
+    const cur = page.querySelector(`[data-track-field="${f}"]`);
+    if (prev && cur && prev.value.trim()) cur.value = prev.value.trim();
+  });
+  page.querySelectorAll('[data-copy="1"]').forEach(function (cur) {
+    const sel = cur.dataset.sessionField ? `[data-session-field="${cur.dataset.sessionField}"]`
+      : cur.dataset.rightsField ? `[data-rights-field="${cur.dataset.rightsField}"]` : null;
+    if (!sel) return;
+    const prev = prevPage.querySelector(sel);
+    if (prev && prev.value && prev.value.trim()) {
+      if (cur.type === 'checkbox') cur.checked = prev.checked; else cur.value = prev.value;
+    }
+  });
+}
+function prefillFromPrevious(page, data) {
+  ['artist', 'writer'].forEach(function (f) {
+    const cur = page.querySelector(`[data-track-field="${f}"]`);
+    if (cur && data[f]) cur.value = data[f];
+  });
+  const map = { rec_type: 'recording_session', rec_date: 'recording_session', rec_venue: 'recording_session', rec_room: 'recording_session', rec_city: 'recording_session', rec_country: 'recording_session',
+    mix_type: 'mixing_session', mix_date: 'mixing_session', mix_venue: 'mixing_session', mix_room: 'mixing_session', mix_city: 'mixing_session', mix_country: 'mixing_session' };
+  page.querySelectorAll('[data-copy="1"]').forEach(function (cur) {
+    const key = cur.dataset.sessionField || cur.dataset.rightsField;
+    if (!key) return;
+    const src = data[map[key]] || data.rights || {};
+    const val = src[key.replace(/^(rec|mix)_/, '')];
+    if (val !== undefined && val !== '' && val !== null) { if (cur.type === 'checkbox') cur.checked = !!val; else cur.value = val; }
+  });
+}
+
+/* Stepper chips */
+function buildStepperChips(n) {
+  const chips = document.getElementById('stepperChips');
+  chips.innerHTML = '';
+  for (let i = 0; i < n; i++) {
+    const chip = document.createElement('span');
+    chip.className = 'step-chip';
+    chip.textContent = 'Track ' + (i + 1);
+    chip.onclick = function () { goToTrackPage(i); };
+    chips.appendChild(chip);
+  }
+  updateStepper();
+}
+function updateStepper() {
+  const chips = document.querySelectorAll('#stepperChips .step-chip');
+  chips.forEach(function (chip, i) {
+    chip.classList.toggle('current', i === currentPage);
+    chip.classList.toggle('done', i < currentPage);
+  });
+}
+
+/* Navigation */
+function showProjectPage() {
+  currentPage = -1;
+  document.getElementById('page-project').style.display = '';
+  document.getElementById('stepper').style.display = 'none';
+  document.getElementById('submitSection').style.display = 'none';
+  document.querySelectorAll('#trackPages .track-page').forEach(function (p) { p.classList.remove('active'); });
+  updateStepper();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function startTracks() {
+  if (!document.getElementById('proj_title').value.trim() || !document.getElementById('proj_type').value) {
+    showToast('⚠ Complete Project Title and Project Type first', 'error');
+    return;
+  }
+  buildTrackPages();
+  goToTrackPage(0);
+}
+function goToTrackPage(n) {
+  if (n === -1) { showProjectPage(); return; }
+  if (!pagesBuilt) { buildTrackPages(); }
+  const pages = document.querySelectorAll('#trackPages .track-page');
+  if (n < 0 || n >= pages.length) return;
+  currentPage = n;
+  document.getElementById('page-project').style.display = 'none';
+  document.getElementById('stepper').style.display = '';
+  document.querySelectorAll('#trackPages .track-page').forEach(function (p, i) { p.classList.toggle('active', i === n); });
+  // Prefill from previous track on first entry (only if this page is still untouched)
+  if (n > 0) {
+    const cur = pages[n], prev = pages[n - 1];
+    if (!cur.dataset.touched) {
+      const hasData = cur.querySelector('[data-track-field="artist"]').value.trim() ||
+        cur.querySelector('[data-track-field="writer"]').value.trim() ||
+        cur.querySelector('[data-session-field="rec_venue"]').value.trim() ||
+        cur.querySelector('[data-session-field="mix_venue"]').value.trim();
+      if (hasData) {
+        cur.dataset.touched = '1';
+      } else {
+        prefillFromPage(cur, prev);
+        const nowHas = cur.querySelector('[data-track-field="artist"]').value.trim() ||
+          cur.querySelector('[data-track-field="writer"]').value.trim() ||
+          cur.querySelector('[data-session-field="rec_venue"]').value.trim() ||
+          cur.querySelector('[data-session-field="mix_venue"]').value.trim();
+        if (nowHas) cur.dataset.touched = '1';
+      }
+    }
+  }
+  populatePersonPickers();
+  updateStepper();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* Per-track page validation (used before Next) */
+function validateTrackPage(idx) {
+  const page = document.querySelectorAll('#trackPages .track-page')[idx];
+  if (!page) return false;
+  let ok = true;
+  const titleEl = page.querySelector('[data-track-field="title"]');
+  if (!titleEl.value.trim()) { titleEl.closest('.field').classList.add('invalid'); ok = false; }
+  else { titleEl.closest('.field').classList.remove('invalid'); }
+  const isrcEl = page.querySelector('[data-track-field="isrc"]');
+  if (isrcEl.value.trim() && !validateISRC(isrcEl)) ok = false;
+  page.querySelectorAll('[data-writer-field="name"]').forEach(function (el) {
+    if (!el.value.trim()) { el.closest('.field').classList.add('invalid'); ok = false; } else { el.closest('.field').classList.remove('invalid'); }
+  });
+  page.querySelectorAll('[data-contrib-field="name"]').forEach(function (el) {
+    if (el.readOnly) return;
+    if (!el.value.trim()) { el.closest('.field').classList.add('invalid'); ok = false; } else { el.closest('.field').classList.remove('invalid'); }
+  });
+  return ok;
+}
+
+/* ═══ REPEATING ROWS (per track page) ═══ */
+function addContributor(btn) {
+  const page = btn.closest('.track-page');
+  const container = page.querySelector('.contributorsGroup');
+  const idx = container.querySelectorAll('.repeat-item').length + 2;   // P1 = Mick (locked)
+  const div = document.createElement('div');
+  div.className = 'repeat-item';
+  div.innerHTML = `
+    <div class="item-header">
+      <span class="item-title">Contributor ${idx} <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(P${idx})</span></span>
+      <button class="remove-btn" onclick="removeRow(this, 'contrib')">Remove</button>
+    </div>
+    <div class="person-picker-row">
+      <div><label style="font-size:11px; color:var(--text-dim);">People Directory</label>
+      <select class="person-pick" onchange="pickPerson(this, 'contrib')" style="width:100%; background:var(--bg-input); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:12.5px;"></select>
+      <div class="person-hint">Picking a person fills Name, ISNI and IPN from the directory — then edit freely.</div></div>
+    </div>
+    <div class="person-picked-banner"></div>
+    <div class="field-grid">
+      <div class="field">
+        <label>Name <span class="req">*</span></label>
+        <input type="text" data-contrib-field="name" placeholder="Contributor name">
+      </div>
+      <div class="field">
+        <label>Role</label>
+        <select data-contrib-field="role"></select>
       </div>
       <div class="field">
         <label>Instrument</label>
-        <select data-contrib-field="instrument" ${isMick ? 'disabled' : ''}></select>
+        <select data-contrib-field="instrument"></select>
       </div>
       <div class="field">
         <label>ISNI</label>
-        <input type="text" data-contrib-field="isni" ${isMick ? 'value="0000000514812832" readonly' : 'placeholder="0000 0000 0000 0000"'} onblur="validateISNI(this)">
+        <input type="text" data-contrib-field="isni" placeholder="0000 0000 0000 0000" onblur="validateISNI(this)">
         <div class="error-msg">16 digits (spaces OK)</div>
       </div>
       <div class="field">
         <label>IPN</label>
-        <input type="text" data-contrib-field="ipn" ${isMick ? 'readonly' : 'placeholder="IPN number"'}>
+        <input type="text" data-contrib-field="ipn" placeholder="IPN number">
       </div>
     </div>
     <div class="field-grid" style="margin-top:12px;">
-      <div class="field"><div class="checkbox-row"><input type="checkbox" data-contrib-field="main_artist" ${isMick ? 'disabled' : ''}><label>Main Artist</label></div></div>
+      <div class="field"><div class="checkbox-row"><input type="checkbox" data-contrib-field="main_artist"><label>Main Artist</label></div></div>
     </div>
   `;
+  cloneOptions('tmpl-contributor-roles', div.querySelector('[data-contrib-field="role"]'));
+  cloneOptions('tmpl-performer-roles', div.querySelector('[data-contrib-field="instrument"]'));
   container.appendChild(div);
-
-  // Populate selects
-  const roleSel = div.querySelector('[data-contrib-field="role"]');
-  const instSel = div.querySelector('[data-contrib-field="instrument"]');
-  cloneOptions('tmpl-contributor-roles', roleSel);
-  cloneOptions('tmpl-performer-roles', instSel);
-
-  if (isMick) {
-    roleSel.value = 'MasteringEngineer';
-    mickAdded = true;
-  }
-
-  updateProgress();
+  populatePersonPickers();
 }
 
-/* ═══ BULK COPY: TRACK 1 → ALL TRACKS ═══ */
-function bulkCopyFromFirstTrack() {
-  const items = document.querySelectorAll('#tracksGroup .repeat-item');
-  if (items.length < 2) { showToast('Add another track first.', 'error'); return; }
-  const first = items[0];
-  const fields = ['artist', 'writer', 'genre', 'subgenre', 'language', 'parental_warning'];
-  let filled = 0;
-  fields.forEach((field) => {
-    const source = first.querySelector(`[data-track-field="${field}"]`);
-    if (!source || !source.value.trim()) return;
-    filled++;
-    items.forEach((item, i) => {
-      if (i === 0) return;
-      const target = item.querySelector(`[data-track-field="${field}"]`);
-      if (target) target.value = source.value;
-    });
-  });
-  if (filled === 0) {
-    showToast('Fill in Artist, Writer, Genre, Sub-Genre, Language or Parental Advisory on Track 1 first.', 'error');
-  } else {
-    showToast(`✓ Copied ${filled} field${filled === 1 ? '' : 's'} from Track 1 to ${items.length - 1} other track${items.length - 1 === 1 ? '' : 's'}`, 'success');
-    updateProgress();
-  }
-}
-
-/* ═══ REPEATING: MUSICAL WORK ═══ */
-let musicalWorkCount = 0;
-function addMusicalWork() {
-  musicalWorkCount++;
-  const idx = musicalWorkCount;
-  const container = document.getElementById('musicalWorkGroup');
-
+function addMusicalWork(arg) {
+  const page = arg && arg.closest ? arg.closest('.track-page') : arg;
+  const container = page.querySelector('.musicalWorkGroup');
+  const idx = container.querySelectorAll('.repeat-item').length + 1;
   const div = document.createElement('div');
   div.className = 'repeat-item';
-  div.dataset.mwIndex = idx;
-
   div.innerHTML = `
     <div class="item-header">
-      <span class="item-title">Musical Work ${idx}</span>
-      <button class="remove-btn" onclick="removeItem(this, 'mw')" ${musicalWorkCount === 1 ? 'disabled' : ''}>Remove</button>
+      <span class="item-title">Musical Work ${idx} <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(W${idx})</span></span>
+      <button class="remove-btn" onclick="removeRow(this, 'mw')" ${idx === 1 ? 'disabled' : ''}>Remove</button>
     </div>
     <div class="field-grid">
       <div class="field">
@@ -1251,27 +1688,25 @@ function addMusicalWork() {
     </div>
   `;
   container.appendChild(div);
-
-  updateProgress();
 }
 
-/* ═══ REPEATING: WRITERS ═══ */
-let writerCount = 0;
-function addWriter() {
-  writerCount++;
-  const idx = writerCount;
-  const container = document.getElementById('writersGroup');
-  const ref = 'W' + idx;
-
+function addWriter(arg) {
+  const page = arg && arg.closest ? arg.closest('.track-page') : arg;
+  const container = page.querySelector('.writersGroup');
+  const idx = container.querySelectorAll('.repeat-item').length + 1;
   const div = document.createElement('div');
   div.className = 'repeat-item';
-  div.dataset.writerIndex = idx;
-
   div.innerHTML = `
     <div class="item-header">
-      <span class="item-title">Writer ${idx} <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(${ref})</span></span>
-      <button class="remove-btn" onclick="removeItem(this, 'writer')" ${writerCount === 1 ? 'disabled' : ''}>Remove</button>
+      <span class="item-title">Writer ${idx} <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(W${idx})</span></span>
+      <button class="remove-btn" onclick="removeRow(this, 'writer')" ${idx === 1 ? 'disabled' : ''}>Remove</button>
     </div>
+    <div class="person-picker-row">
+      <div><label style="font-size:11px; color:var(--text-dim);">People Directory</label>
+      <select class="person-pick" onchange="pickPerson(this, 'writer')" style="width:100%; background:var(--bg-input); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:12.5px;"></select>
+      <div class="person-hint">Picking a person fills Name, ISNI and Society (from IPI record) — then edit per track.</div></div>
+    </div>
+    <div class="person-picked-banner"></div>
     <div class="field-grid">
       <div class="field">
         <label>Writer Name <span class="req">*</span></label>
@@ -1295,133 +1730,77 @@ function addWriter() {
         <label>Share %</label>
         <input type="number" data-writer-field="share" min="0" max="100" step="0.01" placeholder="50">
       </div>
-      <div class="field">
-        <label>Work Reference</label>
-        <input type="text" data-writer-field="work_ref" value="${ref}" placeholder="${ref}">
-      </div>
     </div>
   `;
-  container.appendChild(div);
-
   cloneOptions('tmpl-writer-roles', div.querySelector('[data-writer-field="role"]'));
-  cloneOptions('tmpl-societies', div.querySelector('[data-writer-field="society"]'));
-
   div.querySelector('[data-writer-field="role"]').value = 'Composer';
-
-  updateProgress();
+  cloneOptions('tmpl-societies', div.querySelector('[data-writer-field="society"]'));
+  container.appendChild(div);
+  populatePersonPickers();
 }
 
-/* ═══ REMOVE ITEM ═══ */
-function removeItem(btn, type) {
+function removeRow(btn, type) {
   if (btn.disabled) return;
   const item = btn.closest('.repeat-item');
+  const container = item.parentElement;
   item.remove();
-  // Renumber remaining items
-  if (type === 'track') {
-    document.querySelectorAll('#tracksGroup .repeat-item').forEach((el, i) => {
-      const newIdx = i + 1;
-      const title = el.querySelector('.item-title');
-      if (title) title.innerHTML = `Track ${newIdx} <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(A${newIdx})</span>`;
-    });
-    trackCount = document.querySelectorAll('#tracksGroup .repeat-item').length;
-    // Re-enable remove if only 1 left
-    if (trackCount === 1) { document.querySelector('#tracksGroup .remove-btn').disabled = true; }
-  } else if (type === 'contributor') {
-    document.querySelectorAll('#contributorsGroup .repeat-item').forEach((el, i) => {
-      const newIdx = i + 1;
-      const title = el.querySelector('.item-title');
-      const isLocked = el.classList.contains('locked');
-      if (title) title.innerHTML = `Contributor ${newIdx} <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(P${newIdx})</span>${isLocked ? '<span class="badge-locked">LOCKED</span>' : ''}`;
-    });
-    contributorCount = document.querySelectorAll('#contributorsGroup .repeat-item').length;
-    if (contributorCount === 1) { document.querySelector('#contributorsGroup .remove-btn:not(:disabled)')?.remove?.(); }
-  } else if (type === 'mw') {
-    document.querySelectorAll('#musicalWorkGroup .repeat-item').forEach((el, i) => {
-      const newIdx = i + 1;
-      const title = el.querySelector('.item-title');
-      if (title) title.textContent = `Musical Work ${newIdx}`;
-    });
-    musicalWorkCount = document.querySelectorAll('#musicalWorkGroup .repeat-item').length;
-    if (musicalWorkCount === 1) { document.querySelector('#musicalWorkGroup .remove-btn').disabled = true; }
-  } else if (type === 'writer') {
-    document.querySelectorAll('#writersGroup .repeat-item').forEach((el, i) => {
-      const newIdx = i + 1;
-      const title = el.querySelector('.item-title');
-      if (title) title.innerHTML = `Writer ${newIdx} <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(W${newIdx})</span>`;
-    });
-    writerCount = document.querySelectorAll('#writersGroup .repeat-item').length;
-    if (writerCount === 1) { document.querySelector('#writersGroup .remove-btn').disabled = true; }
-  }
-  updateProgress();
+  // Renumber remaining rows in this track's group
+  const refPrefix = type === 'mw' || type === 'writer' ? 'W' : 'P';
+  Array.from(container.children).forEach(function (el, i) {
+    const title = el.querySelector('.item-title');
+    if (!title) return;
+    const num = i + 1;
+    const label = type === 'mw' ? 'Musical Work' : (type === 'writer' ? 'Writer' : 'Contributor');
+    title.innerHTML = `${label} ${num} <span style="color:var(--text-dim); font-weight:400; margin-left:4px;">(${refPrefix}${num})</span>`;
+    const rm = el.querySelector('.remove-btn');
+    if (rm) rm.disabled = (num === 1);
+  });
 }
 
 /* ═══════════════════════════════════════════════════════════
-   VALIDATION
+   VALIDATORS (shared)
    ═══════════════════════════════════════════════════════════ */
 function validateISRC(el) {
   const val = el.value.trim();
   if (!val) return true;
   const re = /^[A-Z]{2}-[A-Z0-9]{3}-\d{2}-\d{5}$/;
   const field = el.closest('.field');
-  if (!re.test(val)) {
-    field.classList.add('invalid');
-    return false;
-  }
+  if (!re.test(val)) { field.classList.add('invalid'); return false; }
   field.classList.remove('invalid');
   return true;
 }
-
 function validateISWC(el) {
   const val = el.value.trim();
   if (!val) return true;
   const re = /^T-\d{9}-\d$/;
   const field = el.closest('.field');
-  if (!re.test(val)) {
-    field.classList.add('invalid');
-    return false;
-  }
+  if (!re.test(val)) { field.classList.add('invalid'); return false; }
   field.classList.remove('invalid');
   return true;
 }
-
 function validateISNI(el) {
   const val = el.value.replace(/\s/g, '');
   if (!val) return true;
   const field = el.closest('.field');
-  if (!/^\d{16}$/.test(val)) {
-    field.classList.add('invalid');
-    return false;
-  }
+  if (!/^\d{16}$/.test(val)) { field.classList.add('invalid'); return false; }
   field.classList.remove('invalid');
   return true;
 }
 
 /* ═══════════════════════════════════════════════════════════
-   PROGRESS BAR
+   PROGRESS
    ═══════════════════════════════════════════════════════════ */
 function updateProgress() {
-  const totalFields = document.querySelectorAll('input[data-required="true"], select[data-required="true"], input[data-track-field="title"], input[data-mw-field="title"], input[data-writer-field="name"], #proj_title'.split(',')).length;
   const allInputs = document.querySelectorAll('input:not([type="checkbox"]):not([type="hidden"]):not([readonly]):not([disabled]), select:not([disabled])');
-  const filled = Array.from(allInputs).filter(el => el.value && el.value.trim() !== '').length;
+  const filled = Array.from(allInputs).filter(function (el) { return el.value && el.value.trim() !== ''; }).length;
   const pct = allInputs.length > 0 ? Math.round((filled / allInputs.length) * 100) : 0;
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressLabel').textContent = pct + '% complete';
-
-  // Active nav pill based on scroll position
-  const sections = document.querySelectorAll('.section');
-  let activeId = null;
-  sections.forEach(sec => {
-    const rect = sec.getBoundingClientRect();
-    if (rect.top < window.innerHeight / 2 && rect.bottom > window.innerHeight / 4) {
-      activeId = sec.id;
-    }
-  });
-  document.querySelectorAll('.nav-pill').forEach(p => {
-    p.classList.toggle('active', p.dataset.target === activeId);
-  });
+  const fill = document.getElementById('progressFill');
+  const label = document.getElementById('progressLabel');
+  if (fill) fill.style.width = pct + '%';
+  if (label) label.textContent = pct + '% complete';
 }
-
-window.addEventListener('scroll', updateProgress);
+document.addEventListener('input', updateProgress);
+document.addEventListener('change', updateProgress);
 
 /* ═══════════════════════════════════════════════════════════
    TOAST
@@ -1430,242 +1809,225 @@ function showToast(msg, type) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.className = 'toast show ' + (type || '');
-  setTimeout(() => t.className = 'toast ' + (type || ''), 3500);
+  setTimeout(function () { t.className = 'toast ' + (type || ''); }, 3500);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   COLLECT DATA (per track page DOM → object)
+   ═══════════════════════════════════════════════════════════ */
+function val(el) {
+  if (!el) return '';
+  if (el.type === 'checkbox') return el.checked;
+  return el.value.trim();
+}
+function collectTrackPage(page) {
+  const tf = function (f) { return val(page.querySelector(`[data-track-field="${f}"]`)); };
+  const sf = function (f) { return val(page.querySelector(`[data-session-field="${f}"]`)); };
+  const rf = function (f) { return val(page.querySelector(`[data-rights-field="${f}"]`)); };
+  const tech = function (f) { return val(page.querySelector(`[data-tech-field="${f}"]`)); };
+
+  const contributors = [];
+  // P1 = Mick Boggis (locked)
+  contributors.push({
+    party_ref: 'P1', name: 'Mick Boggis', role: 'MasteringEngineer', instrument: '',
+    isni: '0000000514812832', ipn: '', main_artist: false, locked: true
+  });
+  page.querySelectorAll('.contributorsGroup .repeat-item').forEach(function (item, i) {
+    const cf = function (f) { return val(item.querySelector(`[data-contrib-field="${f}"]`)); };
+    contributors.push({
+      party_ref: 'P' + (i + 2),
+      name: cf('name'), role: cf('role'), instrument: cf('instrument'),
+      isni: cf('isni').replace(/\s/g, ''), ipn: cf('ipn'), main_artist: cf('main_artist'), locked: false
+    });
+  });
+
+  const musicalWorks = [];
+  page.querySelectorAll('.musicalWorkGroup .repeat-item').forEach(function (item, i) {
+    musicalWorks.push({
+      work_ref: 'W' + (i + 1),
+      title: val(item.querySelector('[data-mw-field="title"]')),
+      iswc: val(item.querySelector('[data-mw-field="iswc"]'))
+    });
+  });
+
+  const writers = [];
+  page.querySelectorAll('.writersGroup .repeat-item').forEach(function (item, i) {
+    const wf = function (f) { return val(item.querySelector(`[data-writer-field="${f}"]`)); };
+    const share = parseFloat(wf('share'));
+    writers.push({
+      work_ref: 'W' + (i + 1),
+      name: wf('name'), role: wf('role'),
+      isni: wf('isni').replace(/\s/g, ''), society: wf('society'),
+      share: isNaN(share) ? 0 : share
+    });
+  });
+
+  const today = new Date().toISOString().split('T')[0];
+  return {
+    isrc: tf('isrc'), title: tf('title'), version_type: tf('version_type'),
+    duration: tf('duration'), recording_date: tf('recording_date'),
+    language: tf('language'), genre: tf('genre'), subgenre: tf('subgenre'),
+    parental_warning: tf('parental_warning'), key: tf('key'),
+    time_signature: tf('time_signature'), bpm: tf('bpm'),
+    artist: tf('artist'), writer: tf('writer'),
+    instrumental: tf('instrumental'), remastered: tf('remastered'),
+    recording_session: { type: sf('rec_type') || 'RecordingSession', date: sf('rec_date'), venue: sf('rec_venue'), room: sf('rec_room'), city: sf('rec_city'), country: sf('rec_country') },
+    mixing_session: { type: sf('mix_type') || 'MixingSession', date: sf('mix_date'), venue: sf('mix_venue'), room: sf('mix_room'), city: sf('mix_city'), country: sf('mix_country') },
+    mastering_date: sf('mast_date') || (page.dataset.touched === '1' ? today : ''),
+    contributors: contributors, musical_works: musicalWorks, writers: writers,
+    rights: {
+      controller: rf('controller'), share: parseInt(rf('share')) || 100,
+      p_line: rf('pline'), p_line_year: parseInt(rf('plineyear')) || new Date().getFullYear(),
+      c_line: rf('cline'), territories: rf('territories') || 'Worldwide',
+      exclusive: rf('exclusive'), workforhire: rf('workforhire'), samplescleared: rf('samplescleared')
+    },
+    technical: {
+      format: tech('format') || 'WAV', sample_rate: tech('samplerate') || '48000',
+      bit_depth: tech('bitdepth') || '24', channels: tech('channels') || 'Stereo',
+      file_name: tech('filename'), file_size: tech('filesize'),
+      loudness_lufs: tech('lufs'), sha256: tech('sha256'), fingerprint: tech('fingerprint')
+    }
+  };
+}
+function collectAllTrackData() {
+  return Array.from(document.querySelectorAll('#trackPages .track-page')).map(collectTrackPage);
+}
+
+/* Restore saved data back into a rebuilt page (used when track count changes) */
+function applyTrackData(page, data) {
+  if (!data) return;
+  var setT = function (f, v) { var el = page.querySelector(`[data-track-field="${f}"]`); if (el && v !== undefined && v !== '') el.value = v; };
+  Object.keys(data).forEach(function (k) {
+    if (['recording_session', 'mixing_session', 'contributors', 'musical_works', 'writers', 'rights', 'technical', 'mastering_date'].indexOf(k) === -1) setT(k, data[k]);
+  });
+  var sessMap = { rec_type: 'type', rec_date: 'date', rec_venue: 'venue', rec_room: 'room', rec_city: 'city', rec_country: 'country' };
+  if (data.recording_session) Object.keys(sessMap).forEach(function (f) { var el = page.querySelector(`[data-session-field="${f}"]`); if (el && data.recording_session[sessMap[f]]) el.value = data.recording_session[sessMap[f]]; });
+  if (data.mixing_session) { var mixMap = { mix_type: 'type', mix_date: 'date', mix_venue: 'venue', mix_room: 'room', mix_city: 'city', mix_country: 'country' }; Object.keys(mixMap).forEach(function (f) { var el = page.querySelector(`[data-session-field="${f}"]`); if (el && data.mixing_session[mixMap[f]]) el.value = data.mixing_session[mixMap[f]]; }); }
+  if (data.mastering_date) { var el = page.querySelector('[data-session-field="mast_date"]'); if (el) el.value = data.mastering_date; }
+  if (data.rights) { var rmap = { controller: 'controller', share: 'share', p_line: 'pline', p_line_year: 'plineyear', c_line: 'cline', territories: 'territories' }; Object.keys(rmap).forEach(function (f) { var el = page.querySelector(`[data-rights-field="${rmap[f]}"]`); if (el && data.rights[f] !== undefined && data.rights[f] !== '' && data.rights[f] !== null) el.value = data.rights[f]; }); }
+  if (data.technical) { var tmap = { format: 'format', sample_rate: 'samplerate', bit_depth: 'bitdepth', channels: 'channels', file_name: 'filename', file_size: 'filesize', loudness_lufs: 'lufs', sha256: 'sha256', fingerprint: 'fingerprint' }; Object.keys(tmap).forEach(function (f) { var el = page.querySelector(`[data-tech-field="${tmap[f]}"]`); if (el && data.technical[f]) el.value = data.technical[f]; }); }
 }
 
 /* ═══════════════════════════════════════════════════════════
    GENERATE JSON
    ═══════════════════════════════════════════════════════════ */
 function generateJSON() {
-  // Validate required top-level fields
   let errors = [];
 
   const projTitle = document.getElementById('proj_title');
   const projType = document.getElementById('proj_type');
-  [projTitle, projType].forEach(el => {
-    const field = el.closest('.field');
-    if (!el.value || !el.value.trim()) {
-      field.classList.add('invalid');
-      errors.push(el.id === 'proj_title' ? 'Project Title' : 'Project Type');
-    } else {
-      field.classList.remove('invalid');
-    }
+  [projTitle, projType].forEach(function (el) {
+    if (!el.value.trim()) { el.closest('.field').classList.add('invalid'); errors.push(el.id === 'proj_title' ? 'Project Title' : 'Project Type'); }
+    else { el.closest('.field').classList.remove('invalid'); }
   });
 
-  // Validate tracks
-  const trackItems = document.querySelectorAll('#tracksGroup .repeat-item');
-  if (trackItems.length === 0) errors.push('At least one track is required');
+  if (!pagesBuilt) { errors.push('No tracks — set Number of Tracks on the Project page'); }
 
-  // Validate ISRCs (optional — only checked for format if provided)
-  trackItems.forEach((item, i) => {
-    const isrcEl = item.querySelector('[data-track-field="isrc"]');
-    const titleEl = item.querySelector('[data-track-field="title"]');
-    if (isrcEl.value.trim() && !validateISRC(isrcEl)) {
-      errors.push(`Track ${i+1}: Invalid ISRC format`);
-    }
-    if (!titleEl.value.trim()) {
-      titleEl.closest('.field').classList.add('invalid');
-      errors.push(`Track ${i+1}: Title required`);
-    }
-  });
-
-  // Validate writers
-  document.querySelectorAll('#writersGroup .repeat-item').forEach((item, i) => {
-    const nameEl = item.querySelector('[data-writer-field="name"]');
-    if (!nameEl.value.trim()) {
-      nameEl.closest('.field').classList.add('invalid');
-      errors.push(`Writer ${i+1}: Name required`);
-    }
+  const pages = Array.from(document.querySelectorAll('#trackPages .track-page'));
+  pages.forEach(function (page, i) {
+    const titleEl = page.querySelector('[data-track-field="title"]');
+    const isrcEl = page.querySelector('[data-track-field="isrc"]');
+    if (!titleEl.value.trim()) { titleEl.closest('.field').classList.add('invalid'); errors.push(`Track ${i + 1}: Title required`); }
+    if (isrcEl.value.trim() && !validateISRC(isrcEl)) errors.push(`Track ${i + 1}: Invalid ISRC format`);
+    page.querySelectorAll('[data-writer-field="name"]').forEach(function (el, w) {
+      if (!el.value.trim()) { el.closest('.field').classList.add('invalid'); errors.push(`Track ${i + 1} Writer ${w + 1}: Name required`); }
+    });
+    page.querySelectorAll('.contributorsGroup [data-contrib-field="name"]').forEach(function (el, c) {
+      if (el.readOnly) return;
+      if (!el.value.trim()) { el.closest('.field').classList.add('invalid'); errors.push(`Track ${i + 1} Contributor ${c + 2}: Name required`); }
+    });
   });
 
   if (errors.length > 0) {
     showToast('⚠ ' + errors.length + ' validation error(s) — please fix highlighted fields', 'error');
-    // Expand first section with error
     const firstInvalid = document.querySelector('.field.invalid');
     if (firstInvalid) {
       const sec = firstInvalid.closest('.section');
       if (sec) sec.classList.remove('collapsed');
-      firstInvalid.scrollIntoView({behavior:'smooth', block:'center'});
+      firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
     return;
   }
 
-  // ── Build JSON ──
-  const today = new Date().toISOString().split('T')[0];
-
   const project = {
-    reference: "J1",
-    title: document.getElementById('proj_title').value.trim(),
-    type: document.getElementById('proj_type').value,
+    reference: 'J1',
+    title: projTitle.value.trim(),
+    type: projType.value,
     catalogue_number: document.getElementById('proj_catno').value.trim(),
     upc: document.getElementById('proj_upc').value.trim(),
-    label: document.getElementById('proj_label').value.trim()
+    label: document.getElementById('proj_label').value.trim(),
+    track_count: pages.length
   };
 
-  // Tracks
+  const people = getPeople();
+
   const tracks = [];
-  trackItems.forEach((item, i) => {
-    const ref = 'A' + (i + 1);
-    const getVal = (field) => {
-      const el = item.querySelector(`[data-track-field="${field}"]`);
-      if (!el) return '';
-      if (el.type === 'checkbox') return el.checked;
-      return el.value.trim();
+  const flatContributors = [];
+  const flatWriters = [];
+  const flatMusicalWorks = [];
+  const flatSessions = [];
+  const flatRights = [];
+
+  pages.forEach(function (page, i) {
+    const n = i + 1;
+    const data = collectTrackPage(page);
+    const trackRef = 'A' + n;
+    const oBase = i * 3;
+
+    const track = {
+      isrc: data.isrc,
+      resource_ref: trackRef,
+      title: data.title,
+      version_type: data.version_type,
+      duration: data.duration,
+      recording_date: data.recording_date,
+      language: data.language,
+      genre: data.genre,
+      subgenre: data.subgenre,
+      parental_warning: data.parental_warning,
+      key: data.key,
+      time_signature: data.time_signature,
+      bpm: data.bpm,
+      instrumental: data.instrumental,
+      remastered: data.remastered,
+      artist: data.artist,
+      writer: data.writer,
+      recording_session: Object.assign({ ref: 'O' + (oBase + 1), track_ref: trackRef }, data.recording_session),
+      mixing_session: Object.assign({ ref: 'O' + (oBase + 2), track_ref: trackRef }, data.mixing_session),
+      mastering_session: { ref: 'O' + (oBase + 3), track_ref: trackRef, type: 'MasteringSession', date: data.mastering_date, venue: 'Mick Boggis Studios', room: 'Studio One', city: 'Marazion', country: 'GB' },
+      contributors: data.contributors,
+      musical_works: data.musical_works,
+      writers: data.writers,
+      rights: data.rights,
+      technical: data.technical
     };
-    tracks.push({
-      isrc: getVal('isrc'),
-      resource_ref: ref,
-      title: getVal('title'),
-      version_type: getVal('version_type'),
-      duration: getVal('duration'),
-      recording_date: getVal('recording_date'),
-      language: getVal('language'),
-      genre: getVal('genre'),
-      subgenre: getVal('subgenre'),
-      parental_warning: getVal('parental_warning'),
-      key: getVal('key'),
-      time_signature: getVal('time_signature'),
-      bpm: getVal('bpm'),
-      instrumental: getVal('instrumental'),
-      remastered: getVal('remastered'),
-      writer_refs: ['W1'],
-      display_artist_ref: 'P2',
-      artist: getVal('artist'),
-      writer: getVal('writer')
-    });
+    tracks.push(track);
+
+    // Flat compatibility lists (tagged with the owning track)
+    data.contributors.forEach(function (c) { flatContributors.push(Object.assign({ track_ref: trackRef }, c)); });
+    data.writers.forEach(function (w) { flatWriters.push(Object.assign({ track_ref: trackRef, work_ref: trackRef + '-' + w.work_ref }, w)); });
+    data.musical_works.forEach(function (w) { flatMusicalWorks.push(Object.assign({ track_ref: trackRef, work_ref: trackRef + '-' + w.work_ref }, w)); });
+    flatSessions.push(Object.assign({}, track.recording_session));
+    flatSessions.push(Object.assign({}, track.mixing_session));
+    flatSessions.push(Object.assign({}, track.mastering_session));
+    flatRights.push(Object.assign({ track_ref: trackRef }, data.rights));
   });
 
-  // Contributors
-  const contributors = [];
-  document.querySelectorAll('#contributorsGroup .repeat-item').forEach((item, i) => {
-    const ref = 'P' + (i + 1);
-    const getVal = (field) => {
-      const el = item.querySelector(`[data-contrib-field="${field}"]`);
-      if (!el) return '';
-      if (el.type === 'checkbox') return el.checked;
-      return el.value.trim();
-    };
-    contributors.push({
-      party_ref: ref,
-      name: getVal('name'),
-      role: getVal('role'),
-      isni: getVal('isni').replace(/\s/g,''),
-      ipn: getVal('ipn'),
-      instrument: getVal('instrument'),
-      main_artist: getVal('main_artist')
-    });
-  });
-
-  // Musical Works (embedded as writer_refs on tracks — stored separately)
-  const musicalWorks = [];
-  document.querySelectorAll('#musicalWorkGroup .repeat-item').forEach((item, i) => {
-    const getVal = (field) => {
-      const el = item.querySelector(`[data-mw-field="${field}"]`);
-      return el ? el.value.trim() : '';
-    };
-    musicalWorks.push({
-      work_ref: 'W' + (i + 1),
-      title: getVal('title'),
-      iswc: getVal('iswc')
-    });
-  });
-
-  // Writers
-  const writers = [];
-  document.querySelectorAll('#writersGroup .repeat-item').forEach((item, i) => {
-    const ref = 'W' + (i + 1);
-    const getVal = (field) => {
-      const el = item.querySelector(`[data-writer-field="${field}"]`);
-      return el ? el.value.trim() : '';
-    };
-    const share = parseFloat(getVal('share'));
-    writers.push({
-      work_ref: getVal('work_ref') || ref,
-      name: getVal('name'),
-      role: getVal('role'),
-      isni: getVal('isni').replace(/\s/g,''),
-      society: getVal('society'),
-      share: isNaN(share) ? 0 : share
-    });
-  });
-
-  // Sessions
-  const sessions = [];
-  // Recording
-  const recDate = document.getElementById('rec_date').value;
-  if (recDate || document.getElementById('rec_venue').value) {
-    sessions.push({
-      ref: 'O1',
-      type: document.getElementById('rec_type').value || 'RecordingSession',
-      date: recDate,
-      venue: document.getElementById('rec_venue').value.trim(),
-      room: document.getElementById('rec_room').value.trim(),
-      city: document.getElementById('rec_city').value.trim(),
-      country: document.getElementById('rec_country').value.trim()
-    });
-  }
-  // Mixing
-  const mixDate = document.getElementById('mix_date').value;
-  if (mixDate || document.getElementById('mix_venue').value) {
-    sessions.push({
-      ref: 'O2',
-      type: document.getElementById('mix_type').value || 'MixingSession',
-      date: mixDate,
-      venue: document.getElementById('mix_venue').value.trim(),
-      room: document.getElementById('mix_room').value.trim(),
-      city: document.getElementById('mix_city').value.trim(),
-      country: document.getElementById('mix_country').value.trim()
-    });
-  }
-  // Mastering (always included)
-  sessions.push({
-    ref: 'O3',
-    type: 'MasteringSession',
-    date: document.getElementById('mast_date').value || today,
-    venue: 'Mick Boggis Studios',
-    room: 'Studio One',
-    city: 'Marazion',
-    country: 'GB'
-  });
-
-  // Rights
-  const rights = [{
-    controller: document.getElementById('rights_controller').value.trim(),
-    share: parseInt(document.getElementById('rights_share').value) || 100,
-    p_line: document.getElementById('rights_pline').value.trim(),
-    p_line_year: parseInt(document.getElementById('rights_plineyear').value) || new Date().getFullYear(),
-    c_line: document.getElementById('rights_cline').value.trim(),
-    territories: document.getElementById('rights_territories').value.trim() || 'Worldwide'
-  }];
-
-  // Technical
-  const technical = {
-    format: document.getElementById('tech_format').value,
-    sample_rate: document.getElementById('tech_samplerate').value,
-    bit_depth: document.getElementById('tech_bitdepth').value,
-    channels: document.getElementById('tech_channels').value,
-    file_name: document.getElementById('tech_filename').value.trim(),
-    file_size: document.getElementById('tech_filesize').value.trim(),
-    loudness_lufs: document.getElementById('tech_lufs').value.trim(),
-    sha256: document.getElementById('tech_sha256').value.trim(),
-    fingerprint: document.getElementById('tech_fingerprint').value.trim()
-  };
-
-  // Assemble
   const data = {
-    project,
-    tracks,
-    contributors,
-    writers,
-    sessions,
-    rights,
-    technical,
-    musical_works: musicalWorks,
+    project: project,
+    people: people,
+    tracks: tracks,
+    contributors: flatContributors,
+    writers: flatWriters,
+    sessions: flatSessions,
+    rights: flatRights,
+    musical_works: flatMusicalWorks,
+    technical: tracks.length ? tracks[0].technical : {},
     metadata: {
       dpid: 'PA-DPIDA-2026082102-O',
       mastering_credit: 'Mastered by Mick Boggis',
       generated_at: new Date().toISOString(),
-      form_version: '1.0'
+      form_version: '2.0'
     }
   };
 
@@ -1673,9 +2035,8 @@ function generateJSON() {
   const jsonStr = JSON.stringify(data, null, 2);
   const safeTitle = (project.title || 'metadata').replace(/[^a-zA-Z0-9_-]/g, '_');
 
-  // Local download fallback helper
   function downloadJSON() {
-    const blob = new Blob([jsonStr], {type: 'application/json'});
+    const blob = new Blob([jsonStr], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -1686,15 +2047,7 @@ function generateJSON() {
     URL.revokeObjectURL(url);
   }
 
-  // Paste your deployed Apps Script Web App URL between the quotes below.
-  // Until then, the form falls back to downloading the JSON.
   const ENDPOINT = 'https://script.google.com/macros/s/AKfycbzJCrhL_Yr5lUbgK7ZMg_c1kDygqY6qS2BcOzWi-H2r9DJe5T_LCD0GqTkgX65A6ALXnA/exec';
-
-  if (!ENDPOINT || ENDPOINT.indexOf('PASTE_YOUR') === 0) {
-    downloadJSON();
-    showToast('✓ JSON downloaded — email it to mickmastering@gmail.com', 'success');
-    return;
-  }
 
   const btn = document.querySelector('.submit-btn');
   const originalLabel = btn ? btn.textContent : '';
@@ -1704,12 +2057,12 @@ function generateJSON() {
   fetch(ENDPOINT, {
     method: 'POST',
     mode: 'no-cors',
-    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: jsonStr
-  }).then(() => {
+  }).then(function () {
     showToast('✓ Sent to Mick Boggis Studios — thank you!', 'success');
     if (btn) { btn.textContent = '✓ Submitted'; }
-  }).catch(() => {
+  }).catch(function () {
     downloadJSON();
     showToast('⚠ Could not send online — JSON downloaded, please email it to mickmastering@gmail.com', 'error');
     if (btn) { btn.disabled = false; btn.textContent = originalLabel; }
@@ -1717,8 +2070,25 @@ function generateJSON() {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   BOOT
+   INIT
    ═══════════════════════════════════════════════════════════ */
+function init() {
+  const typeSel = document.getElementById('proj_type');
+  LISTS.ProjectTypes.forEach(function (v) {
+    const opt = document.createElement('option');
+    opt.value = v; opt.textContent = v;
+    typeSel.appendChild(opt);
+  });
+  addPerson();   // seed one person row in the directory
+  // Mark a track page as touched the moment any of its fields is edited,
+  // so prefill-on-entry and the mastering-date fallback behave correctly.
+  document.addEventListener('input', function (e) {
+    const pg = e.target.closest && e.target.closest('.track-page');
+    if (pg) pg.dataset.touched = '1';
+  });
+  updateProgress();
+}
+
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
 } else {
