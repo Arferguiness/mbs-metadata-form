@@ -13,17 +13,17 @@
 :root {
   --bg:          #efece4;
   --bg-panel:    #f6f4ee;
-  --bg-card:     #ffffff;
-  --bg-input:    #ffffff;
-  --border:      #ddd6c8;
+  --bg-card:     #faf8f1;
+  --bg-input:    #fdfbf4;
+  --border:      #d6cdba;
   --border-focus:#b08d2d;
   --gold:        #a9822a;
   --gold-dim:    #8f6d1e;
   --gold-soft:   #b8963c;
   --gold-glow:   rgba(169,130,42,0.12);
   --ink:         #1c1b18;
-  --text:        #2c2a26;
-  --text-dim:    #8a8474;
+  --text:        #26241f;
+  --text-dim:    #6b6455;
   --text-bright: #14130f;
   --red:         #b3402f;
   --green:       #4a7a45;
@@ -44,8 +44,8 @@ body {
     radial-gradient(circle at 88% 92%, rgba(169,130,42,0.05), transparent 40%),
     var(--bg);
   color: var(--text);
-  line-height: 1.6;
-  font-size: 14px;
+  line-height: 1.65;
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -142,7 +142,7 @@ body {
   transition: width 0.4s ease;
 }
 .progress-label {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--gold-dim);
   font-weight: 600;
   white-space: nowrap;
@@ -189,9 +189,9 @@ body {
 
 /* ── Container ── */
 .container {
-  max-width: 920px;
+  max-width: 860px;
   margin: 0 auto;
-  padding: 20px 16px 80px;
+  padding: 26px 18px 90px;
 }
 
 /* ── Section ── */
@@ -220,7 +220,7 @@ body {
 .section:not(.collapsed) .section-header { border-bottom-color: var(--border); }
 .section-header h2 {
   font-family: 'Georgia', 'Times New Roman', serif;
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 400;
   color: var(--ink);
   letter-spacing: 0.3px;
@@ -243,34 +243,35 @@ body {
   box-shadow: 0 2px 6px rgba(143,109,30,0.3);
 }
 .section-header .toggle {
-  color: var(--gold);
-  font-size: 18px;
+  color: var(--gold-dim);
+  font-size: 22px;
+  font-weight: 700;
   transition: transform 0.3s ease;
 }
 .section.collapsed .toggle { transform: rotate(-90deg); }
 .section.collapsed .section-body { display: none; }
 .section-body {
-  padding: 20px 20px 24px;
+  padding: 24px 24px 28px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 
 /* ── Field grid ── */
 .field-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 20px 26px;
 }
 .field {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 7px;
 }
 .field label {
-  font-size: 12px;
-  color: var(--text-dim);
-  font-weight: 500;
+  font-size: 13.5px;
+  color: var(--text);
+  font-weight: 600;
 }
 .field label .req { color: var(--red); margin-left: 2px; }
 .field input,
@@ -279,9 +280,9 @@ body {
   background: var(--bg-input);
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 9px 12px;
+  padding: 11px 13px;
   color: var(--text);
-  font-size: 13px;
+  font-size: 15px;
   font-family: inherit;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   outline: none;
@@ -295,7 +296,7 @@ body {
 }
 .field input::placeholder, .field textarea::placeholder { color: #b9b1a0; }
 .field input[type="checkbox"] {
-  width: 18px; height: 18px;
+  width: 20px; height: 20px;
   accent-color: var(--gold);
   cursor: pointer;
 }
@@ -307,7 +308,7 @@ body {
   border-style: dashed;
 }
 .field .error-msg {
-  font-size: 11px;
+  font-size: 12.5px;
   color: var(--red);
   display: none;
 }
@@ -324,7 +325,7 @@ body {
   align-items: center;
   gap: 8px;
 }
-.checkbox-row label { color: var(--text); font-size: 13px; }
+.checkbox-row label { color: var(--text); font-size: 14.5px; font-weight: 500; }
 
 /* ── Repeating group ── */
 .repeat-group {
@@ -348,12 +349,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 .repeat-item .item-header .item-title {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
-  color: var(--gold);
+  color: var(--gold-dim);
   letter-spacing: 0.5px;
 }
 .repeat-item .item-header .item-title .badge-locked {
@@ -369,9 +370,9 @@ body {
   background: transparent;
   border: 1px solid var(--border);
   color: var(--text-dim);
-  padding: 4px 12px;
+  padding: 6px 14px;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 13px;
   cursor: pointer;
   transition: var(--transition);
 }
@@ -381,10 +382,10 @@ body {
 .add-btn {
   background: transparent;
   border: 1px dashed var(--gold-dim);
-  color: var(--gold);
-  padding: 10px 20px;
+  color: var(--gold-dim);
+  padding: 12px 22px;
   border-radius: 6px;
-  font-size: 13px;
+  font-size: 14px;
   cursor: pointer;
   transition: var(--transition);
   font-weight: 500;
@@ -405,9 +406,9 @@ body {
   background: linear-gradient(135deg, var(--gold-dim), var(--gold-soft));
   color: #fffdf7;
   border: none;
-  padding: 17px 54px;
+  padding: 18px 58px;
   border-radius: 8px;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -432,7 +433,7 @@ body {
   border-radius: 8px;
   padding: 14px 24px;
   color: var(--text);
-  font-size: 13px;
+  font-size: 14px;
   box-shadow: var(--shadow);
   z-index: 1000;
   opacity: 0;
@@ -449,10 +450,10 @@ body {
   border: 1px solid rgba(169,130,42,0.35);
   border-left: 3px solid var(--gold);
   border-radius: 8px;
-  padding: 13px 18px;
-  margin-bottom: 20px;
-  font-size: 12.5px;
-  color: #5a4a20;
+  padding: 14px 20px;
+  margin-bottom: 22px;
+  font-size: 14px;
+  color: #4a3c14;
   display: flex;
   gap: 10px;
   align-items: center;
@@ -463,8 +464,8 @@ body {
 /* ── Footer ── */
 .footer {
   text-align: center;
-  padding: 20px;
-  font-size: 11px;
+  padding: 22px;
+  font-size: 12.5px;
   color: var(--text-dim);
   border-top: 1px solid var(--border);
 }
@@ -476,9 +477,10 @@ body {
   .header .subtitle { font-size: 11px; letter-spacing: 2px; }
   .field-grid { grid-template-columns: 1fr; }
   .nav-pills { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; }
-  .container { padding: 12px 8px 60px; }
-  .section-body { padding: 16px 12px 20px; }
-  .repeat-item { padding: 12px 14px; }
+  .container { padding: 14px 10px 60px; }
+  .section-body { padding: 18px 14px 22px; }
+  .repeat-item { padding: 14px 16px; }
+  .step-chip { padding: 7px 16px; font-size: 13px; }
 }
 
 /* Scrollbar styling */
@@ -509,9 +511,9 @@ body {
   border: 1px solid var(--border);
   background: var(--bg-panel);
   color: var(--text-dim);
-  padding: 5px 14px;
+  padding: 7px 16px;
   border-radius: 18px;
-  font-size: 12px;
+  font-size: 13px;
   cursor: pointer;
   transition: var(--transition);
   white-space: nowrap;
@@ -535,9 +537,9 @@ body {
   background: transparent;
   border: 1px solid var(--gold-dim);
   color: var(--gold-dim);
-  padding: 10px 22px;
+  padding: 12px 26px;
   border-radius: 6px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition);
@@ -569,9 +571,9 @@ body {
   margin-bottom: 10px;
 }
 .person-item .item-header .item-title {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
-  color: var(--gold);
+  color: var(--gold-dim);
   letter-spacing: 0.5px;
 }
 .id-row {
@@ -585,9 +587,9 @@ body {
   background: var(--bg-input);
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 7px 10px;
+  padding: 8px 11px;
   color: var(--text);
-  font-size: 12.5px;
+  font-size: 14px;
   font-family: inherit;
   outline: none;
   width: 100%;
@@ -598,9 +600,9 @@ body {
   border: 1px solid var(--border);
   color: var(--text-dim);
   border-radius: 6px;
-  font-size: 13px;
+  font-size: 14px;
   cursor: pointer;
-  padding: 6px 0;
+  padding: 7px 0;
   transition: var(--transition);
 }
 .id-row .id-remove:hover { border-color: var(--red); color: var(--red); }
@@ -621,21 +623,21 @@ body {
   padding: 10px 12px;
   margin-bottom: 12px;
 }
-.person-picker-row .person-hint { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+.person-picker-row .person-hint { font-size: 12.5px; color: var(--text-dim); margin-top: 5px; }
 .person-picker-row .person-pick {
   min-width: 220px;
 }
 .person-picked-banner {
-  font-size: 11.5px;
+  font-size: 13px;
   color: var(--gold-dim);
   background: rgba(169,130,42,0.07);
   border-left: 3px solid var(--gold);
-  padding: 4px 10px;
+  padding: 6px 12px;
   margin: 8px 0;
   border-radius: 0 4px 4px 0;
 }
 .id-refs {
-  font-size: 11px;
+  font-size: 12.5px;
   color: var(--text-dim);
   background: #f6f3ea;
   border-radius: 4px;
@@ -663,7 +665,7 @@ body {
 <!-- ═══ NAV PILLS ═══ -->
 <!-- ═══ STEPPER (track pages) ═══ -->
 <div class="stepper" id="stepper" style="display:none;">
-  <span style="font-size:11px; color:var(--text-dim); letter-spacing:1px; text-transform:uppercase; margin-right:6px;">Tracks</span>
+  <span style="font-size:12px; color:var(--text-dim); font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-right:6px;">Tracks</span>
   <div id="stepperChips" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
 </div>
 
@@ -677,7 +679,7 @@ body {
     </div>
 
     <!-- ═══ 01 PROJECT ═══ -->
-    <div class="section" id="sec-project">
+    <div class="section collapsed" id="sec-project">
       <div class="section-header" onclick="toggleSection('sec-project')">
         <h2><span class="num">1</span> Project</h2>
         <span class="toggle">▾</span>
@@ -731,9 +733,9 @@ body {
     </div>
 
     <!-- ═══ PEOPLE DIRECTORY ═══ -->
-    <div class="section" id="sec-people">
+    <div class="section collapsed" id="sec-people">
       <div class="section-header" onclick="toggleSection('sec-people')">
-        <h2><span class="num">2</span> People Directory <span style="font-size:11px; color:var(--text-dim); font-weight:400; margin-left:6px;">(shared across all tracks)</span></h2>
+        <h2><span class="num">2</span> People Directory <span style="font-size:12.5px; color:var(--text-dim); font-weight:400; margin-left:6px;">(shared across all tracks)</span></h2>
         <span class="toggle">▾</span>
       </div>
       <div class="section-body">
@@ -758,7 +760,7 @@ body {
   <!-- ═══ SUBMIT (final track page footer) ═══ -->
   <div class="submit-section" id="submitSection" style="display:none;">
     <button class="submit-btn" onclick="generateJSON()">Send</button>
-    <p style="margin-top:14px; color:var(--text-dim); font-size:12px;">Your details are sent securely to Mick Boggis Studios. If sending fails, the JSON file downloads automatically — email it to <strong style="color:var(--gold)">mickmastering@gmail.com</strong></p>
+    <p style="margin-top:16px; color:var(--text-dim); font-size:13px;">Your details are sent securely to Mick Boggis Studios. If sending fails, the JSON file downloads automatically — email it to <strong style="color:var(--gold)">mickmastering@gmail.com</strong></p>
   </div>
 
 </div>
@@ -867,7 +869,7 @@ function addPerson() {
       </div>
     </div>
     <div style="margin-top:10px;">
-      <div style="font-size:11px; color:var(--text-dim); letter-spacing:1px; text-transform:uppercase; margin-bottom:4px;">ID Numbers (IPI / IPN / ISNI)</div>
+      <div style="font-size:12.5px; color:var(--text-dim); letter-spacing:1px; text-transform:uppercase; margin-bottom:5px;">ID Numbers (IPI / IPN / ISNI)</div>
       <div class="id-rows"></div>
       <button class="add-btn" style="margin-top:8px;" onclick="addIdRecord(this)">+ Add ID</button>
     </div>
@@ -891,7 +893,7 @@ function addIdRecord(btn) {
     <input type="text" data-id-field="number" placeholder="Number">
     <input type="text" data-id-field="name" placeholder="Registered name (optional)">
     <select data-id-field="society"></select>
-    <label style="font-size:11px; color:var(--text-dim); display:flex; align-items:center; gap:4px;"><input type="checkbox" data-id-field="isdefault">Def</label>
+    <label style="font-size:12px; color:var(--text-dim); display:flex; align-items:center; gap:5px;"><input type="checkbox" data-id-field="isdefault">Def</label>
     <button class="id-remove" onclick="this.closest('.id-row').remove(); populatePersonPickers();" title="Remove ID">✕</button>
   `;
   cloneOptions('tmpl-societies', row.querySelector('[data-id-field="society"]'));
@@ -998,11 +1000,11 @@ function pickPerson(sel, kind) {
    ═══════════════════════════════════════════════════════════ */
 const TRACK_TPL = `<div class="track-page" data-page-idx="__IDX__" id="trackPage__IDX__">
   <div class="track-page-head" style="margin:18px 0 6px;">
-    <h2 style="font-family:Georgia,'Times New Roman',serif; font-size:21px; color:var(--ink); font-weight:400; letter-spacing:1px;">Track __NUM__ <span style="color:var(--text-dim); font-size:14px;">(A__NUM__)</span></h2>
+    <h2 style="font-family:Georgia,'Times New Roman',serif; font-size:23px; color:var(--ink); font-weight:400; letter-spacing:1px;">Track __NUM__ <span style="color:var(--text-dim); font-size:16px;">(A__NUM__)</span></h2>
   </div>
 
   <!-- ═══ 03 SOUND RECORDING ═══ -->
-  <div class="section" id="sec-tracks-__IDX__">
+  <div class="section collapsed" id="sec-tracks-__IDX__">
     <div class="section-header" onclick="toggleSection('sec-tracks-__IDX__')">
       <h2><span class="num">3</span> Sound Recording</h2>
       <span class="toggle">▾</span>
@@ -1076,7 +1078,7 @@ const TRACK_TPL = `<div class="track-page" data-page-idx="__IDX__" id="trackPage
   </div>
 
   <!-- ═══ 04 RECORDING SESSION ═══ -->
-  <div class="section" id="sec-recsession-__IDX__">
+  <div class="section collapsed" id="sec-recsession-__IDX__">
     <div class="section-header" onclick="toggleSection('sec-recsession-__IDX__')">
       <h2><span class="num">4</span> Recording Session</h2>
       <span class="toggle">▾</span>
@@ -1125,7 +1127,7 @@ const TRACK_TPL = `<div class="track-page" data-page-idx="__IDX__" id="trackPage
   </div>
 
   <!-- ═══ 05 MIXING SESSION ═══ -->
-  <div class="section" id="sec-mixsession-__IDX__">
+  <div class="section collapsed" id="sec-mixsession-__IDX__">
     <div class="section-header" onclick="toggleSection('sec-mixsession-__IDX__')">
       <h2><span class="num">5</span> Mixing Session</h2>
       <span class="toggle">▾</span>
@@ -1174,7 +1176,7 @@ const TRACK_TPL = `<div class="track-page" data-page-idx="__IDX__" id="trackPage
   </div>
 
   <!-- ═══ 06 MASTERING SESSION (locked constants + per-track date) ═══ -->
-  <div class="section" id="sec-mastsession-__IDX__">
+  <div class="section collapsed" id="sec-mastsession-__IDX__">
     <div class="section-header" onclick="toggleSection('sec-mastsession-__IDX__')">
       <h2><span class="num">6</span> Mastering Session</h2>
       <span class="toggle">▾</span>
@@ -1213,7 +1215,7 @@ const TRACK_TPL = `<div class="track-page" data-page-idx="__IDX__" id="trackPage
   </div>
 
   <!-- ═══ 07 CONTRIBUTORS ═══ -->
-  <div class="section" id="sec-contributors-__IDX__">
+  <div class="section collapsed" id="sec-contributors-__IDX__">
     <div class="section-header" onclick="toggleSection('sec-contributors-__IDX__')">
       <h2><span class="num">7</span> Contributors</h2>
       <span class="toggle">▾</span>
@@ -1263,7 +1265,7 @@ const TRACK_TPL = `<div class="track-page" data-page-idx="__IDX__" id="trackPage
   </div>
 
   <!-- ═══ 08 MUSICAL WORK ═══ -->
-  <div class="section" id="sec-musicalwork-__IDX__">
+  <div class="section collapsed" id="sec-musicalwork-__IDX__">
     <div class="section-header" onclick="toggleSection('sec-musicalwork-__IDX__')">
       <h2><span class="num">8</span> Musical Work</h2>
       <span class="toggle">▾</span>
@@ -1275,7 +1277,7 @@ const TRACK_TPL = `<div class="track-page" data-page-idx="__IDX__" id="trackPage
   </div>
 
   <!-- ═══ 09 TECHNICAL ═══ -->
-  <div class="section" id="sec-technical-__IDX__">
+  <div class="section collapsed" id="sec-technical-__IDX__">
     <div class="section-header" onclick="toggleSection('sec-technical-__IDX__')">
       <h2><span class="num">9</span> Technical</h2>
       <span class="toggle">▾</span>
@@ -1359,7 +1361,7 @@ const TRACK_TPL = `<div class="track-page" data-page-idx="__IDX__" id="trackPage
   </div>
 
   <!-- ═══ 10 WRITERS & SPLITS ═══ -->
-  <div class="section" id="sec-writers-__IDX__">
+  <div class="section collapsed" id="sec-writers-__IDX__">
     <div class="section-header" onclick="toggleSection('sec-writers-__IDX__')">
       <h2><span class="num">10</span> Writers &amp; Splits</h2>
       <span class="toggle">▾</span>
@@ -1371,7 +1373,7 @@ const TRACK_TPL = `<div class="track-page" data-page-idx="__IDX__" id="trackPage
   </div>
 
   <!-- ═══ 11 RIGHTS ═══ -->
-  <div class="section" id="sec-rights-__IDX__">
+  <div class="section collapsed" id="sec-rights-__IDX__">
     <div class="section-header" onclick="toggleSection('sec-rights-__IDX__')">
       <h2><span class="num">11</span> Rights</h2>
       <span class="toggle">▾</span>
@@ -1551,8 +1553,17 @@ function showProjectPage() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function startTracks() {
-  if (!document.getElementById('proj_title').value.trim() || !document.getElementById('proj_type').value) {
+  const projTitle = document.getElementById('proj_title');
+  const projType = document.getElementById('proj_type');
+  let ok = true;
+  let firstBad = null;
+  if (!projTitle.value.trim()) { projTitle.closest('.field').classList.add('invalid'); ok = false; firstBad = firstBad || projTitle; }
+  else { projTitle.closest('.field').classList.remove('invalid'); }
+  if (!projType.value) { projType.closest('.field').classList.add('invalid'); ok = false; firstBad = firstBad || projType; }
+  else { projType.closest('.field').classList.remove('invalid'); }
+  if (!ok) {
     showToast('⚠ Complete Project Title and Project Type first', 'error');
+    revealInvalid(firstBad);
     return;
   }
   buildTrackPages();
@@ -1593,22 +1604,30 @@ function goToTrackPage(n) {
 }
 
 /* Per-track page validation (used before Next) */
+function revealInvalid(el) {
+  if (!el) return;
+  const sec = el.closest('.section');
+  if (sec) sec.classList.remove('collapsed');
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
 function validateTrackPage(idx) {
   const page = document.querySelectorAll('#trackPages .track-page')[idx];
   if (!page) return false;
   let ok = true;
+  let firstBad = null;
   const titleEl = page.querySelector('[data-track-field="title"]');
-  if (!titleEl.value.trim()) { titleEl.closest('.field').classList.add('invalid'); ok = false; }
+  if (!titleEl.value.trim()) { titleEl.closest('.field').classList.add('invalid'); ok = false; firstBad = firstBad || titleEl; }
   else { titleEl.closest('.field').classList.remove('invalid'); }
   const isrcEl = page.querySelector('[data-track-field="isrc"]');
-  if (isrcEl.value.trim() && !validateISRC(isrcEl)) ok = false;
+  if (isrcEl.value.trim() && !validateISRC(isrcEl)) { ok = false; firstBad = firstBad || isrcEl; }
   page.querySelectorAll('[data-writer-field="name"]').forEach(function (el) {
-    if (!el.value.trim()) { el.closest('.field').classList.add('invalid'); ok = false; } else { el.closest('.field').classList.remove('invalid'); }
+    if (!el.value.trim()) { el.closest('.field').classList.add('invalid'); ok = false; firstBad = firstBad || el; } else { el.closest('.field').classList.remove('invalid'); }
   });
   page.querySelectorAll('[data-contrib-field="name"]').forEach(function (el) {
     if (el.readOnly) return;
-    if (!el.value.trim()) { el.closest('.field').classList.add('invalid'); ok = false; } else { el.closest('.field').classList.remove('invalid'); }
+    if (!el.value.trim()) { el.closest('.field').classList.add('invalid'); ok = false; firstBad = firstBad || el; } else { el.closest('.field').classList.remove('invalid'); }
   });
+  if (!ok) revealInvalid(firstBad);
   return ok;
 }
 
@@ -1625,8 +1644,8 @@ function addContributor(btn) {
       <button class="remove-btn" onclick="removeRow(this, 'contrib')">Remove</button>
     </div>
     <div class="person-picker-row">
-      <div><label style="font-size:11px; color:var(--text-dim);">People Directory</label>
-      <select class="person-pick" onchange="pickPerson(this, 'contrib')" style="width:100%; background:var(--bg-input); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:12.5px;"></select>
+      <div><label style="font-size:12.5px; color:var(--text); font-weight:600;">People Directory</label>
+      <select class="person-pick" onchange="pickPerson(this, 'contrib')" style="width:100%; background:var(--bg-input); border:1px solid var(--border); border-radius:6px; padding:9px 11px; color:var(--text); font-size:14px;"></select>
       <div class="person-hint">Picking a person fills Name, ISNI and IPN from the directory — then edit freely.</div></div>
     </div>
     <div class="person-picked-banner"></div>
@@ -1702,8 +1721,8 @@ function addWriter(arg) {
       <button class="remove-btn" onclick="removeRow(this, 'writer')" ${idx === 1 ? 'disabled' : ''}>Remove</button>
     </div>
     <div class="person-picker-row">
-      <div><label style="font-size:11px; color:var(--text-dim);">People Directory</label>
-      <select class="person-pick" onchange="pickPerson(this, 'writer')" style="width:100%; background:var(--bg-input); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:12.5px;"></select>
+      <div><label style="font-size:12.5px; color:var(--text); font-weight:600;">People Directory</label>
+      <select class="person-pick" onchange="pickPerson(this, 'writer')" style="width:100%; background:var(--bg-input); border:1px solid var(--border); border-radius:6px; padding:9px 11px; color:var(--text); font-size:14px;"></select>
       <div class="person-hint">Picking a person fills Name, ISNI and Society (from IPI record) — then edit per track.</div></div>
     </div>
     <div class="person-picked-banner"></div>
