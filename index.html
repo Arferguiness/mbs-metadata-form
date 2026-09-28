@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mick Boggis Studios — Master Metadata Form</title>
+<title>Mick Boggis Studios — Master Metadata Form (V3)</title>
 <style>
 /* ═══════════════════════════════════════════════════════════
    MICK BOGGIS STUDIOS — Master Metadata Form
-   Ivory stationery theme · Gold accent (#a9822a) · BAFTA aesthetic
+   V3 · Studio Dark theme · Charcoal & amber (#d4a843) · Control-room aesthetic
    ═══════════════════════════════════════════════════════════ */
 
 :root {
@@ -644,7 +644,140 @@ body {
   margin-top: 6px;
 }
 .id-refs:empty { display: none; }
-</style>
+
+/* ═══════════════════════════════════════════════════════════
+   V3 APPLIED THEME — STUDIO DARK
+   Charcoal control-room look with amber accent.
+   Palette lives in :root below — tweak colours here.
+   ═══════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════
+   THEME 2 — STUDIO DARK
+   Charcoal control-room look, amber "signal" accent.
+   Built for people who work in dim rooms with big monitors.
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  --bg:          #131519;
+  --bg-panel:    #1a1d22;
+  --bg-card:     #1e2127;
+  --bg-input:    #16181d;
+  --border:      #2e323a;
+  --border-focus:#d4a843;
+  --gold:        #d4a843;
+  --gold-dim:    #b08a30;
+  --gold-soft:   #e0be5e;
+  --gold-glow:   rgba(212,168,67,0.14);
+  --ink:         #f2efe6;
+  --text:        #d6d2c6;
+  --text-dim:    #8d887a;
+  --text-bright: #fffdf5;
+  --red:         #e0684f;
+  --green:       #6fae62;
+  --radius:      12px;
+  --shadow:      0 2px 10px rgba(0,0,0,0.35);
+  --shadow-lg:   0 14px 40px rgba(0,0,0,0.5);
+  color-scheme: dark;
+}
+
+body {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(212,168,67,0.05), transparent 40%),
+    radial-gradient(circle at 88% 92%, rgba(212,168,67,0.04), transparent 40%),
+    var(--bg);
+}
+
+/* Header — near-black, amber rule */
+.header {
+  background: linear-gradient(165deg, #0b0c0f 0%, #14161b 100%);
+  border-bottom: 2px solid var(--gold);
+}
+.header h1 { color: #ede9dc; }
+.header .subtitle { color: #938d7d; }
+.header .bafta { border-color: rgba(212,168,67,0.45); background: rgba(212,168,67,0.08); }
+
+/* Progress */
+.progress-bar {
+  background: rgba(19,21,25,0.92);
+  border-bottom-color: var(--border);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+}
+.progress-track { background: #2c3038; }
+.progress-label { color: var(--gold); }
+
+/* Cards */
+.section { border-color: var(--border); }
+.section:hover { border-color: #3d424c; box-shadow: var(--shadow-lg); }
+.section-header { background: linear-gradient(180deg, #22252c 0%, #1c1f25 100%); }
+.section-header:hover { background: linear-gradient(180deg, #262a32 0%, #20232a 100%); }
+.section-header h2 { color: var(--ink); }
+.section-header h2 .num { color: #17140c; box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+.section-header .toggle { color: var(--gold); }
+
+/* Inputs */
+.field input, .field select, .field textarea {
+  background: var(--bg-input);
+  border-color: var(--border);
+  color: var(--text);
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(212,168,67,0.18);
+}
+.field input::placeholder, .field textarea::placeholder { color: #6d6759; }
+.field input[readonly], .field select[disabled] { background: #1b1e24; color: var(--text-dim); }
+.id-row select, .id-row input { background: var(--bg-input); border-color: var(--border); color: var(--text); }
+.id-row select[disabled], .id-row input[readonly] { background: #1b1e24; color: var(--text-dim); }
+.field input[type="checkbox"] { accent-color: var(--gold); }
+
+/* Repeating items */
+.repeat-item {
+  background: linear-gradient(180deg, #22252c 0%, #1d2026 100%);
+  border-color: var(--border);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+}
+.repeat-item.locked {
+  border-color: rgba(212,168,67,0.45);
+  background: linear-gradient(180deg, rgba(212,168,67,0.08), rgba(212,168,67,0.03));
+}
+.person-item { background: linear-gradient(180deg, #22252c 0%, #1d2026 100%); border-color: var(--border); }
+.id-refs { background: #242830; }
+.person-picker-row { background: rgba(212,168,67,0.06); border-color: rgba(212,168,67,0.35); }
+.person-picked-banner { background: rgba(212,168,67,0.08); color: var(--gold); }
+
+/* Nav / stepper */
+.nav-pill { background: var(--bg-panel); border-color: var(--border); color: var(--text-dim); }
+.nav-pill .pill-num { background: #2e323a; color: var(--text-dim); }
+.nav-pill.active .pill-num { color: #17140c; }
+.step-chip { background: var(--bg-panel); border-color: var(--border); color: var(--text-dim); }
+.step-chip.current { color: #17140c; }
+.stepper { background: rgba(19,21,25,0.92); }
+
+/* Buttons — amber fills get dark text for contrast */
+.submit-btn { color: #17140c; }
+.nav-btn.primary { color: #17140c; }
+.repeat-item .item-header .item-title .badge-locked { color: #17140c; }
+.add-btn:hover { background: var(--gold-glow); }
+.remove-btn { background: var(--bg-panel); border-color: var(--border); color: var(--text-dim); }
+.id-row .id-remove { background: var(--bg-panel); border-color: var(--border); color: var(--text-dim); }
+
+/* Info banner */
+.info-banner {
+  background: linear-gradient(180deg, rgba(212,168,67,0.10), rgba(212,168,67,0.04));
+  border-color: rgba(212,168,67,0.35);
+  color: #cdb87e;
+}
+.info-banner strong { color: var(--gold); }
+
+/* Footer / toast / scrollbar */
+.footer { border-top-color: var(--border); color: var(--text-dim); }
+.footer a { color: var(--gold); }
+.toast { background: var(--bg-card); border-color: var(--border); color: var(--text); box-shadow: var(--shadow-lg); }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: #33373f; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
+
+/* Native dropdown lists follow the dark theme */
+select option { background: #1e2127; color: #d6d2c6; }</style>
 </head>
 <body>
 
